@@ -3,9 +3,13 @@ import { motion } from 'framer-motion'
 import { FaPhone, FaEnvelope, FaMapMarkerAlt, FaWhatsapp, FaPaperPlane, FaCheckCircle, FaExclamationCircle, FaFile, FaTimes } from 'react-icons/fa'
 import ReCAPTCHA from 'react-google-recaptcha'
 import SEO from '../components/SEO'
+import { useToast } from '../context/ToastContext'
+import { validateEmail, validateForm as validateFormData, validateFileSize } from '../utils/validation'
+import { trackContactFormSubmit, trackEvent } from '../utils/analytics'
 import './Contact.css'
 
 const Contact = () => {
+  const toast = useToast()
   const [formData, setFormData] = useState({
     name: '',
     email: '',

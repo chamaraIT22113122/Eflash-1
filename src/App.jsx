@@ -2,12 +2,14 @@ import React from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { HelmetProvider } from 'react-helmet-async'
 import { ThemeProvider } from './context/ThemeContext'
+import { ToastProvider } from './context/ToastContext'
 import { AdminProvider } from './context/AdminContext'
 import { SiteContentProvider } from './context/SiteContentContext'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import ScrollToTop from './components/ScrollToTop'
 import LiveChat from './components/LiveChat'
+import Toast from './components/Toast'
 import ScrollProgress from './components/ScrollProgress'
 import ProtectedRoute from './components/ProtectedRoute'
 import Home from './pages/Home'
@@ -25,47 +27,50 @@ import './App.css'
 function App() {
   return (
     <HelmetProvider>
-      <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
-        <ThemeProvider>
-          <AdminProvider>
-            <SiteContentProvider>
-              <Routes>
-                {/* Admin Routes */}
-                <Route path="/admin/login" element={<AdminLogin />} />
-                <Route 
-                  path="/admin/dashboard" 
-                  element={
-                    <ProtectedRoute>
-                      <AdminDashboard />
-                    </ProtectedRoute>
-                  } 
-                />
+      <ToastProvider>
+        <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+          <ThemeProvider>
+            <AdminProvider>
+              <SiteContentProvider>
+                <Toast />
+                <Routes>
+                  {/* Admin Routes */}
+                  <Route path="/admin/login" element={<AdminLogin />} />
+                  <Route 
+                    path="/admin/dashboard" 
+                    element={
+                      <ProtectedRoute>
+                        <AdminDashboard />
+                      </ProtectedRoute>
+                    } 
+                  />
 
-                {/* Public Routes */}
-                <Route path="/*" element={
-                  <div className="App">
-                    <ScrollProgress />
-                    <Navbar />
-                    <Routes>
-                      <Route path="/" element={<Home />} />
-                      <Route path="/about" element={<About />} />
-                      <Route path="/services" element={<Services />} />
-                      <Route path="/portfolio" element={<Portfolio />} />
-                      <Route path="/packages" element={<Packages />} />
-                      <Route path="/shop" element={<Shop />} />
-                      <Route path="/contact" element={<Contact />} />
-                      <Route path="*" element={<NotFound />} />
-                    </Routes>
-                    <Footer />
-                    <ScrollToTop />
-                    <LiveChat />
-                  </div>
-                } />
-              </Routes>
-            </SiteContentProvider>
-          </AdminProvider>
-        </ThemeProvider>
-      </Router>
+                  {/* Public Routes */}
+                  <Route path="/*" element={
+                    <div className="App">
+                      <ScrollProgress />
+                      <Navbar />
+                      <Routes>
+                        <Route path="/" element={<Home />} />
+                        <Route path="/about" element={<About />} />
+                        <Route path="/services" element={<Services />} />
+                        <Route path="/portfolio" element={<Portfolio />} />
+                        <Route path="/packages" element={<Packages />} />
+                        <Route path="/shop" element={<Shop />} />
+                        <Route path="/contact" element={<Contact />} />
+                        <Route path="*" element={<NotFound />} />
+                      </Routes>
+                      <Footer />
+                      <ScrollToTop />
+                      <LiveChat />
+                    </div>
+                  } />
+                </Routes>
+              </SiteContentProvider>
+            </AdminProvider>
+          </ThemeProvider>
+        </Router>
+      </ToastProvider>
     </HelmetProvider>
   )
 }

@@ -10,14 +10,14 @@
   --accent-color: #f59e0b;
   --dark-bg: #0f172a;
   --dark-bg-secondary: #1e293b;
-  --light-bg: #f8fafc;
-  --text-dark: #1e293b;
+  --light-bg: #0f172a;
+  --text-dark: #f1f5f9;
   --text-light: #94a3b8;
   --text-light-theme: #f1f5f9;
   --gradient: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
   --transition: all 0.3s ease;
-  --border-color: #e2e8f0;
-  --card-bg: #ffffff;
+  --border-color: rgba(255, 255, 255, 0.1);
+  --card-bg: #1e293b;
 }
 
 /* Dark Mode Styles */
@@ -42,8 +42,8 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: var(--light-bg);
-  color: var(--text-dark);
+  background-color: var(--dark-bg);
+  color: var(--text-light-theme);
   line-height: 1.6;
 }
 
