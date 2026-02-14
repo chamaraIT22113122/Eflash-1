@@ -63,11 +63,15 @@ const Footer = () => {
             <ul className="contact-info">
               <li>
                 <FaPhone />
-                <span>0775608073</span>
+                <span>077 560 8073</span>
+              </li>
+              <li>
+                <FaPhone />
+                <span>070 2481 691</span>
               </li>
               <li>
                 <FaWhatsapp />
-                <span>0775608073</span>
+                <span>077 560 8073</span>
               </li>
               <li>
                 <FaEnvelope />

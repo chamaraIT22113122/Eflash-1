@@ -17,6 +17,7 @@ const defaultContent = {
     tagline: 'Creative Design Agency',
     email: 'info@eflash24.tech',
     phone: '+94 77 560 8073',
+    phone2: '+94 70 2481 691',
     whatsapp: '94775608073',
     address: 'Colombo, Sri Lanka',
     socialMedia: {

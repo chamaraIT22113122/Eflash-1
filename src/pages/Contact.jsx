@@ -137,13 +137,13 @@ const Contact = () => {
     {
       icon: <FaPhone />,
       title: 'Phone',
-      details: '0775608073',
+      details: '077 560 8073 / 070 2481 691',
       link: 'tel:+94775608073'
     },
     {
       icon: <FaWhatsapp />,
       title: 'WhatsApp',
-      details: '0775608073',
+      details: '077 560 8073',
       link: 'https://wa.me/94775608073'
     },
     {
