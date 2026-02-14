@@ -63,11 +63,11 @@ const Footer = () => {
             <ul className="contact-info">
               <li>
                 <FaPhone />
-                <span>+94 76 487 6464</span>
+                <span>0775608073</span>
               </li>
               <li>
                 <FaWhatsapp />
-                <span>+94 76 487 6464</span>
+                <span>0775608073</span>
               </li>
               <li>
                 <FaEnvelope />

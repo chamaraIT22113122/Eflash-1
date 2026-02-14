@@ -127,7 +127,7 @@ const Shop = () => {
 
   const handleWhatsAppOrder = (product) => {
     const message = `Hello! I'm interested in ordering:\n${product.name}\nPrice: Rs ${product.price.toFixed(2)}`
-    const whatsappUrl = `https://wa.me/94702481691?text=${encodeURIComponent(message)}`
+    const whatsappUrl = `https://wa.me/94775608073?text=${encodeURIComponent(message)}`
     window.open(whatsappUrl, '_blank')
   }
 
@@ -222,7 +222,7 @@ const Shop = () => {
 
       {/* WhatsApp Float */}
       <motion.a
-        href="https://wa.me/94702481691?text=Hello%20Eflash!%20I%20found%20you%20on%20your%20website"
+        href="https://wa.me/94775608073?text=Hello%20Eflash!%20I%20found%20you%20on%20your%20website"
         target="_blank"
         rel="noopener noreferrer"
         className="whatsapp-float"

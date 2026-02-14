@@ -102,7 +102,7 @@ const GeneralSettings = () => {
                 name="whatsapp"
                 value={formData.whatsapp}
                 onChange={handleChange}
-                placeholder="94702481691"
+                placeholder="94775608073"
               />
             </div>
             <div className="form-group">

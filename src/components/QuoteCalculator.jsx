@@ -214,7 +214,7 @@ const QuoteCalculator = () => {
           </div>
           <p className="disclaimer">*This is an estimated price. Final quote may vary based on specific requirements.</p>
           <a
-            href={`https://wa.me/94702481691?text=Hi! I got a quote of LKR ${total.toLocaleString()} from your calculator. I'd like to discuss this project.`}
+            href={`https://wa.me/94775608073?text=Hi! I got a quote of LKR ${total.toLocaleString()} from your calculator. I'd like to discuss this project.`}
             target="_blank"
             rel="noopener noreferrer"
             className="whatsapp-quote-btn"

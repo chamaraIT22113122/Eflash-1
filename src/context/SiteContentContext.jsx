@@ -15,9 +15,9 @@ const defaultContent = {
   general: {
     siteName: 'E Flash',
     tagline: 'Creative Design Agency',
-    email: 'info@eflash.lk',
-    phone: '+94 70 248 1691',
-    whatsapp: '94702481691',
+    email: 'info@eflash24.tech',
+    phone: '+94 77 560 8073',
+    whatsapp: '94775608073',
     address: 'Colombo, Sri Lanka',
     socialMedia: {
       facebook: '#',

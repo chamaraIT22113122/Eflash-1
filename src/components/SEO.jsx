@@ -56,7 +56,7 @@ const SEO = ({
           "logo": "https://eflash24.tech/assets/images/logo.png",
           "contactPoint": {
             "@type": "ContactPoint",
-            "telephone": "+94-76-487-6464",
+          "telephone": "+94-77-560-8073",
             "contactType": "customer service",
             "areaServed": "LK",
             "availableLanguage": ["en", "si"]
@@ -82,7 +82,7 @@ const SEO = ({
             "addressLocality": "Colombo",
             "addressCountry": "LK"
           },
-          "telephone": "+94-76-487-6464",
+          "telephone": "+94-77-560-8073",
           "email": "info@eflash24.tech",
           "priceRange": "$$",
           "openingHours": "Mo-Sa 09:00-18:00"

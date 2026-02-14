@@ -137,14 +137,14 @@ const Contact = () => {
     {
       icon: <FaPhone />,
       title: 'Phone',
-      details: '+94 76 487 6464',
-      link: 'tel:+94764876464'
+      details: '0775608073',
+      link: 'tel:+94775608073'
     },
     {
       icon: <FaWhatsapp />,
       title: 'WhatsApp',
-      details: '+94 76 487 6464',
-      link: 'https://wa.me/94764876464'
+      details: '0775608073',
+      link: 'https://wa.me/94775608073'
     },
     {
       icon: <FaEnvelope />,
@@ -399,11 +399,11 @@ const Contact = () => {
                 <h3>Quick Contact</h3>
                 <p>For immediate assistance, you can call or WhatsApp us directly.</p>
                 <div className="quick-buttons">
-                  <a href="tel:+94764876464" className="quick-btn">
+                  <a href="tel:+94775608073" className="quick-btn">
                     <FaPhone />
                     Call Now
                   </a>
-                  <a href="https://wa.me/94764876464" target="_blank" rel="noopener noreferrer" className="quick-btn whatsapp">
+                  <a href="https://wa.me/94775608073" target="_blank" rel="noopener noreferrer" className="quick-btn whatsapp">
                     <FaWhatsapp />
                     WhatsApp
                   </a>
@@ -448,7 +448,7 @@ const Contact = () => {
 
       {/* WhatsApp Float */}
       <motion.a
-        href="https://wa.me/94702481691?text=Hello%20Eflash!%20I%20found%20you%20on%20your%20website"
+        href="https://wa.me/94775608073?text=Hello%20Eflash!%20I%20found%20you%20on%20your%20website"
         target="_blank"
         rel="noopener noreferrer"
         className="whatsapp-float"

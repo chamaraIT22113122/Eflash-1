@@ -693,7 +693,7 @@ const Packages = () => {
                 {/* CTA Buttons */}
                 <div className="package-cta-buttons">
                   <motion.a
-                    href={`https://wa.me/94702481691?text=Hi! I'm interested in the ${pkg.name} package (${pkg.price})`}
+                    href={`https://wa.me/94775608073?text=Hi! I'm interested in the ${pkg.name} package (${pkg.price})`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className={`btn ${pkg.popular ? 'btn-primary' : 'btn-outline-dark'} btn-whatsapp`}
@@ -753,7 +753,7 @@ const Packages = () => {
                         ))}
                       </ul>
                       <a 
-                        href={`https://wa.me/94702481691?text=Hi! I'm interested in the ${pkg.name} package`}
+                        href={`https://wa.me/94775608073?text=Hi! I'm interested in the ${pkg.name} package`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="btn btn-primary btn-sm"
@@ -908,7 +908,7 @@ const Packages = () => {
               <Link to="/#contact" className="btn btn-light btn-lg">
                 Contact Us
               </Link>
-              <a href="https://wa.me/94702481691?text=Hello%20Eflash!%20I%27d%20like%20to%20discuss%20a%20custom%20package" target="_blank" rel="noopener noreferrer" className="btn btn-outline-light btn-lg">
+              <a href="https://wa.me/94775608073?text=Hello%20Eflash!%20I%27d%20like%20to%20discuss%20a%20custom%20package" target="_blank" rel="noopener noreferrer" className="btn btn-outline-light btn-lg">
                 WhatsApp Us
               </a>
             </div>
@@ -975,7 +975,7 @@ const Packages = () => {
 
       {/* WhatsApp Float */}
       <motion.a
-        href="https://wa.me/94702481691?text=Hello%20Eflash!%20I%20found%20you%20on%20your%20website"
+        href="https://wa.me/94775608073?text=Hello%20Eflash!%20I%20found%20you%20on%20your%20website"
         target="_blank"
         rel="noopener noreferrer"
         className="whatsapp-float"

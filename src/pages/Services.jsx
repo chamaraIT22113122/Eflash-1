@@ -288,7 +288,7 @@ const Services = () => {
 
       {/* WhatsApp Float */}
       <motion.a
-        href="https://wa.me/94702481691?text=Hello%20Eflash!%20I%20found%20you%20on%20your%20website"
+        href="https://wa.me/94775608073?text=Hello%20Eflash!%20I%20found%20you%20on%20your%20website"
         target="_blank"
         rel="noopener noreferrer"
         className="whatsapp-float"

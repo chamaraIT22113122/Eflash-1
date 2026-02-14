@@ -116,7 +116,7 @@ const Home = () => {
 
         {/* Floating WhatsApp Button */}
         <motion.a
-          href="https://wa.me/94702481691?text=Hello%20Eflash!%20I%20found%20you%20on%20your%20website"
+          href="https://wa.me/94775608073?text=Hello%20Eflash!%20I%20found%20you%20on%20your%20website"
           target="_blank"
           rel="noopener noreferrer"
           className="whatsapp-float"
@@ -367,7 +367,7 @@ const Home = () => {
                 </div>
                 <div>
                   <h4>Email:</h4>
-                  <p><a href="mailto:tcnbandara@gmail.com">tcnbandara@gmail.com</a></p>
+                  <p><a href="mailto:info@eflash24.tech">info@eflash24.tech</a></p>
                 </div>
               </div>
             </motion.div>
