@@ -1,0 +1,377 @@
+.portfolio-page {
+  padding-top: 70px;
+}
+
+.portfolio-hero {
+  background: var(--gradient);
+  padding: 100px 0;
+  text-align: center;
+  color: white;
+}
+
+.portfolio-hero h1 {
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+
+.portfolio-hero p {
+  font-size: 1.3rem;
+  opacity: 0.9;
+}
+
+/* Filter Buttons */
+.filter-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 50px;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  padding: 12px 30px;
+  border-radius: 25px;
+  background: white;
+  border: 2px solid var(--primary-color);
+  color: var(--primary-color);
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.filter-btn:hover,
+.filter-btn.active {
+  background: var(--gradient);
+  color: white;
+  transform: translateY(-2px);
+}
+
+/* Portfolio Grid */
+.portfolio-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 30px;
+}
+
+.portfolio-card {
+  background: white;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.dark-mode .portfolio-card {
+  background: var(--dark-bg-secondary);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+}
+
+.portfolio-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 40px rgba(37, 99, 235, 0.15);
+}
+
+.dark-mode .portfolio-card:hover {
+  box-shadow: 0 15px 40px rgba(37, 99, 235, 0.3);
+}
+
+.portfolio-image {
+  position: relative;
+  height: 250px;
+  overflow: hidden;
+}
+
+.portfolio-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.portfolio-card:hover .portfolio-image img {
+  transform: scale(1.1);
+}
+
+.portfolio-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(37, 99, 235, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.portfolio-card:hover .portfolio-overlay {
+  opacity: 1;
+}
+
+.view-project {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: white;
+  font-weight: 600;
+  padding: 12px 24px;
+  border: 2px solid white;
+  border-radius: 25px;
+  transition: all 0.3s ease;
+}
+
+.view-project:hover {
+  background: white;
+  color: var(--primary-color);
+}
+
+.portfolio-content {
+  padding: 25px;
+}
+
+.portfolio-content h3 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: var(--text-dark);
+}
+
+.dark-mode .portfolio-content h3 {
+  color: var(--text-light-theme);
+}
+
+.portfolio-content p {
+  color: var(--text-light);
+  margin-bottom: 15px;
+  line-height: 1.6;
+}
+
+.dark-mode .portfolio-content p {
+  color: var(--text-light);
+}
+
+.tech-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tech-tag {
+  padding: 5px 12px;
+  background: linear-gradient(135deg, #e0e7ff 0%, #f3e8ff 100%);
+  color: var(--primary-color);
+  border-radius: 15px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.dark-mode .tech-tag {
+  background: rgba(37, 99, 235, 0.2);
+  color: #93c5fd;
+  border: 1px solid rgba(37, 99, 235, 0.3);
+}
+
+/* Web Design Showcase */
+.web-design-section {
+  background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
+}
+
+.dark-mode .web-design-section {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+}
+
+.design-showcase {
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+}
+
+.showcase-item {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 50px;
+  align-items: center;
+  background: white;
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.dark-mode .showcase-item {
+  background: var(--dark-bg-secondary);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.showcase-item.reverse {
+  direction: rtl;
+}
+
+.showcase-item.reverse > * {
+  direction: ltr;
+}
+
+.showcase-image {
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(37, 99, 235, 0.15);
+}
+
+.showcase-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.showcase-content {
+  padding: 20px;
+}
+
+.dark-mode .showcase-content h3,
+.dark-mode .showcase-content p {
+  color: var(--text-light-theme);
+}
+
+.showcase-icon {
+  font-size: 3rem;
+  color: var(--primary-color);
+  margin-bottom: 20px;
+}
+
+.showcase-content h3 {
+  font-size: 2rem;
+  margin-bottom: 15px;
+  color: var(--text-dark);
+}
+
+.showcase-content p {
+  color: var(--text-light);
+  line-height: 1.8;
+  margin-bottom: 20px;
+  font-size: 1.1rem;
+}
+
+.showcase-features {
+  list-style: none;
+}
+
+.showcase-features li {
+  padding: 10px 0;
+  padding-left: 30px;
+  position: relative;
+  color: var(--text-dark);
+}
+
+.showcase-features li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--primary-color);
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+
+/* Technologies Section */
+.tech-section {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 100px 20px;
+}
+
+.tech-section .section-title {
+  color: white !important;
+  background: none !important;
+  -webkit-background-clip: unset !important;
+  -webkit-text-fill-color: white !important;
+  background-clip: unset !important;
+}
+
+.tech-section .section-subtitle {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.tech-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.tech-badge {
+  padding: 15px 30px;
+  background: var(--gradient);
+  color: white;
+  border-radius: 25px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  box-shadow: 0 5px 15px rgba(37, 99, 235, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.tech-badge:hover {
+  transform: translateY(-5px);
+}
+
+/* Responsive */
+@media (max-width: 968px) {
+  .portfolio-hero h1 {
+    font-size: 2.5rem;
+  }
+
+  .portfolio-grid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  }
+
+  .showcase-item,
+  .showcase-item.reverse {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    direction: ltr;
+  }
+
+  .showcase-content {
+    padding: 0;
+  }
+}
+
+/* WhatsApp Float */
+.whatsapp-float {
+  position: fixed;
+  bottom: 90px;
+  right: 30px;
+  width: 60px;
+  height: 60px;
+  background: #25D366;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  box-shadow: 0 5px 20px rgba(37, 211, 102, 0.4);
+  z-index: 1000;
+  transition: all 0.3s ease;
+}
+
+.whatsapp-float:hover {
+  background: #128C7E;
+  box-shadow: 0 8px 30px rgba(37, 211, 102, 0.5);
+  transform: scale(1.05);
+}
+
+@media (max-width: 640px) {
+  .portfolio-hero h1 {
+    font-size: 2rem;
+  }
+
+  .portfolio-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .filter-buttons {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .filter-btn {
+    width: 100%;
+  }
+}

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/assets/images/logo.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="E Flash - Professional Graphic Design, Web Design & Development Services" />
+    <meta name="keywords" content="graphic design, web design, web development, UI/UX, branding, digital marketing" />
+    <title>E Flash - Creative Design & Web Solutions</title>
+    <!-- Restore the path after redirect from 404.html -->
+    <script>
+      (function() {
+        var redirectPath = sessionStorage.getItem('redirectPath');
+        if (redirectPath) {
+          sessionStorage.removeItem('redirectPath');
+          var base = '/E-Flash-1.2';
+          var path = redirectPath.replace(base, '');
+          if (path && path !== '/' && window.location.pathname === base + '/') {
+            window.history.replaceState(null, null, base + path);
+          }
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

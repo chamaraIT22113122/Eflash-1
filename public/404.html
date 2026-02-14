@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>E Flash - Loading...</title>
+  <script>
+    // Store the path for redirect after React loads
+    sessionStorage.setItem('redirectPath', window.location.pathname + window.location.search + window.location.hash);
+  </script>
+</head>
+<body>
+  <div style="text-align: center; padding: 50px; font-family: Arial, sans-serif;">
+    <h2>Loading...</h2>
+    <p>Redirecting to E Flash website...</p>
+  </div>
+  <!-- Redirect to index.html to let React Router handle the route -->
+  <script>
+    window.location.replace('/E-Flash-1.2/');
+  </script>
+</body>
+</html>
