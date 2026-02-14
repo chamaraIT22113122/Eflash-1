@@ -5,6 +5,7 @@ import { ThemeProvider } from './context/ThemeContext'
 import { ToastProvider } from './context/ToastContext'
 import { AdminProvider } from './context/AdminContext'
 import { SiteContentProvider } from './context/SiteContentContext'
+import { CartProvider } from './context/CartContext'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import ScrollToTop from './components/ScrollToTop'
@@ -18,6 +19,7 @@ import Services from './pages/Services'
 import Portfolio from './pages/Portfolio'
 import Packages from './pages/Packages'
 import Shop from './pages/Shop'
+import Cart from './pages/Cart'
 import Contact from './pages/Contact'
 import NotFound from './pages/NotFound'
 import AdminLogin from './pages/AdminLogin'
@@ -31,8 +33,9 @@ function App() {
         <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
           <ThemeProvider>
             <AdminProvider>
-              <SiteContentProvider>
-                <Toast />
+              <CartProvider>
+                <SiteContentProvider>
+                  <Toast />
                 <Routes>
                   {/* Admin Routes */}
                   <Route path="/admin/login" element={<AdminLogin />} />
@@ -57,6 +60,7 @@ function App() {
                         <Route path="/portfolio" element={<Portfolio />} />
                         <Route path="/packages" element={<Packages />} />
                         <Route path="/shop" element={<Shop />} />
+                        <Route path="/cart" element={<Cart />} />
                         <Route path="/contact" element={<Contact />} />
                         <Route path="*" element={<NotFound />} />
                       </Routes>
@@ -67,6 +71,7 @@ function App() {
                   } />
                 </Routes>
               </SiteContentProvider>
+              </CartProvider>
             </AdminProvider>
           </ThemeProvider>
         </Router>

@@ -3,9 +3,12 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { FaCheck, FaStar, FaPalette, FaCode, FaQuoteLeft, FaTimes, FaWhatsapp, FaHeart, FaRegHeart, FaFilter, FaSort, FaShoppingCart, FaCheckCircle, FaUsers, FaAward, FaShieldAlt } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 import SEO from '../components/SEO'
+import { useToast } from '../context/ToastContext'
+import { trackPackageSelect, trackWhatsAppClick, trackEvent } from '../utils/analytics'
 import './Packages.css'
 
 const Packages = () => {
+  const toast = useToast()
   const [activeTab, setActiveTab] = useState('web')
   const [compareMode, setCompareMode] = useState(false)
   const [selectedForCompare, setSelectedForCompare] = useState([])
@@ -482,6 +485,17 @@ const Packages = () => {
     }
   ]
 
+  const handlePackageOrderClick = (packageName, packagePrice) => {
+    toast.success(`Selected: ${packageName}`)
+    trackPackageSelect(packageName, packagePrice)
+    trackEvent('package_selected', { package_name: packageName, package_price: packagePrice })
+  }
+
+  const handleWhatsAppButtonClick = (message) => {
+    trackWhatsAppClick('package')
+    trackEvent('whatsapp_platform_click', { source: 'packages_page' })
+  }
+
   return (
     <main className="packages-page">
       <SEO 
@@ -699,6 +713,11 @@ const Packages = () => {
                     className={`btn ${pkg.popular ? 'btn-primary' : 'btn-outline-dark'} btn-whatsapp`}
                     whileHover={{ scale: 1.02, y: -2 }}
                     whileTap={{ scale: 0.98 }}
+                    onClick={() => {
+                      toast.success(`Contacting us about ${pkg.name}`)
+                      trackPackageSelect(pkg.id, pkg.name, pkg.price)
+                      trackWhatsAppClick('package_selection', pkg.name)
+                    }}
                   >
                     <FaWhatsapp /> Order Now
                   </motion.a>
@@ -757,6 +776,11 @@ const Packages = () => {
                         target="_blank"
                         rel="noopener noreferrer"
                         className="btn btn-primary btn-sm"
+                        onClick={() => {
+                          toast.success(`Selected ${pkg.name}`)
+                          trackPackageSelect(pkg.id, pkg.name, pkg.price)
+                          trackWhatsAppClick('comparison_modal', pkg.name)
+                        }}
                       >
                         <FaWhatsapp /> Choose This
                       </a>
@@ -908,7 +932,17 @@ const Packages = () => {
               <Link to="/#contact" className="btn btn-light btn-lg">
                 Contact Us
               </Link>
-              <a href="https://wa.me/94775608073?text=Hello%20Eflash!%20I%27d%20like%20to%20discuss%20a%20custom%20package" target="_blank" rel="noopener noreferrer" className="btn btn-outline-light btn-lg">
+              <a 
+                href="https://wa.me/94775608073?text=Hello%20Eflash!%20I%27d%20like%20to%20discuss%20a%20custom%20package" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="btn btn-outline-light btn-lg"
+                onClick={() => {
+                  toast.success('Opening WhatsApp for custom package')
+                  trackEvent('custom_package_inquiry', {})
+                  trackWhatsAppClick('custom_package', 'custom')
+                }}
+              >
                 WhatsApp Us
               </a>
             </div>

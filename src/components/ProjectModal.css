@@ -116,6 +116,31 @@
   border-radius: 20px;
   font-size: 0.9rem;
   font-weight: 600;
+  z-index: 5;
+}
+
+.fullscreen-btn {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  z-index: 5;
+}
+
+.fullscreen-btn:hover {
+  background: var(--secondary-color);
+  transform: scale(1.1);
 }
 
 .thumbnail-strip {

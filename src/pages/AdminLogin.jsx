@@ -3,9 +3,12 @@ import { motion } from 'framer-motion'
 import { FaUser, FaLock, FaShieldAlt } from 'react-icons/fa'
 import { useNavigate } from 'react-router-dom'
 import { useAdmin } from '../context/AdminContext'
+import { useToast } from '../context/ToastContext'
+import { trackEvent } from '../utils/analytics'
 import './AdminLogin.css'
 
 const AdminLogin = () => {
+  const toast = useToast()
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
@@ -21,9 +24,13 @@ const AdminLogin = () => {
     setTimeout(() => {
       const result = login(username, password)
       if (result.success) {
+        toast.success(`Welcome back, ${username}!`)
+        trackEvent('admin_login_success', { username })
         navigate('/admin/dashboard')
       } else {
         setError(result.error)
+        toast.error(result.error || 'Login failed. Please check your credentials.')
+        trackEvent('admin_login_failed', { username, error: result.error })
         setLoading(false)
       }
     }, 500)

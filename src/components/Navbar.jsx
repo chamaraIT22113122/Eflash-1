@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { FaBars, FaTimes, FaSearch } from 'react-icons/fa'
+import { FaBars, FaTimes, FaSearch, FaShoppingCart } from 'react-icons/fa'
+import { useCart } from '../context/CartContext'
 import './Navbar.css'
 
 const Navbar = () => {
@@ -8,6 +9,7 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
   const [showSearchResults, setShowSearchResults] = useState(false)
+  const { getTotalItems } = useCart()
   const location = useLocation()
   const navigate = useNavigate()
 
@@ -129,6 +131,12 @@ const Navbar = () => {
                 </div>
               )}
             </div>
+            <Link to="/cart" className="cart-icon-link" title="Shopping Cart">
+              <FaShoppingCart className="cart-icon" />
+              {getTotalItems() > 0 && (
+                <span className="cart-badge">{getTotalItems()}</span>
+              )}
+            </Link>
             <div className="menu-toggle" onClick={toggleMenu}>
               {isOpen ? <FaTimes /> : <FaBars />}
             </div>

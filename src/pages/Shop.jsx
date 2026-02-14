@@ -2,9 +2,14 @@ import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import { FaShoppingCart, FaEye, FaWhatsapp } from 'react-icons/fa'
 import SEO from '../components/SEO'
+import { useToast } from '../context/ToastContext'
+import { useCart } from '../context/CartContext'
+import { trackProductView, trackEvent } from '../utils/analytics'
 import './Shop.css'
 
 const Shop = () => {
+  const toast = useToast()
+  const { addToCart } = useCart()
   const [selectedCategory, setSelectedCategory] = useState('all')
 
   const products = [
@@ -129,6 +134,15 @@ const Shop = () => {
     const message = `Hello! I'm interested in ordering:\n${product.name}\nPrice: Rs ${product.price.toFixed(2)}`
     const whatsappUrl = `https://wa.me/94775608073?text=${encodeURIComponent(message)}`
     window.open(whatsappUrl, '_blank')
+    toast.success(`Opening WhatsApp for ${product.name}`)
+    trackProductView(product.id, product.name, product.price)
+    trackEvent('product_order_initiated', { product_name: product.name, product_price: product.price })
+  }
+
+  const handleAddToCart = (product) => {
+    addToCart(product, 1)
+    toast.success(`${product.name} added to cart`)
+    trackEvent('product_added_to_cart', { product_id: product.id, product_name: product.name, product_price: product.price })
   }
 
   return (
@@ -204,14 +218,26 @@ const Shop = () => {
                   <p className="product-description">{product.description}</p>
                   <div className="product-footer">
                     <span className="product-price">Rs {product.price.toFixed(2)}</span>
-                    <motion.button
-                      className="add-to-cart-btn"
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      onClick={() => handleWhatsAppOrder(product)}
-                    >
-                      <FaWhatsapp /> Order Now
-                    </motion.button>
+                    <div className="product-buttons">
+                      <motion.button
+                        className="add-to-cart-btn"
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        onClick={() => handleAddToCart(product)}
+                        title="Add to cart for checkout later"
+                      >
+                        <FaShoppingCart /> Add to Cart
+                      </motion.button>
+                      <motion.button
+                        className="order-now-btn"
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        onClick={() => handleWhatsAppOrder(product)}
+                        title="Order now via WhatsApp"
+                      >
+                        <FaWhatsapp /> Order
+                      </motion.button>
+                    </div>
                   </div>
                 </div>
               </motion.div>

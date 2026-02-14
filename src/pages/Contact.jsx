@@ -61,13 +61,16 @@ const Contact = () => {
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0]
     if (selectedFile) {
-      // Validate file size (max 5MB)
-      if (selectedFile.size > 5 * 1024 * 1024) {
+      // Validate file size using utility
+      if (!validateFileSize(selectedFile, 5)) {
+        toast.error('File size must be less than 5MB')
         setErrors({ ...errors, file: 'File size must be less than 5MB' })
         return
       }
       setFile(selectedFile)
+      toast.success(`File "${selectedFile.name}" added`)
       setErrors({ ...errors, file: '' })
+      trackEvent('file_uploaded', { file_name: selectedFile.name, file_size: selectedFile.size })
     }
   }
 
@@ -88,8 +91,34 @@ const Contact = () => {
       ...formData,
       [name]: value
     })
-    // Clear error for this field when user starts typing
-    if (errors[name]) {
+    // Real-time validation with feedback
+    if (name === 'email' && value) {
+      if (!validateEmail(value)) {
+        setErrors({
+          ...errors,
+          email: 'Please enter a valid email address'
+        })
+      } else {
+        setErrors({
+          ...errors,
+          email: ''
+        })
+      }
+    } else if (name === 'phone' && value) {
+      const phoneRegex = /^[0-9+\s-()]+$/
+      if (!phoneRegex.test(value)) {
+        setErrors({
+          ...errors,
+          phone: 'Please enter a valid phone number'
+        })
+      } else {
+        setErrors({
+          ...errors,
+          phone: ''
+        })
+      }
+    } else if (errors[name]) {
+      // Clear error for other fields when user starts typing
       setErrors({
         ...errors,
         [name]: ''
@@ -104,37 +133,50 @@ const Contact = () => {
     
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors)
+      toast.error('Please fix the errors in the form')
+      trackEvent('form_validation_error', { form_name: 'contact_form' })
       return
     }
 
-    // Note: In production, replace 'YOUR_RECAPTCHA_SITE_KEY' with actual key
-    // For now, commenting out captcha validation
-    // if (!captchaValue) {
-    //   setErrors({ ...newErrors, captcha: 'Please complete the captcha' })
-    //   return
-    // }
-
     setIsSubmitting(true)
     
-    // Simulate API call - In production, send to backend with file
-    setTimeout(() => {
-      setStatus('success')
-      setIsSubmitting(false)
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        subject: '',
-        message: ''
-      })
-      setFile(null)
-      if (fileInputRef.current) {
-        fileInputRef.current.value = ''
-      }
+    try {
+      // Simulate API call - In production, send to backend with file
       setTimeout(() => {
-        setStatus('')
-      }, 5000)
-    }, 1500)
+        setStatus('success')
+        setIsSubmitting(false)
+        
+        // Show success toast
+        toast.success('Message sent successfully! We\'ll get back to you soon.')
+        
+        // Track form submission
+        trackContactFormSubmit(formData)
+        trackEvent('contact_form_success', {
+          page: 'contact_page',
+          timestamp: new Date().toISOString()
+        })
+        
+        // Reset form
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          subject: '',
+          message: ''
+        })
+        setFile(null)
+        if (fileInputRef.current) {
+          fileInputRef.current.value = ''
+        }
+        setTimeout(() => {
+          setStatus('')
+        }, 5000)
+      }, 1500)
+    } catch (error) {
+      setIsSubmitting(false)
+      toast.error('Failed to send message. Please try again.')
+      trackEvent('form_submission_error', { form_name: 'contact_form', error: error.message })
+    }
   }
 
   const contactInfo = [
