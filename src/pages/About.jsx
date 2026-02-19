@@ -73,7 +73,7 @@ const About = () => {
       {/* Hero Section */}
       <section className="about-hero">
         <div className="about-hero-image">
-          <img src="/assets/images/about-banner1 (2).png" alt="About E Flash" />
+          <img src="assets/images/about-banner1 (2).png" alt="About E Flash" />
         </div>
         <div className="container">
           <motion.div

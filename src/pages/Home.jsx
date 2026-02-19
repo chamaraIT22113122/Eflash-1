@@ -19,12 +19,12 @@ const Home = () => {
   const tools = content.skills.items || []
 
   const projects = [
-    { id: 1, image: '/assets/images/portfolio/Social media p/14.png' },
-    { id: 2, image: '/assets/images/portfolio/Thambnails/logo.jpg' },
-    { id: 3, image: '/assets/images/portfolio/banners/banners-02.png' },
-    { id: 4, image: '/assets/images/portfolio/Social media p/25.jpg' },
-    { id: 5, image: '/assets/images/portfolio/flayers/Peony cake deco flayr 1.jpg' },
-    { id: 6, image: '/assets/images/portfolio/Social media p/35.png' }
+    { id: 1, image: 'assets/images/portfolio/Social media p/14.png' },
+    { id: 2, image: 'assets/images/portfolio/Thambnails/logo.jpg' },
+    { id: 3, image: 'assets/images/portfolio/banners/banners-02.png' },
+    { id: 4, image: 'assets/images/portfolio/Social media p/25.jpg' },
+    { id: 5, image: 'assets/images/portfolio/flayers/Peony cake deco flayr 1.jpg' },
+    { id: 6, image: 'assets/images/portfolio/Social media p/35.png' }
   ]
 
   return (
@@ -107,7 +107,7 @@ const Home = () => {
                   }}
                 />
                 <div className="hero-avatar">
-                  <img src="/assets/images/hero-banner.png" alt="E Flash - Creative Design" />
+                  <img src="assets/images/hero-banner.png" alt="E Flash - Creative Design" />
                 </div>
               </div>
             </motion.div>
@@ -196,7 +196,7 @@ const Home = () => {
                   whileHover={{ scale: 1.05 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <img src="/assets/images/about-banner.png" alt="About Eflash24" />
+                  <img src="assets/images/about-banner.png" alt="About Eflash24" />
                 </motion.div>
                 <div className="about-badge">
                   <span className="badge-number">230+</span>

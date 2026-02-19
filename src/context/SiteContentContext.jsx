@@ -408,102 +408,102 @@ const defaultContent = {
       {
         id: 1,
         name: 'Illustrator',
-        icon: '/assets/images/illustrator.png'
+        icon: 'assets/images/illustrator.png'
       },
       {
         id: 2,
         name: 'Photoshop',
-        icon: '/assets/images/photoshop.png'
+        icon: 'assets/images/photoshop.png'
       },
       {
         id: 3,
         name: 'Figma',
-        icon: '/assets/images/figma.png'
+        icon: 'assets/images/figma.png'
       },
       {
         id: 4,
         name: 'VS Code',
-        icon: '/assets/images/vs-code.png'
+        icon: 'assets/images/vs-code.png'
       },
       {
         id: 5,
         name: 'Git',
-        icon: '/assets/images/git.png'
+        icon: 'assets/images/git.png'
       },
       {
         id: 6,
         name: 'GitHub',
-        icon: '/assets/images/github.png'
+        icon: 'assets/images/github.png'
       },
       {
         id: 7,
         name: 'WordPress',
-        icon: '/assets/images/wordpress.png'
+        icon: 'assets/images/wordpress.png'
       },
       {
         id: 8,
         name: 'Canva',
-        icon: '/assets/images/canva.png'
+        icon: 'assets/images/canva.png'
       },
       {
         id: 9,
         name: 'React',
-        icon: '/assets/images/react.png'
+        icon: 'assets/images/react.png'
       },
       {
         id: 10,
         name: 'HTML5',
-        icon: '/assets/images/html5.png'
+        icon: 'assets/images/html5.png'
       },
       {
         id: 11,
         name: 'CSS3',
-        icon: '/assets/images/css31.png'
+        icon: 'assets/images/css31.png'
       },
       {
         id: 12,
         name: 'Bootstrap',
-        icon: '/assets/images/bootstrap.png'
+        icon: 'assets/images/bootstrap.png'
       },
       {
         id: 13,
         name: 'MongoDB',
-        icon: '/assets/images/mongodb.png'
+        icon: 'assets/images/mongodb.png'
       },
       {
         id: 14,
         name: 'Firebase',
-        icon: '/assets/images/firebase.png'
+        icon: 'assets/images/firebase.png'
       },
       {
         id: 15,
         name: 'Adobe XD',
-        icon: '/assets/images/adobe-xd.png'
+        icon: 'assets/images/adobe-xd.png'
       },
       {
         id: 16,
         name: 'CapCut',
-        icon: '/assets/images/capcut.png'
+        icon: 'assets/images/capcut.png'
       },
       {
         id: 17,
         name: 'MySQL',
-        icon: '/assets/images/MYSQL.png'
+        icon: 'assets/images/MYSQL.png'
       },
       {
         id: 18,
         name: 'Java',
-        icon: '/assets/images/Java.png'
+        icon: 'assets/images/Java.png'
       },
       {
         id: 19,
         name: 'Android',
-        icon: '/assets/images/android.png'
+        icon: 'assets/images/android.png'
       },
       {
         id: 20,
         name: 'Angular',
-        icon: '/assets/images/angular.png'
+        icon: 'assets/images/angular.png'
       }
     ]
   },

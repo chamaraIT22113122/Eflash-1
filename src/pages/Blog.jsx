@@ -19,7 +19,7 @@ const Blog = () => {
       author: 'E Flash Team',
       date: '2026-02-01',
       category: 'Design Trends',
-      image: '/assets/images/portfolio/Social media p/11.png',
+      image: 'assets/images/portfolio/Social media p/11.png',
       readTime: '5 min read',
       tags: ['Design', 'Trends', 'Graphic Design']
     },
@@ -32,7 +32,7 @@ const Blog = () => {
       author: 'E Flash Team',
       date: '2026-01-28',
       category: 'Web Development',
-      image: '/assets/images/portfolio/banners/banners-01.png',
+      image: 'assets/images/portfolio/banners/banners-01.png',
       readTime: '7 min read',
       tags: ['Website', 'Business', 'Marketing']
     },
@@ -45,7 +45,7 @@ const Blog = () => {
       author: 'E Flash Team',
       date: '2026-01-25',
       category: 'Branding',
-      image: '/assets/images/portfolio/logo/459161113_921611919989918_3548539809512993639_n.jpg',
+      image: 'assets/images/portfolio/logo/459161113_921611919989918_3548539809512993639_n.jpg',
       readTime: '8 min read',
       tags: ['Branding', 'Logo', 'Identity']
     },
@@ -58,7 +58,7 @@ const Blog = () => {
       author: 'E Flash Team',
       date: '2026-01-20',
       category: 'Social Media',
-      image: '/assets/images/portfolio/Social media p/14.png',
+      image: 'assets/images/portfolio/Social media p/14.png',
       readTime: '6 min read',
       tags: ['Social Media', 'Design', 'Marketing']
     },
@@ -71,7 +71,7 @@ const Blog = () => {
       author: 'E Flash Team',
       date: '2026-01-15',
       category: 'Design Tips',
-      image: '/assets/images/portfolio/Social media p/35.png',
+      image: 'assets/images/portfolio/Social media p/35.png',
       readTime: '5 min read',
       tags: ['Color', 'Psychology', 'Design']
     },
@@ -84,7 +84,7 @@ const Blog = () => {
       author: 'E Flash Team',
       date: '2026-01-10',
       category: 'Web Development',
-      image: '/assets/images/portfolio/banners/banners-02.png',
+      image: 'assets/images/portfolio/banners/banners-02.png',
       readTime: '9 min read',
       tags: ['Responsive', 'Web Design', 'Mobile']
     }

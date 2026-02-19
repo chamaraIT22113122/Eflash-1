@@ -56,7 +56,7 @@ const BlogPost = () => {
     author: 'E Flash Team',
     date: '2026-02-01',
     category: 'Design Trends',
-    image: '/assets/images/portfolio/Social media p/11.png',
+    image: 'assets/images/portfolio/Social media p/11.png',
     readTime: '5 min read',
     tags: ['Design', 'Trends', 'Graphic Design']
   }

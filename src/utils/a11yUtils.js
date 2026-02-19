@@ -123,7 +123,7 @@ export const seoUtils = {
       '@context': 'https://schema.org',
       '@type': 'LocalBusiness',
       name: 'E Flash',
-      image: '/assets/images/logo.png',
+      image: 'assets/images/logo.png',
       description: 'Professional Graphic Design, Web Design & Development Services',
       telephone: '+94775608073',
       email: 'info@eflash24.tech',

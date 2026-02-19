@@ -97,7 +97,7 @@ export const notificationService = {
       `Order ${order.id} Received`,
       {
         body: `Your order has been received. Total: Rs ${order.totalAmount}`,
-        icon: '/assets/images/logo.png',
+        icon: 'assets/images/logo.png',
         tag: `order-${order.id}`
       }
     )
@@ -119,7 +119,7 @@ export const notificationService = {
       `New Blog Post: ${post.title}`,
       {
         body: 'Check out our latest article',
-        icon: '/assets/images/logo.png',
+        icon: 'assets/images/logo.png',
         tag: `blog-${post.id}`
       }
     )
@@ -149,7 +149,7 @@ export const notificationService = {
       `Order ${order.id} - ${status.toUpperCase()}`,
       {
         body: statusMessages[status],
-        icon: '/assets/images/logo.png',
+        icon: 'assets/images/logo.png',
         tag: `order-status-${order.id}`
       }
     )
@@ -169,7 +169,7 @@ export const notificationService = {
 
     notificationService.sendBrowserNotification(promo.title, {
       body: promo.description,
-      icon: '/assets/images/logo.png',
+      icon: 'assets/images/logo.png',
       tag: `promo-${promo.id}`
     })
 
