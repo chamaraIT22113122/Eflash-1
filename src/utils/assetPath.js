@@ -8,7 +8,7 @@ export const getAssetPath = (imagePath) => {
   }
   
   // Get base path from vite config
-  const basePath = import.meta.env.MODE === 'production' ? '/E-Flash-1.2' : ''
+  const basePath = import.meta.env.MODE === 'production' ? '/Eflash-1' : ''
   
   // If path already starts with /, prepend base
   if (imagePath.startsWith('/')) {

@@ -13,7 +13,7 @@ const Footer = () => {
           <div className="footer-section">
             <div className="footer-logo">
               <img 
-                src="/assets/images/logo1.png" 
+                src="assets/images/logo1.png" 
                 alt="E Flash Logo" 
               />
             </div>

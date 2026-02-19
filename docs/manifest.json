@@ -10,13 +10,13 @@
   "theme_color": "#2563eb",
   "icons": [
     {
-      "src": "/assets/images/logo.png",
+      "src": "/Eflash-1/assets/images/logo.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/assets/images/logo1.png",
+      "src": "/Eflash-1/assets/images/logo1.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
@@ -32,7 +32,7 @@
       "url": "/Eflash-1/portfolio",
       "icons": [
         {
-          "src": "/assets/images/logo.png",
+          "src": "/Eflash-1/assets/images/logo.png",
           "sizes": "96x96",
           "type": "image/png"
         }
@@ -45,7 +45,7 @@
       "url": "/Eflash-1/contact",
       "icons": [
         {
-          "src": "/assets/images/logo.png",
+          "src": "/Eflash-1/assets/images/logo.png",
           "sizes": "96x96",
           "type": "image/png"
         }

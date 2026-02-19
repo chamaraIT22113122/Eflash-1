@@ -73,7 +73,7 @@ const Navbar = () => {
         <div className="nav-content">
           <Link to="/" className="logo" onClick={closeMenu}>
             <img 
-              src="/assets/images/logo1.png" 
+              src="assets/images/logo1.png" 
               alt="E Flash Logo" 
               className="logo-img" 
             />
