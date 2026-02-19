@@ -1,4 +1,4 @@
-import { cpSync, existsSync, mkdirSync, rmSync } from 'node:fs';
+import { cpSync, existsSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -7,7 +7,6 @@ const __dirname = resolve(__filename, '..');
 const projectRoot = resolve(__dirname, '..');
 
 const distPath = resolve(projectRoot, 'dist');
-const docsPath = resolve(projectRoot, 'docs');
 
 if (!existsSync(distPath)) {
   console.log('dist folder not found. Building the project first...');
@@ -15,20 +14,32 @@ if (!existsSync(distPath)) {
   throw new Error('Run "npm run build" before preparing Pages output.');
 }
 
-if (existsSync(docsPath)) {
-  rmSync(docsPath, { recursive: true, force: true });
+// Copy built files from dist to root
+// Get index.html from dist
+const distIndex = resolve(distPath, 'index.html');
+const rootIndex = resolve(projectRoot, 'index.html');
+
+// Remove old assets folder in root if exists
+const rootAssets = resolve(projectRoot, 'assets');
+if (existsSync(rootAssets)) {
+  rmSync(rootAssets, { recursive: true, force: true });
 }
 
-mkdirSync(docsPath, { recursive: true });
-cpSync(distPath, docsPath, { recursive: true });
+// Copy index.html to root
+cpSync(distIndex, rootIndex);
+
+// Copy assets folder to root
+const distAssets = resolve(distPath, 'assets');
+if (existsSync(distAssets)) {
+  cpSync(distAssets, rootAssets, { recursive: true });
+}
 
 // Copy index.html as 404.html so SPA routing works on refresh
-const indexFile = resolve(docsPath, 'index.html');
-const notFoundFile = resolve(docsPath, '404.html');
-cpSync(indexFile, notFoundFile);
+const notFoundFile = resolve(projectRoot, '404.html');
+cpSync(distIndex, notFoundFile);
 
-const publicNoJekyll = resolve(projectRoot, 'public', '.nojekyll');
-const docsNoJekyll = resolve(docsPath, '.nojekyll');
-cpSync(publicNoJekyll, docsNoJekyll);
+// Create .nojekyll file in root
+const noJekyllFile = resolve(projectRoot, '.nojekyll');
+writeFileSync(noJekyllFile, '');
 
-console.log('GitHub Pages branch output is ready in docs/.');
+console.log('GitHub Pages root deployment is ready.');

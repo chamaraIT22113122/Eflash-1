@@ -1,3 +1,9 @@
 node_modules
 *.backup.*
 dist
+
+# Allow built files in root for GitHub Pages
+!index.html
+!404.html
+!.nojekyll
+!assets/
