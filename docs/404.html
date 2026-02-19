@@ -5,18 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>E Flash - Loading...</title>
   <script>
-    // Only store path if it's not the home page or base path
+    // Store the current path and redirect to the correct base URL
     var currentPath = window.location.pathname;
-    var basePath = '/Eflash-1/';
+    var correctBase = 'https://chamarait22113122.github.io/Eflash-1/';
     
-    // Only redirect through 404 if we're on an actual subpage
-    if (currentPath !== basePath && currentPath !== basePath.slice(0, -1)) {
+    // Store path for React Router to handle
+    if (currentPath !== '/Eflash-1/' && currentPath !== '/Eflash-1') {
       sessionStorage.setItem('redirectPath', currentPath + window.location.search + window.location.hash);
-      window.location.replace(basePath);
-    } else {
-      // If we're already on home, just load it normally
-      window.location.replace(basePath);
     }
+    
+    // Always redirect to the correct full URL
+    window.location.replace(correctBase);
   </script>
 </head>
 <body>
