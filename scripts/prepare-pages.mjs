@@ -26,4 +26,8 @@ const public404File = resolve(projectRoot, 'public', '404.html');
 const notFoundFile = resolve(docsPath, '404.html');
 cpSync(public404File, notFoundFile);
 
+const publicNoJekyll = resolve(projectRoot, 'public', '.nojekyll');
+const docsNoJekyll = resolve(docsPath, '.nojekyll');
+cpSync(publicNoJekyll, docsNoJekyll);
+
 console.log('GitHub Pages branch output is ready in docs/.');
