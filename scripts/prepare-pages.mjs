@@ -22,8 +22,8 @@ if (existsSync(docsPath)) {
 mkdirSync(docsPath, { recursive: true });
 cpSync(distPath, docsPath, { recursive: true });
 
-const indexFile = resolve(docsPath, 'index.html');
+const public404File = resolve(projectRoot, 'public', '404.html');
 const notFoundFile = resolve(docsPath, '404.html');
-cpSync(indexFile, notFoundFile);
+cpSync(public404File, notFoundFile);
 
 console.log('GitHub Pages branch output is ready in docs/.');
