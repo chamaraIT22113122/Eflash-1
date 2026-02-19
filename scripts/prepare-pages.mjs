@@ -22,9 +22,10 @@ if (existsSync(docsPath)) {
 mkdirSync(docsPath, { recursive: true });
 cpSync(distPath, docsPath, { recursive: true });
 
-const public404File = resolve(projectRoot, 'public', '404.html');
+// Copy index.html as 404.html so SPA routing works on refresh
+const indexFile = resolve(docsPath, 'index.html');
 const notFoundFile = resolve(docsPath, '404.html');
-cpSync(public404File, notFoundFile);
+cpSync(indexFile, notFoundFile);
 
 const publicNoJekyll = resolve(projectRoot, 'public', '.nojekyll');
 const docsNoJekyll = resolve(docsPath, '.nojekyll');
