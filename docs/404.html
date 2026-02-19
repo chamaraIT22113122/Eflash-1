@@ -2,8 +2,8 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/png" href="/E-Flash-1.2/assets/images/logo.png" />
-    <link rel="manifest" href="/E-Flash-1.2/manifest.json" />
+    <link rel="icon" type="image/png" href="/Eflash-1/assets/images/logo.png" />
+    <link rel="manifest" href="/Eflash-1/manifest.json" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="E Flash - Professional Graphic Design, Web Design & Development Services" />
     <meta name="keywords" content="graphic design, web design, web development, UI/UX, branding, digital marketing" />
@@ -11,7 +11,7 @@
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <link rel="apple-touch-icon" href="/E-Flash-1.2/assets/images/logo.png" />
+    <link rel="apple-touch-icon" href="/Eflash-1/assets/images/logo.png" />
     <title>E Flash - Creative Design & Web Solutions</title>
     <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
@@ -27,7 +27,7 @@
         var redirectPath = sessionStorage.getItem('redirectPath');
         if (redirectPath) {
           sessionStorage.removeItem('redirectPath');
-          var base = '/E-Flash-1.2';
+          var base = '/Eflash-1';
           var path = redirectPath.replace(base, '');
           if (path && path !== '/' && window.location.pathname === base + '/') {
             window.history.replaceState(null, null, base + path);
@@ -35,8 +35,8 @@
         }
       })();
     </script>
-    <script type="module" crossorigin src="/E-Flash-1.2/assets/index-CrY23qIV.js"></script>
-    <link rel="stylesheet" crossorigin href="/E-Flash-1.2/assets/index-D-R3kCu1.css">
+    <script type="module" crossorigin src="/Eflash-1/assets/index-eeVl91bk.js"></script>
+    <link rel="stylesheet" crossorigin href="/Eflash-1/assets/index-D-R3kCu1.css">
   </head>
   <body>
     <div id="root"></div>
@@ -53,7 +53,7 @@
             registrations.forEach((registration) => registration.unregister())
           })
         } else {
-          navigator.serviceWorker.register('/E-Flash-1.2/sw.js').catch(() => {
+          navigator.serviceWorker.register('/Eflash-1/sw.js').catch(() => {
             console.log('Service Worker registration failed')
           })
         }

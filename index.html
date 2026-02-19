@@ -27,7 +27,7 @@
         var redirectPath = sessionStorage.getItem('redirectPath');
         if (redirectPath) {
           sessionStorage.removeItem('redirectPath');
-          var base = '/E-Flash-1.2';
+          var base = '/Eflash-1';
           var path = redirectPath.replace(base, '');
           if (path && path !== '/' && window.location.pathname === base + '/') {
             window.history.replaceState(null, null, base + path);

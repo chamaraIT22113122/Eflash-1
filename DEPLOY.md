@@ -6,11 +6,11 @@ Use this method if you want deployment from `main` branch **without GitHub Actio
 1. Open `package.json`
 2. Ensure `homepage` is your real URL:
    ```json
-   "homepage": "https://YOUR-GITHUB-USERNAME.github.io/E-Flash-1.2"
+   "homepage": "https://YOUR-GITHUB-USERNAME.github.io/Eflash-1"
    ```
 3. Open `vite.config.js` and confirm base path matches repo name:
    ```javascript
-   base: process.env.NODE_ENV === 'production' ? '/E-Flash-1.2/' : '/'
+   base: process.env.NODE_ENV === 'production' ? '/Eflash-1/' : '/'
    ```
 
 ## Step 2: Build output for branch deployment
@@ -39,7 +39,7 @@ In GitHub repository:
 3. Save
 
 Site URL:
-`https://YOUR-GITHUB-USERNAME.github.io/E-Flash-1.2/`
+`https://YOUR-GITHUB-USERNAME.github.io/Eflash-1/`
 
 ---
 

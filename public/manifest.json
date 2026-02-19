@@ -2,8 +2,8 @@
   "name": "E Flash - Creative Design Agency",
   "short_name": "E Flash",
   "description": "Creative Design Agency - Web Design, Branding, Digital Marketing",
-  "start_url": "/E-Flash-1.2/",
-  "scope": "/E-Flash-1.2/",
+  "start_url": "/Eflash-1/",
+  "scope": "/Eflash-1/",
   "display": "standalone",
   "orientation": "portrait-primary",
   "background_color": "#0f172a",
@@ -29,7 +29,7 @@
       "name": "View Portfolio",
       "short_name": "Portfolio",
       "description": "View our latest projects",
-      "url": "/E-Flash-1.2/portfolio",
+      "url": "/Eflash-1/portfolio",
       "icons": [
         {
           "src": "/assets/images/logo.png",
@@ -42,7 +42,7 @@
       "name": "Contact Us",
       "short_name": "Contact",
       "description": "Get in touch with us",
-      "url": "/E-Flash-1.2/contact",
+      "url": "/Eflash-1/contact",
       "icons": [
         {
           "src": "/assets/images/logo.png",

@@ -1,9 +1,9 @@
 const CACHE_NAME = 'eflash-v1';
 const urlsToCache = [
-  '/E-Flash-1.2/',
-  '/E-Flash-1.2/index.html',
-  '/E-Flash-1.2/assets/images/logo.png',
-  '/E-Flash-1.2/assets/css/style.css',
+  '/Eflash-1/',
+  '/Eflash-1/index.html',
+  '/Eflash-1/assets/images/logo.png',
+  '/Eflash-1/assets/css/style.css',
 ];
 
 // Install service worker
