@@ -1,37 +1,45 @@
-# 🚀 Deploy to GitHub Pages - Quick Start
+# 🚀 Deploy to GitHub Pages (Deploy from a branch)
 
-## Step 1: Update Homepage URL
+Use this method if you want deployment from `main` branch **without GitHub Actions**.
+
+## Step 1: Confirm config
 1. Open `package.json`
-2. Replace `yourusername` with your GitHub username:
+2. Ensure `homepage` is your real URL:
    ```json
    "homepage": "https://YOUR-GITHUB-USERNAME.github.io/E-Flash-1.2"
    ```
-
-## Step 2: Update Vite Base Path
-1. Open `vite.config.js`
-2. If your repository name is different, update the base path:
+3. Open `vite.config.js` and confirm base path matches repo name:
    ```javascript
-   base: '/YOUR-REPOSITORY-NAME/'
+   base: process.env.NODE_ENV === 'production' ? '/E-Flash-1.2/' : '/'
    ```
 
-## Step 3: Deploy
-Run this command:
+## Step 2: Build output for branch deployment
+Run:
 ```bash
-npm run deploy
+npm run build
+npm run pages:prepare
 ```
 
-That's it! Your site will be live at:
+This creates/updates `docs/` with production files (including `404.html`).
+
+## Step 3: Commit and push `docs/` to `main`
+```bash
+git add docs package.json scripts/prepare-pages.mjs
+git commit -m "Prepare GitHub Pages branch deployment"
+git push origin main
+```
+
+## Step 4: Configure GitHub Pages settings
+In GitHub repository:
+1. Go to **Settings → Pages**
+2. Under **Build and deployment**:
+   - **Source**: `Deploy from a branch`
+   - **Branch**: `main`
+   - **Folder**: `/docs`
+3. Save
+
+Site URL:
 `https://YOUR-GITHUB-USERNAME.github.io/E-Flash-1.2/`
-
----
-
-## Alternative: Automatic Deployment with GitHub Actions
-
-### Enable GitHub Actions
-1. Push your code to GitHub
-2. Go to repository Settings → Pages
-3. Under "Build and deployment", select "GitHub Actions"
-4. Push to main branch - it will auto-deploy!
 
 ---
 
@@ -48,7 +56,11 @@ That's it! Your site will be live at:
 
 **Q: Need to update the site?**
 ```bash
-npm run deploy
+npm run build
+npm run pages:prepare
+git add docs
+git commit -m "Update site"
+git push origin main
 ```
 
 ---

@@ -28,6 +28,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
+    "pages:prepare": "node scripts/prepare-pages.mjs",
+    "pages:deploy-branch": "npm run pages:prepare",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
     "optimize-images": "node optimize-images.js"
