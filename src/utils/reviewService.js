@@ -87,6 +87,14 @@ export const reviewService = {
   getPendingReviews: () => {
     const reviews = reviewService.getAllReviews()
     return reviews.filter(r => !r.approved)
+  },
+
+  // Delete review (admin)
+  deleteReview: (reviewId) => {
+    const reviews = reviewService.getAllReviews()
+    const filtered = reviews.filter(r => r.id !== reviewId)
+    localStorage.setItem(REVIEWS_DB_KEY, JSON.stringify(filtered))
+    return true
   }
 }
 
@@ -134,5 +142,15 @@ export const wishlistService = {
     return []
   }
 }
+
+// Export individual functions for easier imports
+export const getAllReviews = reviewService.getAllReviews
+export const getProductReviews = reviewService.getProductReviews
+export const approveReview = reviewService.approveReview
+export const deleteReview = reviewService.deleteReview
+export const getPendingReviews = reviewService.getPendingReviews
+export const addReview = reviewService.addReview
+export const getAverageRating = reviewService.getAverageRating
+export const getRatingDistribution = reviewService.getRatingDistribution
 
 export default { reviewService, wishlistService }

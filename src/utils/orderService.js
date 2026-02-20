@@ -101,4 +101,13 @@ export const orderService = {
   }
 }
 
+// Export individual functions for easier imports
+export const createOrder = orderService.createOrder
+export const getAllOrders = orderService.getAllOrders
+export const getOrderById = orderService.getOrderById
+export const getUserOrders = orderService.getUserOrders
+export const updateOrderStatus = orderService.updateOrderStatus
+export const cancelOrder = orderService.cancelOrder
+export const getOrderStats = orderService.getOrderStats
+
 export default orderService

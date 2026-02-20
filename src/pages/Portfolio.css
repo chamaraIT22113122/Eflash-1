@@ -48,8 +48,10 @@
 /* Portfolio Grid */
 .portfolio-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
   gap: 30px;
+  justify-content: center;
+  margin: 0 auto;
 }
 
 .portfolio-card {
@@ -78,6 +80,63 @@
   position: relative;
   height: 250px;
   overflow: hidden;
+}
+
+/* Image Counter Badge */
+.image-counter {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: rgba(0, 0, 0, 0.75);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  z-index: 2;
+  backdrop-filter: blur(10px);
+}
+
+.image-counter svg {
+  font-size: 1rem;
+}
+
+/* Thumbnail Preview Grid */
+.thumbnails-preview {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.3s ease;
+  background: rgba(0, 0, 0, 0.8);
+  padding: 5px;
+  z-index: 1;
+}
+
+.portfolio-card:hover .thumbnails-preview {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.thumbnails-preview img {
+  width: 100%;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.thumbnails-preview img:hover {
+  transform: scale(1.05);
 }
 
 .portfolio-image img {

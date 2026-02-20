@@ -1,6 +1,9 @@
 // User Authentication and Account Management
+import bcrypt from 'bcryptjs'
+
 const USERS_DB_KEY = 'eflash_users'
 const CURRENT_USER_KEY = 'eflash_current_user'
+const SALT_ROUNDS = 10
 
 export const authService = {
   // Register new user
@@ -20,10 +23,11 @@ export const authService = {
     }
 
     // Local fallback
+    const hashedPassword = await bcrypt.hash(userData.password, SALT_ROUNDS)
     const user = {
       id: `USR-${Date.now()}`,
       ...userData,
-      password: btoa(userData.password), // Basic encoding, NOT production safe
+      password: hashedPassword,
       createdAt: new Date().toISOString(),
       verified: false
     }
@@ -59,9 +63,15 @@ export const authService = {
 
     // Local fallback
     const users = authService.getAllUsers()
-    const user = users.find(u => u.email === email && u.password === btoa(password))
+    const user = users.find(u => u.email === email)
 
     if (!user) {
+      throw new Error('Invalid email or password')
+    }
+
+    // Compare passwords using bcrypt
+    const passwordMatch = await bcrypt.compare(password, user.password)
+    if (!passwordMatch) {
       throw new Error('Invalid email or password')
     }
 
@@ -156,7 +166,66 @@ export const authService = {
       console.error('Verification email error:', error)
       return { success: false, error: error.message }
     }
+  },
+
+  // Initialize default admin user
+  initializeAdmin: async () => {
+    const users = authService.getAllUsers()
+    const adminExists = users.some(u => u.role === 'admin')
+    
+    if (!adminExists) {
+      const hashedPassword = await bcrypt.hash('admin123', SALT_ROUNDS)
+      const adminUser = {
+        id: 'USR-ADMIN-001',
+        email: 'admin@eflash24.tech',
+        password: hashedPassword,
+        name: 'Admin',
+        role: 'admin',
+        createdAt: new Date().toISOString(),
+        verified: true
+      }
+      
+      users.push(adminUser)
+      localStorage.setItem(USERS_DB_KEY, JSON.stringify(users))
+      console.log('✅ Default admin user created')
+    }
+  },
+
+  // Delete user (admin only, cannot delete admin)
+  deleteUser: (email) => {
+    if (email === 'admin@eflash24.tech') {
+      return { success: false, error: 'Cannot delete admin user' }
+    }
+    
+    const users = authService.getAllUsers()
+    const filteredUsers = users.filter(u => u.email !== email)
+    
+    if (filteredUsers.length < users.length) {
+      localStorage.setItem(USERS_DB_KEY, JSON.stringify(filteredUsers))
+      return { success: true }
+    }
+    
+    return { success: false, error: 'User not found' }
   }
 }
+
+// Initialize admin on load
+authService.initializeAdmin()
+
+// Export individual functions for easier access
+export const {
+  register,
+  login,
+  logout,
+  getCurrentUser,
+  updateProfile,
+  getAllUsers,
+  getUserById,
+  addAddress,
+  getUserAddresses,
+  sendVerificationEmail,
+  initializeAdmin,
+  deleteUser
+} = authService
 
 export default authService

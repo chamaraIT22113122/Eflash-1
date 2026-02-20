@@ -355,7 +355,6 @@ const Home = () => {
                 <div>
                   <h4>Phone:</h4>
                   <p><a href="tel:0775608073">077 560 8073</a></p>
-                  <p><a href="tel:0702481691">070 2481 691</a></p>
                 </div>
               </div>
 

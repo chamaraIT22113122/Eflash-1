@@ -183,7 +183,7 @@ const Contact = () => {
     {
       icon: <FaPhone />,
       title: 'Phone',
-      details: '077 560 8073 / 070 2481 691',
+      details: '077 560 8073',
       link: 'tel:+94775608073'
     },
     {

@@ -166,7 +166,30 @@ export const blogService = {
       }
     })
     return Array.from(tags)
+  },
+
+  // Publish post
+  publishPost: (postId, published = true) => {
+    return blogService.updatePost(postId, { published })
   }
 }
+
+// Export individual functions for easier imports
+export const createPost = blogService.createPost
+export const getAllPosts = blogService.getAllPosts
+export const getPublishedPosts = blogService.getPublishedPosts
+export const getPostByIdentifier = blogService.getPostByIdentifier
+export const getPostsByCategory = blogService.getPostsByCategory
+export const getPostsByTag = blogService.getPostsByTag
+export const searchPosts = blogService.searchPosts
+export const updatePost = blogService.updatePost
+export const deletePost = blogService.deletePost
+export const incrementViews = blogService.incrementViews
+export const addComment = blogService.addComment
+export const getTrendingPosts = blogService.getTrendingPosts
+export const getRelatedPosts = blogService.getRelatedPosts
+export const getAllCategories = blogService.getAllCategories
+export const getAllTags = blogService.getAllTags
+export const publishPost = blogService.publishPost
 
 export default blogService

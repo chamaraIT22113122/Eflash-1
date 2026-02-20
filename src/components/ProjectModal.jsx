@@ -1,12 +1,10 @@
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { FaTimes, FaChevronLeft, FaChevronRight, FaExpand } from 'react-icons/fa'
-import ImageLightbox from './ImageLightbox'
+import { FaTimes, FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 import './ProjectModal.css'
 
 const ProjectModal = ({ project, isOpen, onClose }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
-  const [lightboxOpen, setLightboxOpen] = useState(false)
 
   if (!project) return null
 
@@ -36,13 +34,34 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
+            style={{
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              width: '100vw',
+              height: '100vh',
+              zIndex: 9998,
+              pointerEvents: 'auto'
+            }}
           />
           <motion.div
             className="modal-content"
-            initial={{ opacity: 0, scale: 0.8, y: 50 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.8, y: 50 }}
-            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              position: 'fixed',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              zIndex: 9999,
+              margin: 0,
+              pointerEvents: 'auto'
+            }}
           >
             <button className="modal-close" onClick={onClose} aria-label="Close modal">
               <FaTimes />
@@ -68,15 +87,6 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
                     <div className="image-counter">
                       {currentImageIndex + 1} / {images.length}
                     </div>
-                    {hasMultipleImages && (
-                      <button 
-                        className="fullscreen-btn" 
-                        onClick={() => setLightboxOpen(true)}
-                        title="View full gallery"
-                      >
-                        <FaExpand />
-                      </button>
-                    )}
                   </>
                 )}
               </div>
@@ -127,15 +137,6 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
               </div>
             </div>
           </motion.div>
-
-          {/* Full Screen Image Lightbox */}
-          <ImageLightbox 
-            images={images}
-            initialIndex={currentImageIndex}
-            isOpen={lightboxOpen}
-            onClose={() => setLightboxOpen(false)}
-            projectTitle={project.title}
-          />
         </>
       )}
     </AnimatePresence>

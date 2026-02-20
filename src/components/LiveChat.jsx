@@ -26,7 +26,7 @@ const LiveChat = () => {
     website: "Great! We offer professional website design and development. Would you like to see our packages or get a custom quote?",
     logo: "We'd love to help with your logo! Our branding packages start from LKR 15,000. Can I get your contact details to send you more information?",
     pricing: "You can view all our pricing packages at /packages. We offer transparent pricing for all our services!",
-    contact: "You can reach us at:\n📞 077 560 8073\n📞 070 2481 691\n📧 info@eflash24.tech\nOr fill out our contact form and we'll get back to you within 24 hours!",
+    contact: "You can reach us at:\n📞 077 560 8073\n info@eflash24.tech\nOr fill out our contact form and we'll get back to you within 24 hours!",
     default: "Thanks for your message! Our team will review and respond shortly. In the meantime, feel free to explore our portfolio or services!"
   }
 

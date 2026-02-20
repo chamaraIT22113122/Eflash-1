@@ -5,7 +5,6 @@
   right: 0;
   bottom: 0;
   background: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(5px);
   z-index: 9998;
 }
 
@@ -14,14 +13,17 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 90%;
-  max-width: 1000px;
-  max-height: 90vh;
+  width: 95%;
+  max-width: 1400px;
+  max-height: 95vh;
   background: white;
   border-radius: 20px;
   overflow-y: auto;
+  overflow-x: hidden;
   z-index: 9999;
   box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
 }
 
 .dark-mode .modal-content {
@@ -56,21 +58,32 @@
 .modal-gallery {
   width: 100%;
   border-radius: 20px 20px 0 0;
-  overflow: hidden;
+  overflow: visible;
+  display: flex;
+  flex-direction: column;
 }
 
 .main-image-container {
   position: relative;
   width: 100%;
-  height: 500px;
+  height: auto;
+  min-height: 60vh;
+  max-height: 85vh;
   background: #000;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .main-image {
   width: 100%;
-  height: 100%;
+  height: auto;
+  max-height: 85vh;
   object-fit: contain;
   background: #000;
+  display: block;
 }
 
 .gallery-nav {
@@ -107,9 +120,8 @@
 
 .image-counter {
   position: absolute;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
+  top: 20px;
+  left: 20px;
   background: rgba(0, 0, 0, 0.7);
   color: white;
   padding: 8px 16px;
@@ -117,6 +129,9 @@
   font-size: 0.9rem;
   font-weight: 600;
   z-index: 5;
+  backdrop-filter: blur(10px);
+  min-width: 60px;
+  text-align: center;
 }
 
 .fullscreen-btn {
@@ -149,7 +164,10 @@
   padding: 15px;
   background: rgba(0, 0, 0, 0.05);
   overflow-x: auto;
+  overflow-y: hidden;
   scrollbar-width: thin;
+  flex-shrink: 0;
+  width: 100%;
 }
 
 .dark-mode .thumbnail-strip {
@@ -186,6 +204,8 @@
 /* Body Styles */
 .modal-body {
   padding: 40px;
+  flex-shrink: 0;
+  position: relative;
 }
 
 .modal-body h2 {

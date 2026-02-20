@@ -3,6 +3,9 @@ import { getAssetPath } from '../utils/assetPath'
 
 const SiteContentContext = createContext()
 
+// Export the context itself for direct consumption (admin panel needs it)
+export { SiteContentContext }
+
 export const useSiteContent = () => {
   const context = useContext(SiteContentContext)
   if (!context) {
@@ -45,7 +48,6 @@ const defaultContent = {
     tagline: 'Creative Design Agency',
     email: 'info@eflash24.tech',
     phone: '+94 77 560 8073',
-    phone2: '+94 70 2481 691',
     whatsapp: '94775608073',
     address: 'Colombo, Sri Lanka',
     socialMedia: {

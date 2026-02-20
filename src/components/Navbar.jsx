@@ -1,17 +1,15 @@
 import React, { useState, useEffect } from 'react'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { FaBars, FaTimes, FaSearch, FaShoppingCart } from 'react-icons/fa'
+import { Link, useLocation } from 'react-router-dom'
+import { FaBars, FaTimes, FaShoppingCart } from 'react-icons/fa'
 import { useCart } from '../context/CartContext'
+import SearchBar from './SearchBar'
 import './Navbar.css'
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
-  const [searchQuery, setSearchQuery] = useState('')
-  const [showSearchResults, setShowSearchResults] = useState(false)
   const { getTotalItems } = useCart()
   const location = useLocation()
-  const navigate = useNavigate()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -34,38 +32,14 @@ const Navbar = () => {
   }
 
   const navLinks = [
-    { path: '/', label: 'Home', type: 'route', keywords: ['home', 'main', 'landing', 'start'] },
-    { path: '/about', label: 'About', type: 'route', keywords: ['about', 'team', 'company', 'who we are'] },
-    { path: '/services', label: 'Services', type: 'route', keywords: ['services', 'what we do', 'offerings', 'design', 'development'] },
-    { path: '/portfolio', label: 'Portfolio', type: 'route', keywords: ['portfolio', 'work', 'projects', 'gallery', 'showcase'] },
-    { path: '/packages', label: 'Packages', type: 'route', keywords: ['packages', 'pricing', 'plans', 'offers'] },
-    { path: '/shop', label: 'Shop', type: 'route', keywords: ['shop', 'store', 'products', 'buy'] },
-    { path: '/contact', label: 'Contact', type: 'route', keywords: ['contact', 'get in touch', 'reach us', 'email', 'phone'] }
+    { path: '/', label: 'Home', type: 'route' },
+    { path: '/about', label: 'About', type: 'route' },
+    { path: '/services', label: 'Services', type: 'route' },
+    { path: '/portfolio', label: 'Portfolio', type: 'route' },
+    { path: '/packages', label: 'Packages', type: 'route' },
+    { path: '/shop', label: 'Shop', type: 'route' },
+    { path: '/contact', label: 'Contact', type: 'route' }
   ]
-
-  const searchResults = navLinks.filter(link => {
-    const query = searchQuery.toLowerCase()
-    return query && (
-      link.label.toLowerCase().includes(query) ||
-      link.keywords.some(keyword => keyword.includes(query))
-    )
-  })
-
-  const handleSearch = (e) => {
-    setSearchQuery(e.target.value)
-    setShowSearchResults(e.target.value.length > 0)
-  }
-
-  const handleSearchSelect = (path) => {
-    navigate(path)
-    setSearchQuery('')
-    setShowSearchResults(false)
-    closeMenu()
-  }
-
-  const handleSearchBlur = () => {
-    setTimeout(() => setShowSearchResults(false), 200)
-  }
 
   return (
     <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
@@ -106,31 +80,7 @@ const Navbar = () => {
           </ul>
 
           <div className="nav-actions">
-            <div className="search-container">
-              <FaSearch className="search-icon" />
-              <input
-                type="text"
-                className="search-input"
-                placeholder="Search..."
-                value={searchQuery}
-                onChange={handleSearch}
-                onFocus={() => searchQuery && setShowSearchResults(true)}
-                onBlur={handleSearchBlur}
-              />
-              {showSearchResults && searchResults.length > 0 && (
-                <div className="search-results">
-                  {searchResults.map((result, index) => (
-                    <div
-                      key={index}
-                      className="search-result-item"
-                      onClick={() => handleSearchSelect(result.path)}
-                    >
-                      <span>{result.label}</span>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
+            <SearchBar />
             <Link to="/cart" className="cart-icon-link" title="Shopping Cart">
               <FaShoppingCart className="cart-icon" />
               {getTotalItems() > 0 && (

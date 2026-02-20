@@ -96,6 +96,7 @@ const Portfolio = () => {
                       </div>
                     )
                   ) : null}
+                  
                   <div className="portfolio-overlay">
                     <button onClick={() => openModal(project)} className="view-project">
                       <FaExternalLinkAlt />

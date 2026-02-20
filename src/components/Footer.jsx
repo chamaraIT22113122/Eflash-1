@@ -66,10 +66,6 @@ const Footer = () => {
                 <span>077 560 8073</span>
               </li>
               <li>
-                <FaPhone />
-                <span>070 2481 691</span>
-              </li>
-              <li>
                 <FaWhatsapp />
                 <span>077 560 8073</span>
               </li>
