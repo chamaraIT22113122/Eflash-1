@@ -4,36 +4,22 @@
 
 /* Hero Section */
 .packages-hero {
-  padding: 100px 20px 80px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--gradient);
+  padding: 100px 0;
   text-align: center;
   color: white;
 }
 
-.hero-tag {
-  display: inline-block;
-  padding: 8px 20px;
-  background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(10px);
-  border-radius: 50px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  letter-spacing: 1px;
-  margin-bottom: 20px;
-}
-
 .packages-hero h1 {
-  font-size: 3.5rem;
+  font-size: 3rem;
   font-weight: 800;
   margin-bottom: 20px;
   line-height: 1.2;
 }
 
 .packages-hero p {
-  font-size: 1.2rem;
-  opacity: 0.95;
-  max-width: 700px;
-  margin: 0 auto;
+  font-size: 1.3rem;
+  opacity: 0.9;
 }
 
 /* Category Toggle Section */

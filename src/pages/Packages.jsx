@@ -509,12 +509,11 @@ const Packages = () => {
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.8 }}
             className="hero-content"
           >
-            <span className="hero-tag">PRICING PACKAGES</span>
-            <h1>Choose the Perfect Package for Your Business</h1>
-            <p>Transparent pricing with no hidden fees. All packages include high-quality work and professional support.</p>
+            <h1>Pricing Packages</h1>
+            <p>Choose the perfect package for your business</p>
           </motion.div>
         </div>
       </section>
