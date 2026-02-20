@@ -10,6 +10,7 @@ import { reviewService } from '../../utils/reviewService'
 import { orderService } from '../../utils/orderService'
 import { blogService } from '../../utils/blogService'
 import './AdminDashboard.css'
+import './AdminBase.css'
 
 const AdminDashboard = () => {
   const [stats, setStats] = useState({
@@ -99,7 +100,7 @@ const AdminDashboard = () => {
   }
 
   return (
-    <div className="admin-dashboard">
+    <div className="admin-dashboard admin-page admin-content">
       <div className="dashboard-header">
         <h2>Dashboard Overview</h2>
         <p>Welcome back! Here's what's happening with your site.</p>

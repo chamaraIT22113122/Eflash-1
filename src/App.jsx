@@ -38,6 +38,7 @@ const AdminBlog = lazy(() => import('./pages/admin/AdminBlog'))
 const AdminNewsletter = lazy(() => import('./pages/admin/AdminNewsletter'))
 const AdminUsers = lazy(() => import('./pages/admin/AdminUsers'))
 const AdminContent = lazy(() => import('./pages/admin/AdminContent'))
+const ManageProjects = lazy(() => import('./pages/admin/ManageProjects'))
 
 // Analytics wrapper component
 function AnalyticsWrapper({ children }) {
@@ -177,6 +178,7 @@ function App() {
                           <Route path="analytics" element={<Analytics />} />
                           <Route path="reviews" element={<AdminReviews />} />
                           <Route path="orders" element={<AdminOrders />} />
+                          <Route path="projects" element={<ManageProjects />} />
                           <Route path="blog" element={<AdminBlog />} />
                           <Route path="content" element={<AdminContent />} />
                           <Route path="users" element={<AdminUsers />} />

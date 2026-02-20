@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { getAllOrders, updateOrderStatus, getOrderStats } from '../../utils/orderService';
 import './AdminOrders.css';
+import './AdminBase.css';
 
 const AdminOrders = () => {
   const [orders, setOrders] = useState([]);
@@ -48,7 +49,7 @@ const AdminOrders = () => {
   }
 
   return (
-    <div className="admin-orders">
+    <div className="admin-orders admin-page admin-content">
       <div className="admin-orders-header">
         <h1>Order Management</h1>
         

@@ -14,8 +14,11 @@ export const reviewService = {
       authorName: reviewData.authorName,
       authorEmail: reviewData.authorEmail,
       verified: reviewData.verified || false, // true if user bought the product
+      photos: reviewData.photos || [], // Array of base64 images or URLs
       helpful: 0,
       unhelpful: 0,
+      helpfulVoters: [], // Track who voted helpful
+      unhelpfulVoters: [], // Track who voted unhelpful
       createdAt: new Date().toISOString(),
       approved: false // Requires moderation
     }
@@ -73,11 +76,58 @@ export const reviewService = {
   },
 
   // Mark helpful
-  markHelpful: (reviewId) => {
+  markHelpful: (reviewId, userId = 'anonymous') => {
     const reviews = reviewService.getAllReviews()
     const review = reviews.find(r => r.id === reviewId)
     if (review) {
-      review.helpful++
+      // Initialize arrays if they don't exist (backwards compatibility)
+      if (!review.helpfulVoters) review.helpfulVoters = []
+      if (!review.unhelpfulVoters) review.unhelpfulVoters = []
+
+      // Check if user already voted
+      if (review.helpfulVoters.includes(userId)) {
+        // User is un-voting helpful
+        review.helpful--
+        review.helpfulVoters = review.helpfulVoters.filter(id => id !== userId)
+      } else {
+        // If user voted unhelpful before, remove that vote
+        if (review.unhelpfulVoters.includes(userId)) {
+          review.unhelpful--
+          review.unhelpfulVoters = review.unhelpfulVoters.filter(id => id !== userId)
+        }
+        // Add helpful vote
+        review.helpful++
+        review.helpfulVoters.push(userId)
+      }
+      localStorage.setItem(REVIEWS_DB_KEY, JSON.stringify(reviews))
+    }
+    return review
+  },
+
+  // Mark unhelpful
+  markUnhelpful: (reviewId, userId = 'anonymous') => {
+    const reviews = reviewService.getAllReviews()
+    const review = reviews.find(r => r.id === reviewId)
+    if (review) {
+      // Initialize arrays if they don't exist (backwards compatibility)
+      if (!review.helpfulVoters) review.helpfulVoters = []
+      if (!review.unhelpfulVoters) review.unhelpfulVoters = []
+
+      // Check if user already voted
+      if (review.unhelpfulVoters.includes(userId)) {
+        // User is un-voting unhelpful
+        review.unhelpful--
+        review.unhelpfulVoters = review.unhelpfulVoters.filter(id => id !== userId)
+      } else {
+        // If user voted helpful before, remove that vote
+        if (review.helpfulVoters.includes(userId)) {
+          review.helpful--
+          review.helpfulVoters = review.helpfulVoters.filter(id => id !== userId)
+        }
+        // Add unhelpful vote
+        review.unhelpful++
+        review.unhelpfulVoters.push(userId)
+      }
       localStorage.setItem(REVIEWS_DB_KEY, JSON.stringify(reviews))
     }
     return review
@@ -152,5 +202,7 @@ export const getPendingReviews = reviewService.getPendingReviews
 export const addReview = reviewService.addReview
 export const getAverageRating = reviewService.getAverageRating
 export const getRatingDistribution = reviewService.getRatingDistribution
+export const markHelpful = reviewService.markHelpful
+export const markUnhelpful = reviewService.markUnhelpful
 
 export default { reviewService, wishlistService }

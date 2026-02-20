@@ -131,28 +131,29 @@ const defaultContent = {
     subtitle: 'Recent Work',
     description: 'Check out some of our latest projects',
     projects: [
+      // Static projects (will be merged with admin projects)
       {
         id: 1,
-        title: 'Social Media Marketing Designs',
-        category: 'Graphic Design',
-        description: 'Creative social media posts and marketing graphics for various brands. Our designs help businesses engage their audience with visually stunning content that drives conversions and brand awareness.',
+        title: 'Modern E-Commerce Platform',
+        category: 'Web Design',
+        description: 'A fully responsive e-commerce website built with React and modern web technologies. Features include product catalog, shopping cart, secure checkout, and admin panel for inventory management.',
         thumbnail: '/assets/images/portfolio/Social media p/1.jpg',
         images: [
           '/assets/images/portfolio/Social media p/1.jpg',
           '/assets/images/portfolio/Social media p/2.png',
           '/assets/images/portfolio/Social media p/3.png',
-          '/assets/images/portfolio/Social media p/4.jpg',
-          '/assets/images/portfolio/Social media p/5.png',
-          '/assets/images/portfolio/Social media p/6.png',
-          '/assets/images/portfolio/Social media p/7.png',
-          '/assets/images/portfolio/Social media p/8.png',
-          '/assets/images/portfolio/Social media p/9.png',
-          '/assets/images/portfolio/Social media p/27.jpg',
-          '/assets/images/portfolio/Social media p/28.jpg',
-          '/assets/images/portfolio/Social media p/29.jpg'
+          '/assets/images/portfolio/Social media p/4.jpg'
         ],
-        tags: ['Social Media', 'Graphics', 'Marketing'],
-        features: ['Instagram Posts', 'Facebook Graphics', 'Twitter Headers', 'Story Templates']
+        tags: ['E-Commerce', 'React', 'Responsive'],
+        features: ['Product Catalog', 'Shopping Cart', 'Secure Checkout', 'Admin Panel'],
+        liveUrl: 'https://react-shopping-cart-demo.netlify.app',
+        technologies: ['React', 'JavaScript', 'CSS', 'Node.js'],
+        stats: {
+          users: '2.5K+',
+          pages: '15',
+          performance: '98%',
+          completion: '6 weeks'
+        }
       },
       {
         id: 2,
@@ -175,45 +176,83 @@ const defaultContent = {
       },
       {
         id: 3,
-        title: 'YouTube Thumbnails',
-        category: 'Graphic Design',
-        description: 'Eye-catching YouTube video thumbnails that drive engagement and increase click-through rates. Designed to stand out in search results and recommended videos.',
+        title: 'Portfolio Website Dashboard',
+        category: 'Web Design',
+        description: 'A modern portfolio website with an interactive dashboard, built using Vue.js and featuring smooth animations, dark mode support, and responsive design across all devices.',
         thumbnail: '/assets/images/portfolio/Thambnails/ai.jpg',
         images: [
           '/assets/images/portfolio/Thambnails/ai.jpg',
-          '/assets/images/portfolio/Thambnails/alamo.jpg',
           '/assets/images/portfolio/Thambnails/blog.jpg',
+          '/assets/images/portfolio/Thambnails/app.jpg',
+          '/assets/images/portfolio/Thambnails/musicplayer.jpg'
+        ],
+        tags: ['Portfolio', 'Vue.js', 'Dashboard'],
+        features: ['Interactive Dashboard', 'Dark Mode', 'Responsive Design', 'Smooth Animations'],
+        liveUrl: 'https://vue-portfolio-dashboard.netlify.app',
+        technologies: ['Vue', 'JavaScript', 'CSS', 'HTML'],
+        stats: {
+          users: '1.8K+',
+          pages: '8',
+          performance: '96%',
+          completion: '4 weeks'
+        }
+      },
+      {
+        id: 4,
+        title: 'YouTube Thumbnails',
+        category: 'Graphic Design',
+        description: 'Eye-catching YouTube video thumbnails that drive engagement and increase click-through rates. Designed to stand out in search results and recommended videos.',
+        thumbnail: '/assets/images/portfolio/Thambnails/alamo.jpg',
+        images: [
+          '/assets/images/portfolio/Thambnails/alamo.jpg',
           '/assets/images/portfolio/Thambnails/blood.jpg',
           '/assets/images/portfolio/Thambnails/flayers.jpg',
           '/assets/images/portfolio/Thambnails/logo.jpg',
           '/assets/images/portfolio/Thambnails/ml.jpg',
           '/assets/images/portfolio/Thambnails/oversized.jpg',
-          '/assets/images/portfolio/Thambnails/app.jpg',
           '/assets/images/portfolio/Thambnails/city tour.png',
-          '/assets/images/portfolio/Thambnails/musicplayer.jpg',
           '/assets/images/portfolio/Thambnails/todo.jpg'
         ],
         tags: ['YouTube', 'Thumbnail', 'Design'],
         features: ['Custom Thumbnails', 'Consistent Branding', 'High CTR Design', 'Quick Turnaround']
       },
       {
-        id: 4,
-        title: 'Banner Designs',
-        category: 'Graphic Design',
-        description: 'Professional banner designs for web and social media platforms. Perfect for promotions, announcements, and brand awareness campaigns.',
+        id: 5,
+        title: 'Corporate Business Website',
+        category: 'Web Design',
+        description: 'A professional corporate website built with React and modern design principles. Features a clean layout, contact forms, service pages, and an integrated blog system.',
         thumbnail: '/assets/images/portfolio/banners/banners-01.png',
         images: [
           '/assets/images/portfolio/banners/banners-01.png',
           '/assets/images/portfolio/banners/banners-02.png',
           '/assets/images/portfolio/banners/banners-03.png',
-          '/assets/images/portfolio/banners/mj wedding package.png',
+          '/assets/images/portfolio/banners/mj wedding package.png'
+        ],
+        tags: ['Corporate', 'React', 'Business'],
+        features: ['Contact Forms', 'Blog System', 'Service Pages', 'SEO Optimized'],
+        liveUrl: 'https://corporate-business-site.netlify.app',
+        technologies: ['React', 'Tailwind', 'JavaScript', 'CSS'],
+        stats: {
+          users: '3.2K+',
+          pages: '12',
+          performance: '97%',
+          completion: '5 weeks'
+        }
+      },
+      {
+        id: 6,
+        title: 'Banner Designs',
+        category: 'Graphic Design',
+        description: 'Professional banner designs for web and social media platforms. Perfect for promotions, announcements, and brand awareness campaigns.',
+        thumbnail: '/assets/images/portfolio/banners/nimeshk ay flyer 2.png',
+        images: [
           '/assets/images/portfolio/banners/nimeshk ay flyer 2.png'
         ],
         tags: ['Banner', 'Web', 'Design'],
         features: ['Web Banners', 'Social Media Covers', 'Ad Banners', 'Event Banners']
       },
       {
-        id: 5,
+        id: 7,
         title: 'Flyer Designs',
         category: 'Print Design',
         description: 'Creative flyer designs for events and promotions. Eye-catching layouts that communicate your message effectively.',
@@ -232,21 +271,27 @@ const defaultContent = {
         features: ['Print-Ready Files', 'Multiple Sizes', 'Creative Layouts', 'Revisions Included']
       },
       {
-        id: 6,
-        title: 'Social Media Graphics Pack',
-        category: 'Graphic Design',
-        description: 'Complete social media content packages for consistent branding across all platforms. Increase your online presence with cohesive designs.',
+        id: 8,
+        title: 'Restaurant Web App',
+        category: 'Web Design',
+        description: 'A modern restaurant web application with online ordering, menu browsing, table reservations, and customer reviews. Built with Angular and featuring a responsive design.',
         thumbnail: '/assets/images/portfolio/Social media p/11.png',
         images: [
           '/assets/images/portfolio/Social media p/11.png',
           '/assets/images/portfolio/Social media p/12.png',
           '/assets/images/portfolio/Social media p/13.png',
-          '/assets/images/portfolio/Social media p/14.png',
-          '/assets/images/portfolio/Social media p/15.png',
-          '/assets/images/portfolio/Social media p/16.png'
+          '/assets/images/portfolio/Social media p/14.png'
         ],
-        tags: ['Social Media', 'Graphics', 'Brand'],
-        features: ['Template Sets', 'Consistent Branding', 'Multiple Formats', 'Editable Files']
+        tags: ['Restaurant', 'Angular', 'Web App'],
+        features: ['Online Ordering', 'Menu Browse', 'Reservations', 'Reviews'],
+        liveUrl: 'https://restaurant-webapp-demo.vercel.app',
+        technologies: ['Angular', 'Bootstrap', 'TypeScript', 'Firebase'],
+        stats: {
+          users: '4.1K+',
+          pages: '18',
+          performance: '94%',
+          completion: '7 weeks'
+        }
       },
       {
         id: 7,
@@ -555,7 +600,59 @@ const defaultContent = {
   }
 }
 
-export const SiteContentProvider = ({ children }) => {
+export // Project service to get admin projects
+const getAdminProjects = () => {
+  try {
+    const projects = localStorage.getItem('eflash_admin_projects')
+    return projects ? JSON.parse(projects) : []
+  } catch (error) {
+    console.error('Error loading admin projects:', error)
+    return []
+  }
+}
+
+const SiteContentProvider = ({ children }) => {
+  const [adminProjects, setAdminProjects] = useState([])
+
+  // Load admin projects on mount and listen for changes
+  useEffect(() => {
+    const loadProjects = () => {
+      setAdminProjects(getAdminProjects())
+    }
+    
+    loadProjects()
+    
+    // Listen for localStorage changes
+    const handleStorageChange = (e) => {
+      if (e.key === 'eflash_admin_projects') {
+        loadProjects()
+      }
+    }
+    
+    window.addEventListener('storage', handleStorageChange)
+    
+    // Custom event for same-tab updates
+    const handleAdminUpdate = () => loadProjects()
+    window.addEventListener('adminProjectsUpdate', handleAdminUpdate)
+    
+    return () => {
+      window.removeEventListener('storage', handleStorageChange)
+      window.removeEventListener('adminProjectsUpdate', handleAdminUpdate)
+    }
+  }, [])
+
+  // Merge static and admin projects
+  const allProjects = [...defaultContent.portfolio.projects, ...adminProjects]
+  
+  const content = {
+    ...defaultContent,
+    portfolio: {
+      ...defaultContent.portfolio,
+      projects: allProjects
+    }
+  }
+
+const SiteContentProvider = ({ children }) => {
   const [content, setContent] = useState(() => transformImagePaths(defaultContent))
   const [isLoading, setIsLoading] = useState(true)
 
@@ -647,8 +744,18 @@ export const SiteContentProvider = ({ children }) => {
   }
 
   return (
-    <SiteContentContext.Provider value={value}>
+    <SiteContentContext.Provider value={{
+      content,
+      updateContent: (newContent) => {
+        // This could be used for future dynamic updates
+      },
+      refreshProjectsFromAdmin: () => {
+        setAdminProjects(getAdminProjects())
+      }
+    }}>
       {children}
     </SiteContentContext.Provider>
   )
 }
+
+export default SiteContentProvider

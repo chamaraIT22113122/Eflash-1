@@ -36,6 +36,7 @@ const AdminLayout = () => {
     { path: '/admin/analytics', icon: <FaChartLine />, label: 'Analytics & Traffic' },
     { path: '/admin/reviews', icon: <FaStar />, label: 'Reviews' },
     { path: '/admin/orders', icon: <FaShoppingCart />, label: 'Orders' },
+    { path: '/admin/projects', icon: <FaCog />, label: 'Manage Projects' },
     { path: '/admin/blog', icon: <FaBlog />, label: 'Blog Posts' },
     { path: '/admin/content', icon: <FaCog />, label: 'Site Content' },
     { path: '/admin/users', icon: <FaUsers />, label: 'Users' },

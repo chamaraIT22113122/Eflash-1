@@ -1,0 +1,203 @@
+/* Admin Base Styles - Override for Better Contrast */
+
+/* CSS Variables Override for Admin Pages */
+:root {
+  /* Colors with proper contrast */
+  --primary-color: #667eea;
+  --primary-dark: #5a67d8;
+  --primary-light: #e0e7ff;
+  --secondary-color: #764ba2;
+  --text-color: #1e293b;
+  --text-primary: #1e293b;
+  --text-secondary: #64748b;
+  --background-color: #f8fafc;
+  --card-bg: #ffffff;
+  --card-background: #ffffff;
+  --border-color: #e2e8f0;
+  --input-bg: #ffffff;
+  --input-background: #ffffff;
+  --success-color: #10b981;
+  --success-light: #dcfce7;
+  --warning-color: #f59e0b;
+  --warning-light: #fef3c7;
+  --error-color: #ef4444;
+  --error-light: #fee2e2;
+  --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --card-shadow-hover: 0 4px 16px rgba(0, 0, 0, 0.12);
+  --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --primary-color-rgb: 102, 126, 234;
+}
+
+/* Admin Layout Base */
+.admin-page {
+  background: #f8fafc !important;
+  min-height: 100vh !important;
+  padding: 2rem !important;
+}
+
+.admin-page h1,
+.admin-page h2,
+.admin-page h3 {
+  color: #1e293b !important;
+  font-weight: 700 !important;
+}
+
+/* Card Components */
+.admin-card,
+.card,
+.project-card,
+.review-card,
+.order-card {
+  background: white !important;
+  border: 1px solid #e2e8f0 !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+  color: #1e293b !important;
+}
+
+/* Statistics Cards */
+.stat-card,
+.stat-item {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  color: white !important;
+  border: none !important;
+}
+
+.stat-card h3,
+.stat-item h3 {
+  color: white !important;
+  font-weight: 700 !important;
+}
+
+.stat-card p,
+.stat-item p {
+  color: rgba(255, 255, 255, 0.9) !important;
+  font-weight: 500 !important;
+}
+
+/* Form Elements */
+.form-control,
+.search-input,
+input,
+textarea,
+select {
+  background: white !important;
+  border: 2px solid #e2e8f0 !important;
+  color: #1e293b !important;
+}
+
+.form-control:focus,
+.search-input:focus,
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: #667eea !important;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1) !important;
+}
+
+/* Labels */
+label {
+  color: #374151 !important;
+  font-weight: 600 !important;
+}
+
+/* Buttons */
+.btn-primary,
+.add-project-btn,
+.filter-btn.active {
+  background: linear-gradient(135deg, #667eea, #764ba2) !important;
+  color: white !important;
+  border: none !important;
+}
+
+.btn-secondary,
+.filter-btn {
+  background: white !important;
+  color: #64748b !important;
+  border: 2px solid #e2e8f0 !important;
+}
+
+.btn-secondary:hover,
+.filter-btn:hover {
+  border-color: #667eea !important;
+  color: #667eea !important;
+}
+
+/* Action Buttons */
+.edit-btn {
+  background: #fbbf24 !important;
+  color: white !important;
+}
+
+.delete-btn {
+  background: #ef4444 !important;
+  color: white !important;
+}
+
+.save-btn {
+  background: #10b981 !important;
+  color: white !important;
+}
+
+.cancel-btn {
+  background: #6b7280 !important;
+  color: white !important;
+}
+
+/* Text Elements */
+.project-title,
+.review-title {
+  color: #1e293b !important;
+  font-weight: 700 !important;
+}
+
+.project-description,
+.review-content {
+  color: #374151 !important;
+  line-height: 1.6 !important;
+}
+
+.project-category {
+  background: #e0f2fe !important;
+  color: #0277bd !important;
+  font-weight: 600 !important;
+}
+
+/* Status Badges */
+.status-approved {
+  background: #dcfce7 !important;
+  color: #166534 !important;
+}
+
+.status-pending {
+  background: #fef3c7 !important;
+  color: #92400e !important;
+}
+
+.status-delivered {
+  background: #dcfce7 !important;
+  color: #166534 !important;
+}
+
+/* Headers and Navigation */
+.admin-header,
+.projects-header,
+.reviews-header {
+  background: white !important;
+  border: 1px solid #e2e8f0 !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Make sure all text is visible */
+* {
+  color: inherit !important;
+}
+
+/* Force contrast for problematic elements */
+.admin-content * {
+  color: #1e293b;
+}
+
+.admin-content .stat-card *,
+.admin-content .stat-item * {
+  color: white !important;
+}

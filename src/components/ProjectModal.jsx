@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { FaTimes, FaChevronLeft, FaChevronRight } from 'react-icons/fa'
+import WebsiteShowcase from './WebsiteShowcase'
 import './ProjectModal.css'
 
 const ProjectModal = ({ project, isOpen, onClose }) => {
@@ -111,6 +112,9 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
               <h2>{project.title}</h2>
               <div className="project-category">{project.category}</div>
               <p className="modal-description">{project.description}</p>
+
+              {/* Website Showcase with Live Preview */}
+              <WebsiteShowcase project={project} />
 
               <div className="modal-details">
                 {project.tags && project.tags.length > 0 && (
