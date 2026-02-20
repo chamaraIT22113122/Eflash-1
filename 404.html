@@ -7,22 +7,29 @@
   <script>
     // Handle SPA routing on GitHub Pages
     (function() {
-      var pathSegmentsToKeep = 1; // For /Eflash-1/ base path
       var location = window.location;
-      var path = location.pathname.slice(1).split('/').slice(pathSegmentsToKeep);
+      var repoName = 'Eflash-1';
       
-      if (path.length > 0 && path[0] !== '') {
-        var redirect = location.protocol + '//' + location.hostname + 
-                      (location.port ? ':' + location.port : '') +
-                      '/' + path.slice(0, pathSegmentsToKeep).join('/') + '/?' +
-                      (path.join('/') ? 'p=/' + path.join('/').replace(/&/g, '~and~') : '') +
-                      (location.search ? '&q=' + location.search.slice(1).replace(/&/g, '~and~') : '') +
-                      location.hash;
-        window.location.replace(redirect);
-      } else {
-        // Just go to the base path
-        window.location.replace(location.protocol + '//' + location.hostname + 
-                               (location.port ? ':' + location.port : '') + '/Eflash-1/');
+      // Get the path after /Eflash-1/
+      var fullPath = location.pathname;
+      var basePath = '/' + repoName + '/';
+      
+      if (fullPath.indexOf(basePath) === 0) {
+        var route = fullPath.substring(basePath.length);
+        
+        if (route) {
+          // Redirect to base with encoded path
+          var redirect = location.protocol + '//' + location.hostname + 
+                        (location.port ? ':' + location.port : '') +
+                        basePath + '?p=/' + route.replace(/&/g, '~and~') +
+                        (location.search ? '&q=' + location.search.slice(1).replace(/&/g, '~and~') : '') +
+                        location.hash;
+          window.location.replace(redirect);
+        } else {
+          // Already at base path
+          window.location.replace(location.protocol + '//' + location.hostname + 
+                                 (location.port ? ':' + location.port : '') + basePath);
+        }
       }
     })();
   </script>
