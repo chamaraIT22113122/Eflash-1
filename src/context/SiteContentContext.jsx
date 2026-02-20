@@ -563,10 +563,16 @@ export const SiteContentProvider = ({ children }) => {
     if (savedContent) {
       try {
         const parsed = JSON.parse(savedContent)
+        // Always transform paths when loading from storage
         setContent(transformImagePaths(parsed))
       } catch (error) {
         console.error('Error loading site content:', error)
+        // Fall back to default with transformed paths
+        setContent(transformImagePaths(defaultContent))
       }
+    } else {
+      // No saved content, use default with transformed paths
+      setContent(transformImagePaths(defaultContent))
     }
     setIsLoading(false)
   }, [])
