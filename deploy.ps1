@@ -5,6 +5,9 @@ npm run build
 if ($LASTEXITCODE -eq 0) {
     Write-Host "Build successful! Copying files to root..." -ForegroundColor Green
     
+    # Backup source index.html
+    Copy-Item "index.html" "index.source.html" -Force
+    
     # Copy built files from dist to root
     Copy-Item "dist/index.html" "." -Force
     Copy-Item "dist/404.html" "." -Force
@@ -22,7 +25,16 @@ if ($LASTEXITCODE -eq 0) {
     git commit -m "Deploy: $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')"
     git push
     
-    Write-Host "Deployment complete! ✓" -ForegroundColor Green
+    # Restore source index.html
+    Copy-Item "index.source.html" "index.html" -Force
+    Remove-Item "index.source.html" -Force
+    
+    # Commit restored source
+    git add index.html
+    git commit -m "Restore source index.html"
+    git push
+    
+    Write-Host "Deployment complete!" -ForegroundColor Green
     Write-Host "Your site will be live at: https://chamarait22113122.github.io/Eflash-1/" -ForegroundColor Yellow
     Write-Host "Note: It may take 1-2 minutes for GitHub Pages to update." -ForegroundColor Gray
 } else {
