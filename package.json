@@ -25,7 +25,9 @@
     "vite": "^5.0.8"
   },
   "scripts": {
+    "predev": "powershell -Command \"Copy-Item index.dev.html index.html -Force\"",
     "dev": "vite",
+    "prebuild": "powershell -Command \"Copy-Item index.dev.html index.html -Force\"",
     "build": "vite build",
     "preview": "vite preview",
     "pages:prepare": "node scripts/prepare-pages.mjs",
