@@ -5,11 +5,8 @@ npm run build
 if ($LASTEXITCODE -eq 0) {
     Write-Host "Build successful! Copying files to root..." -ForegroundColor Green
     
-    # Backup source index.html
-    Copy-Item "index.html" "index.source.html" -Force
-    
-    # Copy built files from dist to root
-    Copy-Item "dist/index.html" "." -Force
+    # Copy built files from dist to root (for GitHub Pages)
+    Copy-Item "dist/index.html" "index.html" -Force
     Copy-Item "dist/404.html" "." -Force
     Copy-Item "dist/assets" "." -Recurse -Force
     Copy-Item "dist/sw.js" "." -Force
@@ -20,18 +17,9 @@ if ($LASTEXITCODE -eq 0) {
     
     Write-Host "Deploying to GitHub Pages..." -ForegroundColor Cyan
     
-    # Stage and commit files
+    # Stage and commit files (only the built production files)
     git add index.html 404.html assets/ sw.js manifest.json robots.txt sitemap.xml .nojekyll
     git commit -m "Deploy: $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')"
-    git push
-    
-    # Restore source index.html
-    Copy-Item "index.source.html" "index.html" -Force
-    Remove-Item "index.source.html" -Force
-    
-    # Commit restored source
-    git add index.html
-    git commit -m "Restore source index.html"
     git push
     
     Write-Host "Deployment complete!" -ForegroundColor Green
