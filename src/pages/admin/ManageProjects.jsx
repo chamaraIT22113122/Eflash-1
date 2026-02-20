@@ -60,7 +60,6 @@ const ManageProjects = () => {
   }
   const [newProject, setNewProject] = useState(emptyProject)
 
-  const categories = ['Web Design', 'Branding', 'UI/UX', 'Graphic Design', 'E-Commerce']
   const techOptions = ['React', 'Vue', 'Angular', 'WordPress', 'Shopify', 'HTML', 'CSS', 'JavaScript', 'Node.js', 'Python', 'Tailwind', 'Bootstrap', 'MongoDB', 'MySQL', 'Firebase']
 
   const handleAddProject = async () => {
@@ -74,7 +73,8 @@ const ManageProjects = () => {
         ...newProject,
         tags: newProject.tags.filter(tag => tag.trim()),
         technologies: newProject.technologies.filter(tech => tech.trim()),
-        features: newProject.features.filter(feature => feature.trim())
+        features: newProject.features.filter(feature => feature.trim()),
+        thumbnail: newProject.thumbnail || newProject.images?.[0] || ''
       }
 
       const savedProject = await projectService.addProject(projectData)
@@ -102,7 +102,11 @@ const ManageProjects = () => {
       setError('')
       
       const projectId = editingProject._id || editingProject.id
-      await projectService.updateProject(projectId, editingProject)
+      const updateData = {
+        ...editingProject,
+        thumbnail: editingProject.thumbnail || editingProject.images?.[0] || ''
+      }
+      await projectService.updateProject(projectId, updateData)
       await loadProjects() // Reload all projects from database
       
       setEditingProject(null)
@@ -226,21 +230,19 @@ const ManageProjects = () => {
           <input
             type="text"
             value={data.title}
-            onChange={(e) => setter(prev => ({ ...prev, title: e.target.value }))}
+            onChange={(e) => setter({ ...data, title: e.target.value })}
             placeholder="Enter project title"
           />
         </div>
 
         <div className="form-group">
           <label>Category</label>
-          <select
-            value={data.category}
-            onChange={(e) => setter(prev => ({ ...prev, category: e.target.value }))}
-          >
-            {categories.map(cat => (
-              <option key={cat} value={cat}>{cat}</option>
-            ))}
-          </select>
+          <input
+            type="text"
+            value={data.category || ''}
+            onChange={(e) => setter({ ...data, category: e.target.value })}
+            placeholder="e.g. Branding, Web Design, UI/UX…"
+          />
         </div>
 
         <div className="form-group">
@@ -364,12 +366,13 @@ const ManageProjects = () => {
                 type="button"
                 className={`tech-option ${(data.technologies || []).includes(tech) ? 'selected' : ''}`}
                 onClick={() => {
-                  setter(prev => ({
-                    ...prev,
-                    technologies: (prev.technologies || []).includes(tech)
-                      ? prev.technologies.filter(t => t !== tech)
-                      : [...(prev.technologies || []), tech]
-                  }))
+                  const current = data.technologies || []
+                  setter({
+                    ...data,
+                    technologies: current.includes(tech)
+                      ? current.filter(t => t !== tech)
+                      : [...current, tech]
+                  })
                 }}
               >
                 {tech}

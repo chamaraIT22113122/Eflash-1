@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
-import { FaExternalLinkAlt, FaCode, FaMobile, FaShoppingCart, FaSearch, FaWhatsapp } from 'react-icons/fa'
+import { FaExternalLinkAlt, FaWhatsapp } from 'react-icons/fa'
 import ProjectModal from '../components/ProjectModal'
 import { useSiteContent } from '../context/SiteContentContext'
 import SEO from '../components/SEO'
@@ -25,17 +25,12 @@ const Portfolio = () => {
   // Use projects from context
   const projects = content.portfolio.projects || []
 
-  const categories = [
-    { value: 'all', label: 'All Projects' },
-    { value: 'Web Design', label: 'Web Design' },
-    { value: 'Branding', label: 'Branding' },
-    { value: 'UI/UX', label: 'UI/UX' },
-    { value: 'Graphic Design', label: 'Graphic Design' }
-  ]
+  // Dynamic categories: derive from actual projects + always include "All"
+  const dynamicCategories = ['All Projects', ...Array.from(new Set(projects.map(p => p.category).filter(Boolean)))]
 
-  const filteredProjects = filter === 'all' 
-    ? projects 
-    : projects.filter(project => project.category?.toLowerCase().includes(filter.toLowerCase()))
+  const filteredProjects = filter === 'all'
+    ? projects
+    : projects.filter(project => project.category === filter)
 
   return (
     <main className="portfolio-page">
@@ -63,39 +58,46 @@ const Portfolio = () => {
       <section className="section">
         <div className="container">
           <div className="filter-buttons">
-            {categories.map((category) => (
-              <button
-                key={category.value}
-                className={`filter-btn ${filter === category.value ? 'active' : ''}`}
-                onClick={() => setFilter(category.value)}
-              >
-                {category.label}
-              </button>
-            ))}
+            {dynamicCategories.map((cat) => {
+              const val = cat === 'All Projects' ? 'all' : cat
+              return (
+                <button
+                  key={val}
+                  className={`filter-btn ${filter === val ? 'active' : ''}`}
+                  onClick={() => setFilter(val)}
+                >
+                  {cat}
+                </button>
+              )
+            })}
           </div>
 
           {/* Projects Grid */}
           <div className="portfolio-grid">
+            {projects.length === 0 && (
+              <div style={{ textAlign: 'center', padding: '4rem 2rem', color: '#94a3b8', gridColumn: '1/-1' }}>
+                <p style={{ fontSize: '1.1rem' }}>No projects added yet.</p>
+              </div>
+            )}
             {filteredProjects.map((project, index) => (
               <motion.div
-                key={project.id}
+                key={project._id || project.id}
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 className="portfolio-card"
               >
                 <div className="portfolio-image">
-                  {project.thumbnail ? (
-                    <img src={project.thumbnail} alt={project.title} />
-                  ) : project.image ? (
-                    project.image.startsWith('data:') || project.image.startsWith('http') ? (
-                      <img src={project.image} alt={project.title} />
-                    ) : (
-                      <div style={{ fontSize: '8rem', display: 'flex', alignItems: 'center', justifyContent: 'center', height: '300px', background: '#f5f5f5' }}>
-                        {project.image}
-                      </div>
-                    )
-                  ) : null}
+                  {(project.thumbnail || project.images?.[0] || project.image) ? (
+                    <img
+                      src={project.thumbnail || project.images?.[0] || project.image}
+                      alt={project.title}
+                    />
+                  ) : (
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '220px', background: '#f1f5f9', color: '#94a3b8', fontSize: '1rem' }}>
+                      No Image
+                    </div>
+                  )}
                   
                   <div className="portfolio-overlay">
                     <button onClick={() => openModal(project)} className="view-project">
@@ -119,8 +121,8 @@ const Portfolio = () => {
         </div>
       </section>
 
-      {/* Web Design Showcase */}
-      <section className="section web-design-section">
+      {/* Web Design Showcase - hidden, content managed via admin */}
+      {false && <section className="section web-design-section">
         <div className="container">
           <h2 className="section-title">Web Design Showcase</h2>
           <p className="section-subtitle">
@@ -229,32 +231,9 @@ const Portfolio = () => {
             </motion.div>
           </div>
         </div>
-      </section>
+      </section>}
 
-      {/* Technologies Section */}
-      <section className="section tech-section">
-        <div className="container">
-          <h2 className="section-title">Technologies We Use</h2>
-          <p className="section-subtitle">
-            Leveraging cutting-edge technologies to build exceptional solutions
-          </p>
-
-          <div className="tech-grid">
-            {['React', 'Next.js', 'Node.js', 'Vue.js', 'Angular', 'TypeScript', 
-              'MongoDB', 'PostgreSQL', 'AWS', 'Docker', 'GraphQL', 'Firebase'].map((tech, index) => (
-              <motion.div
-                key={tech}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3, delay: index * 0.05 }}
-                className="tech-badge"
-              >
-                {tech}
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* Technologies Section removed - managed via admin */}
 
       {/* WhatsApp Float */}
       <motion.a
