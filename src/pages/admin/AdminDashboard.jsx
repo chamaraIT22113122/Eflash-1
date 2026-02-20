@@ -6,7 +6,7 @@ import {
   FaBlog, FaEnvelope, FaChartLine
 } from 'react-icons/fa'
 import { getAnalyticsSummary, getDetailedAnalytics } from '../../utils/analyticsTracking'
-import { reviewService } from '../../utils/reviewService'
+import reviewService from '../../utils/reviewService'
 import { orderService } from '../../utils/orderService'
 import { blogService } from '../../utils/blogService'
 import './AdminDashboard.css'
@@ -24,49 +24,60 @@ const AdminDashboard = () => {
     loadDashboardStats()
   }, [])
 
-  const loadDashboardStats = () => {
-    // Analytics
-    const analyticsSummary = getAnalyticsSummary()
-    const analyticsDetails = getDetailedAnalytics()
+  const loadDashboardStats = async () => {
+    try {
+      // Analytics (synchronous)
+      const analyticsSummary = getAnalyticsSummary()
+      const analyticsDetails = getDetailedAnalytics()
 
-    // Orders
-    const allOrders = orderService.getAllOrders()
-    const pendingOrders = allOrders.filter(o => o.status === 'pending')
-    const totalRevenue = allOrders
-      .filter(o => o.status === 'completed')
-      .reduce((sum, o) => sum + (o.totalAmount || 0), 0)
+      // Orders (assuming synchronous for now)
+      const allOrders = orderService.getAllOrders()
+      const pendingOrders = allOrders.filter(o => o.status === 'pending')
+      const totalRevenue = allOrders
+        .filter(o => o.status === 'completed')
+        .reduce((sum, o) => sum + (o.totalAmount || 0), 0)
 
-    // Reviews
-    const allReviews = reviewService.getAllReviews()
-    const pendingReviews = reviewService.getPendingReviews()
-    const avgRating = allReviews.length > 0
-      ? allReviews.reduce((sum, r) => sum + r.rating, 0) / allReviews.length
-      : 0
+      // Reviews (now async)
+      const allReviews = await reviewService.getAllReviews()
+      const pendingReviews = allReviews.filter(r => r.status === 'pending' || !r.status)
+      const avgRating = allReviews.length > 0
+        ? allReviews.reduce((sum, r) => sum + (r.rating || 0), 0) / allReviews.length
+        : 0
 
-    // Blog
-    const allPosts = blogService.getAllPosts()
-    const publishedPosts = allPosts.filter(p => p.status === 'published')
-    const draftPosts = allPosts.filter(p => p.status === 'draft')
+      // Blog (assuming synchronous for now)
+      const allPosts = blogService.getAllPosts()
+      const publishedPosts = allPosts.filter(p => p.status === 'published')
+      const draftPosts = allPosts.filter(p => p.status === 'draft')
 
-    setStats({
-      analytics: analyticsSummary,
-      analyticsDetails,
-      orders: {
-        total: allOrders.length,
-        pending: pendingOrders.length,
-        revenue: totalRevenue
-      },
-      reviews: {
-        total: allReviews.length,
-        pending: pendingReviews.length,
-        avgRating: avgRating.toFixed(1)
-      },
-      blog: {
-        total: allPosts.length,
-        published: publishedPosts.length,
-        drafts: draftPosts.length
-      }
-    })
+      setStats({
+        analytics: analyticsSummary,
+        analyticsDetails,
+        orders: {
+          total: allOrders.length,
+          pending: pendingOrders.length,
+          revenue: totalRevenue
+        },
+        reviews: {
+          total: allReviews.length,
+          pending: pendingReviews.length,
+          avgRating: avgRating.toFixed(1)
+        },
+        blog: {
+          total: allPosts.length,
+          published: publishedPosts.length,
+          drafts: draftPosts.length
+        }
+      })
+    } catch (error) {
+      console.error('Error loading dashboard stats:', error)
+      // Set default stats in case of error
+      setStats({
+        analytics: null,
+        orders: { total: 0, pending: 0, revenue: 0 },
+        reviews: { total: 0, pending: 0, avgRating: 0 },
+        blog: { total: 0, published: 0, drafts: 0 }
+      })
+    }
   }
 
   const StatCard = ({ icon, title, value, change, color, link }) => (

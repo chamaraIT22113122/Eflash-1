@@ -1,28 +1,36 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import { FaStar, FaThumbsUp, FaThumbsDown, FaImage, FaTimes } from 'react-icons/fa'
-import { markHelpful, markUnhelpful } from '../utils/reviewService'
+import reviewService from '../utils/reviewService'
 import './ReviewList.css'
 
 const ReviewList = ({ reviews, userId = 'anonymous' }) => {
   const [selectedPhoto, setSelectedPhoto] = useState(null)
   const [localReviews, setLocalReviews] = useState(reviews)
 
-  const handleHelpfulVote = (reviewId) => {
-    const updatedReview = markHelpful(reviewId, userId)
-    if (updatedReview) {
-      setLocalReviews(prev => 
-        prev.map(r => r.id === reviewId ? updatedReview : r)
-      )
+  const handleHelpfulVote = async (reviewId) => {
+    try {
+      const updatedReview = await reviewService.markHelpful(reviewId, userId)
+      if (updatedReview) {
+        setLocalReviews(prev => 
+          prev.map(r => (r.id === reviewId || r._id === reviewId) ? updatedReview : r)
+        )
+      }
+    } catch (error) {
+      console.error('Error marking review as helpful:', error)
     }
   }
 
-  const handleUnhelpfulVote = (reviewId) => {
-    const updatedReview = markUnhelpful(reviewId, userId)
-    if (updatedReview) {
-      setLocalReviews(prev => 
-        prev.map(r => r.id === reviewId ? updatedReview : r)
-      )
+  const handleUnhelpfulVote = async (reviewId) => {
+    try {
+      const updatedReview = await reviewService.markUnhelpful(reviewId, userId)
+      if (updatedReview) {
+        setLocalReviews(prev => 
+          prev.map(r => (r.id === reviewId || r._id === reviewId) ? updatedReview : r)
+        )
+      }
+    } catch (error) {
+      console.error('Error marking review as unhelpful:', error)
     }
   }
 

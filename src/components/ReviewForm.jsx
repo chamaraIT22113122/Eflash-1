@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import { FaStar, FaCamera, FaTimes } from 'react-icons/fa'
-import { addReview } from '../utils/reviewService'
+import reviewService from '../utils/reviewService'
 import { useToast } from '../context/ToastContext'
 import './ReviewForm.css'
 
@@ -79,7 +79,10 @@ const ReviewForm = ({ productId, onReviewSubmitted, onCancel }) => {
         photos: photos.map(p => p.data)
       }
 
-      const newReview = addReview(productId, reviewData)
+      const newReview = await reviewService.addReview({
+        ...reviewData,
+        productId
+      })
       
       showToast('Review submitted successfully! It will be published after moderation.', 'success')
       

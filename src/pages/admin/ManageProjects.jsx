@@ -1,47 +1,36 @@
 import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { FaPlus, FaEdit, FaTrash, FaSave, FaTimes, FaImage } from 'react-icons/fa'
+import projectService from '../../utils/projectService'
 import './ManageProjects.css'
 import './AdminBase.css'
 
-// Project service for localStorage management
-const projectService = {
-  getAll: () => {
-    const projects = localStorage.getItem('eflash_admin_projects')
-    return projects ? JSON.parse(projects) : []
-  },
-  save: (projects) => {
-    localStorage.setItem('eflash_admin_projects', JSON.stringify(projects))
-  },
-  add: (project) => {
-    const projects = projectService.getAll()
-    const newProject = { ...project, id: Date.now() }
-    projects.push(newProject)
-    projectService.save(projects)
-    return newProject
-  },
-  update: (id, updatedProject) => {
-    const projects = projectService.getAll()
-    const index = projects.findIndex(p => p.id === id)
-    if (index !== -1) {
-      projects[index] = { ...updatedProject, id }
-      projectService.save(projects)
-    }
-    return updatedProject
-  },
-  delete: (id) => {
-    const projects = projectService.getAll().filter(p => p.id !== id)
-    projectService.save(projects)
-  }
-}
-
 const ManageProjects = () => {
   const [projects, setProjects] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
 
-  // Load projects from localStorage on component mount
+  // Load projects from MongoDB on component mount
   useEffect(() => {
-    setProjects(projectService.getAll())
+    loadProjects()
   }, [])
+
+  const loadProjects = async () => {
+    try {
+      setLoading(true)
+      setError('')
+      const allProjects = await projectService.getAllProjects()
+      setProjects(allProjects)
+    } catch (error) {
+      console.error('Error loading projects:', error)
+      setError('Failed to load projects. Using offline mode.')
+      // Fallback to localStorage if API fails
+      const fallbackProjects = projectService.getFallbackProjects()
+      setProjects(fallbackProjects)
+    } finally {
+      setLoading(false)
+    }
+  }
   const [isAddingNew, setIsAddingNew] = useState(false)
   const [editingProject, setEditingProject] = useState(null)
   const [newProject, setNewProject] = useState({
@@ -65,58 +54,82 @@ const ManageProjects = () => {
   const categories = ['Web Design', 'Branding', 'UI/UX', 'Graphic Design', 'E-Commerce']
   const techOptions = ['React', 'Vue', 'Angular', 'WordPress', 'Shopify', 'HTML', 'CSS', 'JavaScript', 'Node.js', 'Python', 'Tailwind', 'Bootstrap', 'MongoDB', 'MySQL', 'Firebase']
 
-  const handleAddProject = () => {
+  const handleAddProject = async () => {
     if (!newProject.title || !newProject.description) return
 
-    const projectData = {
-      ...newProject,
-      tags: newProject.tags.filter(tag => tag.trim()),
-      technologies: newProject.technologies.filter(tech => tech.trim()),
-      features: newProject.features.filter(feature => feature.trim())
-    }
+    try {
+      setLoading(true)
+      setError('')
+      
+      const projectData = {
+        ...newProject,
+        tags: newProject.tags.filter(tag => tag.trim()),
+        technologies: newProject.technologies.filter(tech => tech.trim()),
+        features: newProject.features.filter(feature => feature.trim())
+      }
 
-    const savedProject = projectService.add(projectData)
-    setProjects([...projects, savedProject])
-    
-    // Trigger refresh event for other components
-    window.dispatchEvent(new Event('adminProjectsUpdate'))
-    
-    setNewProject({
-      title: '',
-      description: '',
-      category: 'Web Design',
-      tags: [],
-      technologies: [],
-      liveUrl: '',
-      thumbnail: '',
-      images: [],
-      features: [],
-      stats: { users: '', pages: '', performance: '', completion: '' }
-    })
-    setIsAddingNew(false)
+      const savedProject = await projectService.addProject(projectData)
+      await loadProjects() // Reload all projects from database
+      
+      setNewProject({
+        title: '',
+        description: '',
+        category: 'Web Design',
+        tags: [],
+        technologies: [],
+        liveUrl: '',
+        thumbnail: '',
+        images: [],
+        features: [],
+        stats: { users: '', pages: '', performance: '', completion: '' }
+      })
+      setIsAddingNew(false)
+    } catch (error) {
+      console.error('Error adding project:', error)
+      setError('Failed to add project. Please try again.')
+    } finally {
+      setLoading(false)
+    }
   }
 
   const handleEditProject = (project) => {
     setEditingProject({ ...project })
   }
 
-  const handleSaveEdit = () => {
-    const updatedProjects = projects.map(p => p.id === editingProject.id ? editingProject : p)
-    projectService.update(editingProject.id, editingProject)
-    setProjects(updatedProjects)
-    setEditingProject(null)
+  const handleSaveEdit = async () => {
+    if (!editingProject) return
     
-    // Trigger refresh event for other components
-    window.dispatchEvent(new Event('adminProjectsUpdate'))
+    try {
+      setLoading(true)
+      setError('')
+      
+      const projectId = editingProject._id || editingProject.id
+      await projectService.updateProject(projectId, editingProject)
+      await loadProjects() // Reload all projects from database
+      
+      setEditingProject(null)
+    } catch (error) {
+      console.error('Error updating project:', error)
+      setError('Failed to update project. Please try again.')
+    } finally {
+      setLoading(false)
+    }
   }
 
-  const handleDeleteProject = (id) => {
+  const handleDeleteProject = async (id) => {
     if (window.confirm('Are you sure you want to delete this project?')) {
-      projectService.delete(id)
-      setProjects(projects.filter(p => p.id !== id))
-      
-      // Trigger refresh event for other components
-      window.dispatchEvent(new Event('adminProjectsUpdate'))
+      try {
+        setLoading(true)
+        setError('')
+        
+        await projectService.deleteProject(id)
+        await loadProjects() // Reload all projects from database
+      } catch (error) {
+        console.error('Error deleting project:', error)
+        setError('Failed to delete project. Please try again.')
+      } finally {
+        setLoading(false)
+      }
     }
   }
 

@@ -5,7 +5,7 @@ import {
   FaImage, FaCalendar, FaUser, FaEnvelope, FaThumbsUp, 
   FaThumbsDown, FaSearch, FaFilter 
 } from 'react-icons/fa'
-import { getAllReviews, approveReview, deleteReview, markHelpful, markUnhelpful } from '../../utils/reviewService'
+import reviewService from '../../utils/reviewService'
 import './AdminReviews.css'
 import './AdminBase.css'
 
@@ -23,26 +23,37 @@ const AdminReviews = () => {
     loadReviews()
   }, [])
 
-  const loadReviews = () => {
-    setLoading(true)
-    const allReviews = getAllReviews()
-    setReviews(allReviews)
-    setLoading(false)
-  }
-
-  const handleApprove = (reviewId) => {
-    if (approveReview(reviewId)) {
-      loadReviews()
+  const loadReviews = async () => {
+    try {
+      setLoading(true)
+      const allReviews = await reviewService.getAllReviews()
+      setReviews(allReviews)
+    } catch (error) {
+      console.error('Error loading reviews:', error)
+    } finally {
+      setLoading(false)
     }
   }
 
-  const handleDelete = (reviewId) => {
+  const handleApprove = async (reviewId) => {
+    try {
+      await reviewService.approveReview(reviewId)
+      await loadReviews()
+    } catch (error) {
+      console.error('Error approving review:', error)
+    }
+  }
+
+  const handleDelete = async (reviewId) => {
     if (window.confirm('Are you sure you want to delete this review? This action cannot be undone.')) {
-      if (deleteReview(reviewId)) {
-        loadReviews()
-        if (selectedReview && selectedReview.id === reviewId) {
+      try {
+        await reviewService.deleteReview(reviewId)
+        await loadReviews()
+        if (selectedReview && (selectedReview.id === reviewId || selectedReview._id === reviewId)) {
           closeModal()
         }
+      } catch (error) {
+        console.error('Error deleting review:', error)
       }
     }
   }
@@ -51,15 +62,15 @@ const AdminReviews = () => {
     setEditingReview({ ...review })
   }
 
-  const handleSaveEdit = () => {
-    // Update review in localStorage
-    const allReviews = getAllReviews()
-    const updatedReviews = allReviews.map(r => 
-      r.id === editingReview.id ? editingReview : r
-    )
-    localStorage.setItem('eflash_reviews', JSON.stringify(updatedReviews))
-    setEditingReview(null)
-    loadReviews()
+  const handleSaveEdit = async () => {
+    try {
+      const reviewId = editingReview._id || editingReview.id
+      await reviewService.updateReview(reviewId, editingReview)
+      setEditingReview(null)
+      await loadReviews()
+    } catch (error) {
+      console.error('Error updating review:', error)
+    }
   }
 
   const handleCancelEdit = () => {

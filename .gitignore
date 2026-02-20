@@ -2,6 +2,11 @@ node_modules
 *.backup.*
 dist
 
+# Environment variables (contains sensitive data)
+.env
+.env.local
+.env.production
+
 # Allow built files in root for GitHub Pages
 !index.html
 !404.html

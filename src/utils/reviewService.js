@@ -1,208 +1,402 @@
-// Reviews and Ratings System
-const REVIEWS_DB_KEY = 'eflash_reviews'
-const WISHLIST_DB_KEY = 'eflash_wishlist'
+// Review Service - MongoDB API Integration
+// Handles customer reviews and testimonials
 
-export const reviewService = {
-  // Add review
-  addReview: (productId, reviewData) => {
-    const review = {
-      id: `REV-${Date.now()}`,
-      productId,
-      rating: reviewData.rating, // 1-5 stars
-      title: reviewData.title,
-      content: reviewData.content,
-      authorName: reviewData.authorName,
-      authorEmail: reviewData.authorEmail,
-      verified: reviewData.verified || false, // true if user bought the product
-      photos: reviewData.photos || [], // Array of base64 images or URLs
-      helpful: 0,
-      unhelpful: 0,
-      helpfulVoters: [], // Track who voted helpful
-      unhelpfulVoters: [], // Track who voted unhelpful
-      createdAt: new Date().toISOString(),
-      approved: false // Requires moderation
+class ReviewService {
+  constructor() {
+    // Use environment variable for API base URL or default to localhost for development
+    this.API_BASE = import.meta.env.VITE_API_BASE || 
+                    (import.meta.env.DEV 
+                      ? 'http://localhost:8888/.netlify/functions' 
+                      : 'https://chamarait22113122.github.io/.netlify/functions');
+  }
+
+  // Get all reviews from MongoDB
+  async getAllReviews() {
+    try {
+      const response = await fetch(`${this.API_BASE}/reviews`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const reviews = await response.json();
+      return reviews || [];
+    } catch (error) {
+      console.error('Error fetching reviews:', error);
+      // Fallback to localStorage for development
+      return this.getFallbackReviews();
     }
+  }
 
-    const reviews = reviewService.getAllReviews()
-    reviews.push(review)
-    localStorage.setItem(REVIEWS_DB_KEY, JSON.stringify(reviews))
+  // Add a new review to MongoDB
+  async addReview(review) {
+    try {
+      const reviewData = {
+        ...review,
+        id: review.id || Date.now().toString(),
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        status: review.status || 'pending'
+      };
 
-    return review
-  },
+      const response = await fetch(`${this.API_BASE}/reviews`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(reviewData),
+      });
 
-  // Get all reviews
-  getAllReviews: () => {
-    const reviewsJson = localStorage.getItem(REVIEWS_DB_KEY)
-    return reviewsJson ? JSON.parse(reviewsJson) : []
-  },
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
 
-  // Get product reviews
-  getProductReviews: (productId, onlyApproved = true) => {
-    const reviews = reviewService.getAllReviews()
-    return reviews.filter(
-      r => r.productId === productId && (!onlyApproved || r.approved)
-    )
-  },
-
-  // Get average rating
-  getAverageRating: (productId) => {
-    const reviews = reviewService.getProductReviews(productId, true)
-    if (reviews.length === 0) return 0
-    const sum = reviews.reduce((acc, r) => acc + r.rating, 0)
-    return (sum / reviews.length).toFixed(1)
-  },
-
-  // Get rating distribution
-  getRatingDistribution: (productId) => {
-    const reviews = reviewService.getProductReviews(productId, true)
-    const distribution = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 }
-
-    reviews.forEach(r => {
-      distribution[r.rating]++
-    })
-
-    return distribution
-  },
-
-  // Approve review (admin)
-  approveReview: (reviewId) => {
-    const reviews = reviewService.getAllReviews()
-    const review = reviews.find(r => r.id === reviewId)
-    if (review) {
-      review.approved = true
-      localStorage.setItem(REVIEWS_DB_KEY, JSON.stringify(reviews))
+      const newReview = await response.json();
+      
+      // Trigger refresh event for other components
+      window.dispatchEvent(new CustomEvent('reviewsUpdate'));
+      
+      return newReview;
+    } catch (error) {
+      console.error('Error adding review:', error);
+      // Fallback to localStorage
+      return this.addFallbackReview(review);
     }
-    return review
-  },
+  }
 
-  // Mark helpful
-  markHelpful: (reviewId, userId = 'anonymous') => {
-    const reviews = reviewService.getAllReviews()
-    const review = reviews.find(r => r.id === reviewId)
-    if (review) {
-      // Initialize arrays if they don't exist (backwards compatibility)
-      if (!review.helpfulVoters) review.helpfulVoters = []
-      if (!review.unhelpfulVoters) review.unhelpfulVoters = []
+  // Update an existing review in MongoDB
+  async updateReview(reviewId, updates) {
+    try {
+      const updateData = {
+        ...updates,
+        updatedAt: new Date().toISOString()
+      };
 
-      // Check if user already voted
+      const response = await fetch(`${this.API_BASE}/reviews/${reviewId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updateData),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const updatedReview = await response.json();
+      
+      // Trigger refresh event for other components
+      window.dispatchEvent(new CustomEvent('reviewsUpdate'));
+      
+      return updatedReview;
+    } catch (error) {
+      console.error('Error updating review:', error);
+      // Fallback to localStorage
+      return this.updateFallbackReview(reviewId, updates);
+    }
+  }
+
+  // Delete a review from MongoDB
+  async deleteReview(reviewId) {
+    try {
+      const response = await fetch(`${this.API_BASE}/reviews/${reviewId}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const result = await response.json();
+      
+      // Trigger refresh event for other components
+      window.dispatchEvent(new CustomEvent('reviewsUpdate'));
+      
+      return result;
+    } catch (error) {
+      console.error('Error deleting review:', error);
+      // Fallback to localStorage
+      return this.deleteFallbackReview(reviewId);
+    }
+  }
+
+  // Get approved reviews for public display
+  async getApprovedReviews() {
+    try {
+      const allReviews = await this.getAllReviews();
+      return allReviews.filter(review => review.status === 'approved');
+    } catch (error) {
+      console.error('Error fetching approved reviews:', error);
+      return [];
+    }
+  }
+
+  // Bulk update review status (approve/reject multiple reviews)
+  async bulkUpdateStatus(reviewIds, status) {
+    try {
+      const results = await Promise.all(
+        reviewIds.map(id => this.updateReview(id, { status }))
+      );
+      return results;
+    } catch (error) {
+      console.error('Error bulk updating reviews:', error);
+      return [];
+    }
+  }
+
+  // Mark review as helpful (for product reviews)
+  async markHelpful(reviewId, userId = 'anonymous') {
+    try {
+      const review = await this.getReviewById(reviewId);
+      if (!review) return null;
+
+      // Initialize helpful arrays if they don't exist
+      if (!review.helpfulVoters) review.helpfulVoters = [];
+      if (!review.unhelpfulVoters) review.unhelpfulVoters = [];
+      if (!review.helpful) review.helpful = 0;
+      if (!review.unhelpful) review.unhelpful = 0;
+
+      // Check if user already voted helpful
       if (review.helpfulVoters.includes(userId)) {
         // User is un-voting helpful
-        review.helpful--
-        review.helpfulVoters = review.helpfulVoters.filter(id => id !== userId)
+        review.helpful--;
+        review.helpfulVoters = review.helpfulVoters.filter(id => id !== userId);
       } else {
         // If user voted unhelpful before, remove that vote
         if (review.unhelpfulVoters.includes(userId)) {
-          review.unhelpful--
-          review.unhelpfulVoters = review.unhelpfulVoters.filter(id => id !== userId)
+          review.unhelpful--;
+          review.unhelpfulVoters = review.unhelpfulVoters.filter(id => id !== userId);
         }
         // Add helpful vote
-        review.helpful++
-        review.helpfulVoters.push(userId)
+        review.helpful++;
+        review.helpfulVoters.push(userId);
       }
-      localStorage.setItem(REVIEWS_DB_KEY, JSON.stringify(reviews))
+
+      return await this.updateReview(reviewId, {
+        helpful: review.helpful,
+        unhelpful: review.unhelpful,
+        helpfulVoters: review.helpfulVoters,
+        unhelpfulVoters: review.unhelpfulVoters
+      });
+    } catch (error) {
+      console.error('Error marking review as helpful:', error);
+      return null;
     }
-    return review
-  },
+  }
 
-  // Mark unhelpful
-  markUnhelpful: (reviewId, userId = 'anonymous') => {
-    const reviews = reviewService.getAllReviews()
-    const review = reviews.find(r => r.id === reviewId)
-    if (review) {
-      // Initialize arrays if they don't exist (backwards compatibility)
-      if (!review.helpfulVoters) review.helpfulVoters = []
-      if (!review.unhelpfulVoters) review.unhelpfulVoters = []
+  // Mark review as unhelpful (for product reviews)
+  async markUnhelpful(reviewId, userId = 'anonymous') {
+    try {
+      const review = await this.getReviewById(reviewId);
+      if (!review) return null;
 
-      // Check if user already voted
+      // Initialize helpful arrays if they don't exist
+      if (!review.helpfulVoters) review.helpfulVoters = [];
+      if (!review.unhelpfulVoters) review.unhelpfulVoters = [];
+      if (!review.helpful) review.helpful = 0;
+      if (!review.unhelpful) review.unhelpful = 0;
+
+      // Check if user already voted unhelpful
       if (review.unhelpfulVoters.includes(userId)) {
         // User is un-voting unhelpful
-        review.unhelpful--
-        review.unhelpfulVoters = review.unhelpfulVoters.filter(id => id !== userId)
+        review.unhelpful--;
+        review.unhelpfulVoters = review.unhelpfulVoters.filter(id => id !== userId);
       } else {
         // If user voted helpful before, remove that vote
         if (review.helpfulVoters.includes(userId)) {
-          review.helpful--
-          review.helpfulVoters = review.helpfulVoters.filter(id => id !== userId)
+          review.helpful--;
+          review.helpfulVoters = review.helpfulVoters.filter(id => id !== userId);
         }
         // Add unhelpful vote
-        review.unhelpful++
-        review.unhelpfulVoters.push(userId)
+        review.unhelpful++;
+        review.unhelpfulVoters.push(userId);
       }
-      localStorage.setItem(REVIEWS_DB_KEY, JSON.stringify(reviews))
+
+      return await this.updateReview(reviewId, {
+        helpful: review.helpful,
+        unhelpful: review.unhelpful,
+        helpfulVoters: review.helpfulVoters,
+        unhelpfulVoters: review.unhelpfulVoters
+      });
+    } catch (error) {
+      console.error('Error marking review as unhelpful:', error);
+      return null;
     }
-    return review
-  },
+  }
 
-  // Get pending reviews (admin)
-  getPendingReviews: () => {
-    const reviews = reviewService.getAllReviews()
-    return reviews.filter(r => !r.approved)
-  },
+  // Get a single review by ID from MongoDB
+  async getReviewById(reviewId) {
+    try {
+      const response = await fetch(`${this.API_BASE}/reviews/${reviewId}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
 
-  // Delete review (admin)
-  deleteReview: (reviewId) => {
-    const reviews = reviewService.getAllReviews()
-    const filtered = reviews.filter(r => r.id !== reviewId)
-    localStorage.setItem(REVIEWS_DB_KEY, JSON.stringify(filtered))
-    return true
+      if (!response.ok) {
+        if (response.status === 404) {
+          return null;
+        }
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error('Error fetching review:', error);
+      return null;
+    }
+  }
+
+  // Approve a review (admin function)
+  async approveReview(reviewId) {
+    try {
+      return await this.updateReview(reviewId, { status: 'approved' });
+    } catch (error) {
+      console.error('Error approving review:', error);
+      return null;
+    }
+  }
+
+  // Get pending reviews for admin
+  async getPendingReviews() {
+    try {
+      const allReviews = await this.getAllReviews();
+      return allReviews.filter(review => review.status === 'pending' || !review.status);
+    } catch (error) {
+      console.error('Error fetching pending reviews:', error);
+      return [];
+    }
+  }
+
+  // Fallback methods for localStorage (development/offline mode)
+  getFallbackReviews() {
+    try {
+      const reviews = localStorage.getItem('eflash_admin_reviews');
+      return reviews ? JSON.parse(reviews) : [];
+    } catch (error) {
+      console.error('Error reading reviews from localStorage:', error);
+      return [];
+    }
+  }
+
+  addFallbackReview(review) {
+    try {
+      const reviews = this.getFallbackReviews();
+      const newReview = {
+        ...review,
+        id: review.id || Date.now().toString(),
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        status: review.status || 'pending'
+      };
+      
+      reviews.unshift(newReview);
+      localStorage.setItem('eflash_admin_reviews', JSON.stringify(reviews));
+      
+      // Trigger refresh event
+      window.dispatchEvent(new CustomEvent('reviewsUpdate'));
+      
+      return newReview;
+    } catch (error) {
+      console.error('Error adding review to localStorage:', error);
+      return null;
+    }
+  }
+
+  updateFallbackReview(reviewId, updates) {
+    try {
+      const reviews = this.getFallbackReviews();
+      const reviewIndex = reviews.findIndex(r => r.id === reviewId || r._id === reviewId);
+      
+      if (reviewIndex === -1) {
+        throw new Error('Review not found');
+      }
+      
+      reviews[reviewIndex] = {
+        ...reviews[reviewIndex],
+        ...updates,
+        updatedAt: new Date().toISOString()
+      };
+      
+      localStorage.setItem('eflash_admin_reviews', JSON.stringify(reviews));
+      
+      // Trigger refresh event
+      window.dispatchEvent(new CustomEvent('reviewsUpdate'));
+      
+      return reviews[reviewIndex];
+    } catch (error) {
+      console.error('Error updating review in localStorage:', error);
+      return null;
+    }
+  }
+
+  deleteFallbackReview(reviewId) {
+    try {
+      const reviews = this.getFallbackReviews();
+      const filteredReviews = reviews.filter(r => r.id !== reviewId && r._id !== reviewId);
+      
+      localStorage.setItem('eflash_admin_reviews', JSON.stringify(filteredReviews));
+      
+      // Trigger refresh event
+      window.dispatchEvent(new CustomEvent('reviewsUpdate'));
+      
+      return { message: 'Review deleted successfully' };
+    } catch (error) {
+      console.error('Error deleting review from localStorage:', error);
+      return null;
+    }
+  }
+
+  // Migrate existing localStorage reviews to MongoDB
+  async migrateToDatabase() {
+    try {
+      const localReviews = this.getFallbackReviews();
+      
+      if (localReviews.length === 0) {
+        console.log('No reviews to migrate');
+        return { migrated: 0, message: 'No reviews to migrate' };
+      }
+
+      let migratedCount = 0;
+      
+      for (const review of localReviews) {
+        try {
+          const { id, ...reviewData } = review;
+          await this.addReview(reviewData);
+          migratedCount++;
+        } catch (error) {
+          console.error('Error migrating review:', review, error);
+        }
+      }
+
+      // Clear localStorage after successful migration
+      if (migratedCount > 0) {
+        localStorage.removeItem('eflash_admin_reviews');
+        console.log(`Migrated ${migratedCount} reviews to MongoDB`);
+      }
+
+      return { 
+        migrated: migratedCount, 
+        message: `Successfully migrated ${migratedCount} reviews` 
+      };
+    } catch (error) {
+      console.error('Error during review migration:', error);
+      return { migrated: 0, error: error.message };
+    }
   }
 }
 
-// Wishlist System
-export const wishlistService = {
-  // Get user wishlist
-  getWishlist: (userId) => {
-    const wishlistJson = localStorage.getItem(`${WISHLIST_DB_KEY}_${userId}`)
-    return wishlistJson ? JSON.parse(wishlistJson) : []
-  },
+// Create and export singleton instance
+const reviewService = new ReviewService();
 
-  // Add to wishlist
-  addToWishlist: (userId, product) => {
-    const wishlist = wishlistService.getWishlist(userId)
-    const exists = wishlist.some(item => item.id === product.id)
-
-    if (!exists) {
-      wishlist.push({
-        ...product,
-        addedAt: new Date().toISOString()
-      })
-      localStorage.setItem(`${WISHLIST_DB_KEY}_${userId}`, JSON.stringify(wishlist))
-    }
-
-    return wishlist
-  },
-
-  // Remove from wishlist
-  removeFromWishlist: (userId, productId) => {
-    const wishlist = wishlistService.getWishlist(userId)
-    const filtered = wishlist.filter(item => item.id !== productId)
-    localStorage.setItem(`${WISHLIST_DB_KEY}_${userId}`, JSON.stringify(filtered))
-    return filtered
-  },
-
-  // Check if in wishlist
-  isInWishlist: (userId, productId) => {
-    const wishlist = wishlistService.getWishlist(userId)
-    return wishlist.some(item => item.id === productId)
-  },
-
-  // Clear wishlist
-  clearWishlist: (userId) => {
-    localStorage.removeItem(`${WISHLIST_DB_KEY}_${userId}`)
-    return []
-  }
-}
-
-// Export individual functions for easier imports
-export const getAllReviews = reviewService.getAllReviews
-export const getProductReviews = reviewService.getProductReviews
-export const approveReview = reviewService.approveReview
-export const deleteReview = reviewService.deleteReview
-export const getPendingReviews = reviewService.getPendingReviews
-export const addReview = reviewService.addReview
-export const getAverageRating = reviewService.getAverageRating
-export const getRatingDistribution = reviewService.getRatingDistribution
-export const markHelpful = reviewService.markHelpful
-export const markUnhelpful = reviewService.markUnhelpful
-
-export default { reviewService, wishlistService }
+export default reviewService;

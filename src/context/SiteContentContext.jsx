@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react'
 import { getAssetPath } from '../utils/assetPath'
+import projectService from '../utils/projectService'
 
 const SiteContentContext = createContext()
 
@@ -600,7 +601,7 @@ const defaultContent = {
   }
 }
 
-export // Project service to get admin projects
+// Project service to get admin projects
 const getAdminProjects = () => {
   try {
     const projects = localStorage.getItem('eflash_admin_projects')
@@ -613,48 +614,39 @@ const getAdminProjects = () => {
 
 const SiteContentProvider = ({ children }) => {
   const [adminProjects, setAdminProjects] = useState([])
+  const [content, setContent] = useState(() => transformImagePaths(defaultContent))
+  const [isLoading, setIsLoading] = useState(true)
 
-  // Load admin projects on mount and listen for changes
-  useEffect(() => {
-    const loadProjects = () => {
-      setAdminProjects(getAdminProjects())
-    }
-    
-    loadProjects()
-    
-    // Listen for localStorage changes
-    const handleStorageChange = (e) => {
-      if (e.key === 'eflash_admin_projects') {
-        loadProjects()
-      }
-    }
-    
-    window.addEventListener('storage', handleStorageChange)
-    
-    // Custom event for same-tab updates
-    const handleAdminUpdate = () => loadProjects()
-    window.addEventListener('adminProjectsUpdate', handleAdminUpdate)
-    
-    return () => {
-      window.removeEventListener('storage', handleStorageChange)
-      window.removeEventListener('adminProjectsUpdate', handleAdminUpdate)
-    }
-  }, [])
-
-  // Merge static and admin projects
-  const allProjects = [...defaultContent.portfolio.projects, ...adminProjects]
-  
-  const content = {
-    ...defaultContent,
-    portfolio: {
-      ...defaultContent.portfolio,
-      projects: allProjects
+  // Load projects from MongoDB/API and fallback to localStorage
+  const loadAdminProjects = async () => {
+    try {
+      const projects = await projectService.getAllProjects()
+      setAdminProjects(projects)
+    } catch (error) {
+      console.error('Error loading admin projects from API:', error)
+      // Fallback to localStorage
+      const fallbackProjects = projectService.getFallbackProjects()
+      setAdminProjects(fallbackProjects)
     }
   }
 
-const SiteContentProvider = ({ children }) => {
-  const [content, setContent] = useState(() => transformImagePaths(defaultContent))
-  const [isLoading, setIsLoading] = useState(true)
+  // Load admin projects on mount and listen for changes
+  useEffect(() => {
+    loadAdminProjects()
+    
+    // Listen for project updates
+    const handleProjectUpdate = () => {
+      loadAdminProjects()
+    }
+    
+    window.addEventListener('projectsUpdate', handleProjectUpdate)
+    window.addEventListener('adminProjectsUpdate', handleProjectUpdate)
+    
+    return () => {
+      window.removeEventListener('projectsUpdate', handleProjectUpdate)
+      window.removeEventListener('adminProjectsUpdate', handleProjectUpdate)
+    }
+  }, [])
 
   // Load content from localStorage on mount
   useEffect(() => {
@@ -675,6 +667,17 @@ const SiteContentProvider = ({ children }) => {
     }
     setIsLoading(false)
   }, [])
+
+  // Merge static and admin projects for the final content
+  const allProjects = [...content.portfolio.projects, ...adminProjects]
+  
+  const mergedContent = {
+    ...content,
+    portfolio: {
+      ...content.portfolio,
+      projects: allProjects
+    }
+  }
 
   // Save content to localStorage whenever it changes
   const updateContent = (section, data) => {
@@ -734,28 +737,22 @@ const SiteContentProvider = ({ children }) => {
   }
 
   const value = {
-    content,
+    content: mergedContent,
     updateContent,
     updateSection,
     resetContent,
     exportContent,
     importContent,
-    isLoading
+    isLoading,
+    refreshProjectsFromAdmin: loadAdminProjects
   }
 
   return (
-    <SiteContentContext.Provider value={{
-      content,
-      updateContent: (newContent) => {
-        // This could be used for future dynamic updates
-      },
-      refreshProjectsFromAdmin: () => {
-        setAdminProjects(getAdminProjects())
-      }
-    }}>
+    <SiteContentContext.Provider value={value}>
       {children}
     </SiteContentContext.Provider>
   )
 }
 
+export { SiteContentProvider }
 export default SiteContentProvider
