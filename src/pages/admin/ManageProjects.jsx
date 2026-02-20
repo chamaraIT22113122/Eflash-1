@@ -1,14 +1,41 @@
 import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { FaPlus, FaEdit, FaTrash, FaSave, FaTimes, FaImage } from 'react-icons/fa'
+import { FaPlus, FaEdit, FaTrash, FaSave, FaTimes, FaImage, FaTags } from 'react-icons/fa'
 import projectService from '../../utils/projectService'
 import './ManageProjects.css'
 import './AdminBase.css'
+
+const CATEGORIES_KEY = 'portfolioCategories'
 
 const ManageProjects = () => {
   const [projects, setProjects] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+
+  // ── Category management ──
+  const [categories, setCategories] = useState(() => {
+    try {
+      const saved = localStorage.getItem(CATEGORIES_KEY)
+      return saved ? JSON.parse(saved) : ['Web Design', 'Branding', 'UI/UX', 'Graphic Design']
+    } catch { return ['Web Design', 'Branding', 'UI/UX', 'Graphic Design'] }
+  })
+  const [showCategoryManager, setShowCategoryManager] = useState(false)
+  const [categoryInput, setCategoryInput] = useState('')
+
+  useEffect(() => {
+    localStorage.setItem(CATEGORIES_KEY, JSON.stringify(categories))
+  }, [categories])
+
+  const addCategory = () => {
+    const trimmed = categoryInput.trim()
+    if (!trimmed || categories.includes(trimmed)) return
+    setCategories(prev => [...prev, trimmed])
+    setCategoryInput('')
+  }
+
+  const removeCategory = (cat) => {
+    setCategories(prev => prev.filter(c => c !== cat))
+  }
 
   // Load projects from MongoDB on component mount
   useEffect(() => {
@@ -241,8 +268,22 @@ const ManageProjects = () => {
             type="text"
             value={data.category || ''}
             onChange={(e) => setter({ ...data, category: e.target.value })}
-            placeholder="e.g. Branding, Web Design, UI/UX…"
+            placeholder="Type or pick a category below…"
           />
+          {categories.length > 0 && (
+            <div className="category-chips">
+              {categories.map(cat => (
+                <button
+                  key={cat}
+                  type="button"
+                  className={`category-chip${data.category === cat ? ' active' : ''}`}
+                  onClick={() => setter({ ...data, category: cat })}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
 
         <div className="form-group">
@@ -477,16 +518,58 @@ const ManageProjects = () => {
     <div className="manage-projects admin-page admin-content">
       <div className="projects-header">
         <h1>Manage Projects</h1>
-        {!isAddingNew && (
-          <button 
-            className="add-project-btn"
-            onClick={() => setIsAddingNew(true)}
+        <div className="header-actions">
+          <button
+            className="manage-categories-btn"
+            onClick={() => setShowCategoryManager(v => !v)}
           >
-            <FaPlus />
-            Add New Project
+            <FaTags />
+            Manage Categories
           </button>
-        )}
+          {!isAddingNew && (
+            <button 
+              className="add-project-btn"
+              onClick={() => setIsAddingNew(true)}
+            >
+              <FaPlus />
+              Add New Project
+            </button>
+          )}
+        </div>
       </div>
+
+      {/* ── Category Manager Panel ── */}
+      {showCategoryManager && (
+        <motion.div
+          className="category-manager-panel"
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+        >
+          <h3><FaTags /> Portfolio Categories</h3>
+          <p className="category-manager-hint">These categories appear as quick-pick chips when adding or editing a project.</p>
+          <div className="category-manager-input-row">
+            <input
+              type="text"
+              value={categoryInput}
+              onChange={(e) => setCategoryInput(e.target.value)}
+              onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); addCategory() } }}
+              placeholder="New category name…"
+            />
+            <button type="button" className="btn-add-category" onClick={addCategory}>
+              <FaPlus /> Add
+            </button>
+          </div>
+          <div className="category-manager-list">
+            {categories.length === 0 && <span className="no-categories">No categories yet.</span>}
+            {categories.map(cat => (
+              <span key={cat} className="category-manager-chip">
+                {cat}
+                <button type="button" onClick={() => removeCategory(cat)} title="Remove"><FaTimes /></button>
+              </span>
+            ))}
+          </div>
+        </motion.div>
+      )}
 
       {error && <div className="error-banner">{error}</div>}
       {loading && <div className="loading-banner">Saving...</div>}
