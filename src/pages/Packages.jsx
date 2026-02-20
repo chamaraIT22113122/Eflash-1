@@ -720,14 +720,6 @@ const Packages = () => {
                   >
                     <FaWhatsapp /> Order Now
                   </motion.a>
-                  <motion.a
-                    href="#contact"
-                    className="btn btn-outline-primary btn-secondary"
-                    whileHover={{ scale: 1.02, y: -2 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    Get Quote
-                  </motion.a>
                 </div>
               </motion.div>
             ))}
