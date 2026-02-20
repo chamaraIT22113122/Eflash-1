@@ -26,7 +26,24 @@
     <link rel="stylesheet" crossorigin href="/Eflash-1/assets/index-D-R3kCu1.css">
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root"></div>
+
+    <script>
+      // Handle redirect from 404.html for GitHub Pages SPA routing
+      (function() {
+        var query = window.location.search;
+        if (query && query.indexOf('p=/') !== -1) {
+          var redirect = query.split('p=/')[1].split('&')[0];
+          redirect = redirect.replace(/~and~/g, '&');
+          window.history.replaceState(null, null, 
+            window.location.pathname.slice(0, -1) + '/' + redirect +
+            (query.indexOf('q=') !== -1 ? ('?' + query.split('q=')[1].replace(/~and~/g, '&')) : '') +
+            window.location.hash
+          );
+        }
+      })();
+    </script>
+
     <script>
       // Service worker: enable only in production and clean up in local development.
       if ('serviceWorker' in navigator) {

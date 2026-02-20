@@ -23,10 +23,13 @@ import NotFound from './pages/NotFound'
 import './App.css'
 
 function App() {
+  // Use basename for GitHub Pages deployment
+  const basename = import.meta.env.PROD ? '/Eflash-1' : '/';
+  
   return (
     <HelmetProvider>
       <ToastProvider>
-        <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+        <Router basename={basename} future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
           <ThemeProvider>
             <CartProvider>
               <SiteContentProvider>

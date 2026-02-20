@@ -1,4 +1,4 @@
-const CACHE_NAME = 'eflash-v1';
+const CACHE_NAME = 'eflash-v2';
 const urlsToCache = [
   '/Eflash-1/',
   '/Eflash-1/index.html',
@@ -15,10 +15,11 @@ self.addEventListener('install', (event) => {
       });
     })
   );
+  // Force the waiting service worker to become the active service worker
   self.skipWaiting();
 });
 
-// Fetch event - Cache first strategy
+// Fetch event - Network first for HTML, cache first for assets
 self.addEventListener('fetch', (event) => {
   // Skip non-GET requests
   if (event.request.method !== 'GET') {
@@ -31,6 +32,27 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
+  // Network-first strategy for HTML to ensure fresh content
+  if (event.request.headers.get('accept').includes('text/html')) {
+    event.respondWith(
+      fetch(event.request)
+        .then((response) => {
+          const responseToCache = response.clone();
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put(event.request, responseToCache);
+          });
+          return response;
+        })
+        .catch(() => {
+          return caches.match(event.request).then((response) => {
+            return response || caches.match('/Eflash-1/index.html');
+          });
+        })
+    );
+    return;
+  }
+
+  // Cache-first strategy for assets
   event.respondWith(
     caches.match(event.request).then((response) => {
       if (response) {
@@ -50,8 +72,8 @@ self.addEventListener('fetch', (event) => {
         return response;
       });
     }).catch(() => {
-      // Return a offline page if available
-      return caches.match('/E-Flash-1.2/index.html');
+      // Return offline page if available
+      return caches.match('/Eflash-1/index.html');
     })
   );
 });
@@ -67,6 +89,9 @@ self.addEventListener('activate', (event) => {
           }
         })
       );
+    }).then(() => {
+      // Take control of all pages immediately
+      return self.clients.claim();
     })
   );
 });

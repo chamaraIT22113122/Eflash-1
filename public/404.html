@@ -5,17 +5,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>E Flash - Loading...</title>
   <script>
-    // Store the current path and redirect to the correct base URL
-    var currentPath = window.location.pathname;
-    var correctBase = 'https://chamarait22113122.github.io/Eflash-1/';
-    
-    // Store path for React Router to handle
-    if (currentPath !== '/Eflash-1/' && currentPath !== '/Eflash-1') {
-      sessionStorage.setItem('redirectPath', currentPath + window.location.search + window.location.hash);
-    }
-    
-    // Always redirect to the correct full URL
-    window.location.replace(correctBase);
+    // Handle SPA routing on GitHub Pages
+    (function() {
+      var pathSegmentsToKeep = 1; // For /Eflash-1/ base path
+      var location = window.location;
+      var path = location.pathname.slice(1).split('/').slice(pathSegmentsToKeep);
+      
+      if (path.length > 0 && path[0] !== '') {
+        var redirect = location.protocol + '//' + location.hostname + 
+                      (location.port ? ':' + location.port : '') +
+                      '/' + path.slice(0, pathSegmentsToKeep).join('/') + '/?' +
+                      (path.join('/') ? 'p=/' + path.join('/').replace(/&/g, '~and~') : '') +
+                      (location.search ? '&q=' + location.search.slice(1).replace(/&/g, '~and~') : '') +
+                      location.hash;
+        window.location.replace(redirect);
+      } else {
+        // Just go to the base path
+        window.location.replace(location.protocol + '//' + location.hostname + 
+                               (location.port ? ':' + location.port : '') + '/Eflash-1/');
+      }
+    })();
   </script>
 </head>
 <body>
