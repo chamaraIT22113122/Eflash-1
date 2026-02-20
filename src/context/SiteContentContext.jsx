@@ -668,8 +668,8 @@ const SiteContentProvider = ({ children }) => {
     setIsLoading(false)
   }, [])
 
-  // Merge static and admin projects for the final content
-  const allProjects = [...content.portfolio.projects, ...adminProjects]
+  // Only show admin-added projects (no default/hardcoded projects)
+  const allProjects = [...adminProjects]
   
   const mergedContent = {
     ...content,

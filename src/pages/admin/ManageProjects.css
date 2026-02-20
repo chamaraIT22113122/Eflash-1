@@ -441,3 +441,192 @@
     flex-direction: column;
   }
 }
+
+/* ── Section titles inside forms ── */
+.form-section-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1e293b;
+  background: #f1f5ff;
+  border-left: 4px solid #667eea;
+  padding: 0.6rem 1rem;
+  border-radius: 0 8px 8px 0;
+  margin: 1.5rem 0 0.75rem;
+  letter-spacing: 0.02em;
+}
+
+.popup-section-title {
+  background: #fdf4ff;
+  border-left-color: #a855f7;
+  margin-top: 2rem;
+}
+
+/* ── Tag input ── */
+.tag-input-row {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.tag-input-row input {
+  flex: 1;
+}
+
+.btn-add-tag {
+  padding: 0.5rem 1rem;
+  background: #667eea;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.tags-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.tag-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: #e0e7ff;
+  color: #3730a3;
+  border-radius: 20px;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.tag-chip button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #6366f1;
+  display: flex;
+  align-items: center;
+  padding: 0;
+  font-size: 0.7rem;
+}
+
+/* ── Feature list inputs ── */
+.feature-input-row {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.4rem;
+  align-items: center;
+}
+
+.feature-input-row input {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+.btn-remove-feature {
+  padding: 0.4rem;
+  background: #fee2e2;
+  color: #ef4444;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.btn-add-feature {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 1rem;
+  background: #f0fdf4;
+  color: #16a34a;
+  border: 1px dashed #86efac;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  margin-top: 0.5rem;
+}
+
+/* ── Image preview remove button ── */
+.image-preview-item {
+  position: relative;
+  display: inline-block;
+}
+
+.remove-img-btn {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background: rgba(239, 68, 68, 0.85);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+}
+
+/* ── Edit modal overlay ── */
+.edit-modal-overlay {
+  position: fixed !important;
+  inset: 0;
+  z-index: 1000;
+  overflow-y: auto;
+  background: rgba(0,0,0,0.45);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+.edit-modal-inner {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  width: 100%;
+  max-width: 860px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.edit-modal-inner h3 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 1rem;
+}
+
+/* ── Error / loading banners ── */
+.error-banner {
+  background: #fee2e2;
+  color: #b91c1c;
+  border: 1px solid #fca5a5;
+  border-radius: 8px;
+  padding: 0.75rem 1.25rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.loading-banner {
+  background: #eff6ff;
+  color: #1d4ed8;
+  border: 1px solid #bfdbfe;
+  border-radius: 8px;
+  padding: 0.75rem 1.25rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+/* ── Client name display in card ── */
+.project-client {
+  font-size: 0.8rem;
+  color: #64748b;
+  margin: 0.2rem 0;
+}
