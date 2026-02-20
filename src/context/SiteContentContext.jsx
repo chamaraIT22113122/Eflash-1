@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react'
+import { getAssetPath } from '../utils/assetPath'
 
 const SiteContentContext = createContext()
 
@@ -8,6 +9,33 @@ export const useSiteContent = () => {
     throw new Error('useSiteContent must be used within SiteContentProvider')
   }
   return context
+}
+
+// Helper function to transform image paths in content
+const transformImagePaths = (obj) => {
+  if (!obj) return obj
+  
+  if (typeof obj === 'string') {
+    // If it's a string that looks like an image path, transform it
+    if (obj.startsWith('/assets/images/') || obj.startsWith('/assets/images/')) {
+      return getAssetPath(obj)
+    }
+    return obj
+  }
+  
+  if (Array.isArray(obj)) {
+    return obj.map(item => transformImagePaths(item))
+  }
+  
+  if (typeof obj === 'object') {
+    const transformed = {}
+    for (const key in obj) {
+      transformed[key] = transformImagePaths(obj[key])
+    }
+    return transformed
+  }
+  
+  return obj
 }
 
 // Default site content
@@ -526,7 +554,7 @@ const defaultContent = {
 }
 
 export const SiteContentProvider = ({ children }) => {
-  const [content, setContent] = useState(defaultContent)
+  const [content, setContent] = useState(() => transformImagePaths(defaultContent))
   const [isLoading, setIsLoading] = useState(true)
 
   // Load content from localStorage on mount
@@ -534,7 +562,8 @@ export const SiteContentProvider = ({ children }) => {
     const savedContent = localStorage.getItem('siteContent')
     if (savedContent) {
       try {
-        setContent(JSON.parse(savedContent))
+        const parsed = JSON.parse(savedContent)
+        setContent(transformImagePaths(parsed))
       } catch (error) {
         console.error('Error loading site content:', error)
       }
@@ -571,7 +600,8 @@ export const SiteContentProvider = ({ children }) => {
 
   // Reset to default
   const resetContent = () => {
-    setContent(defaultContent)
+    const transformedDefault = transformImagePaths(defaultContent)
+    setContent(transformedDefault)
     localStorage.setItem('siteContent', JSON.stringify(defaultContent))
   }
 
@@ -589,7 +619,8 @@ export const SiteContentProvider = ({ children }) => {
   const importContent = (jsonData) => {
     try {
       const parsed = JSON.parse(jsonData)
-      setContent(parsed)
+      const transformed = transformImagePaths(parsed)
+      setContent(transformed)
       localStorage.setItem('siteContent', JSON.stringify(parsed))
       return { success: true }
     } catch (error) {
