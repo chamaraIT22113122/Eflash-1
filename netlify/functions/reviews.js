@@ -31,8 +31,10 @@ exports.handler = async (event, context) => {
   try {
     const db = await connectToDatabase();
     const collection = db.collection('reviews');
-    const path = event.path?.replace('/.netlify/functions/reviews', '') || '';
-    const pathParts = path.split('/').filter(p => p);
+    const rawPath = event.path || '';
+    const subPath = rawPath.replace(/^.*\/reviews/, '');
+    const pathParts = subPath.split('/').filter(p => p);
+
 
     switch (event.httpMethod) {
       case 'GET':
@@ -48,7 +50,7 @@ exports.handler = async (event, context) => {
           // Get single review by ID
           const reviewId = pathParts[0];
           const review = await collection.findOne({ _id: new ObjectId(reviewId) });
-          
+
           if (!review) {
             return {
               statusCode: 404,
@@ -56,7 +58,7 @@ exports.handler = async (event, context) => {
               body: JSON.stringify({ error: 'Review not found' })
             };
           }
-          
+
           return {
             statusCode: 200,
             headers,
@@ -71,10 +73,10 @@ exports.handler = async (event, context) => {
           createdAt: new Date(),
           updatedAt: new Date()
         };
-        
+
         const insertResult = await collection.insertOne(newReview);
         const createdReview = await collection.findOne({ _id: insertResult.insertedId });
-        
+
         return {
           statusCode: 201,
           headers,
@@ -90,21 +92,21 @@ exports.handler = async (event, context) => {
             body: JSON.stringify({ error: 'Review ID required' })
           };
         }
-        
+
         const updateReviewId = pathParts[0];
         const updateData = {
           ...JSON.parse(event.body),
           updatedAt: new Date()
         };
-        
+
         // Remove _id from updateData if present
         delete updateData._id;
-        
+
         const updateResult = await collection.updateOne(
           { _id: new ObjectId(updateReviewId) },
           { $set: updateData }
         );
-        
+
         if (updateResult.matchedCount === 0) {
           return {
             statusCode: 404,
@@ -112,9 +114,9 @@ exports.handler = async (event, context) => {
             body: JSON.stringify({ error: 'Review not found' })
           };
         }
-        
+
         const updatedReview = await collection.findOne({ _id: new ObjectId(updateReviewId) });
-        
+
         return {
           statusCode: 200,
           headers,
@@ -130,10 +132,10 @@ exports.handler = async (event, context) => {
             body: JSON.stringify({ error: 'Review ID required' })
           };
         }
-        
+
         const deleteReviewId = pathParts[0];
         const deleteResult = await collection.deleteOne({ _id: new ObjectId(deleteReviewId) });
-        
+
         if (deleteResult.deletedCount === 0) {
           return {
             statusCode: 404,
@@ -141,7 +143,7 @@ exports.handler = async (event, context) => {
             body: JSON.stringify({ error: 'Review not found' })
           };
         }
-        
+
         return {
           statusCode: 200,
           headers,
@@ -161,9 +163,9 @@ exports.handler = async (event, context) => {
     return {
       statusCode: 500,
       headers,
-      body: JSON.stringify({ 
+      body: JSON.stringify({
         error: 'Internal server error',
-        message: error.message 
+        message: error.message
       })
     };
   }

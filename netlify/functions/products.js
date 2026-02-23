@@ -26,8 +26,12 @@ exports.handler = async (event) => {
     try {
         const db = await connectToDatabase();
         const collection = db.collection('products');
-        const path = (event.path || '').replace('/.netlify/functions/products', '');
-        const pathParts = path.split('/').filter(Boolean);
+        // Strip prefix for both direct and proxied access:
+        //   Direct:  /.netlify/functions/products[/id]
+        //   Proxied: /api/products[/id]  (via netlify.toml redirect)
+        const rawPath = event.path || '';
+        const subPath = rawPath.replace(/^.*\/products/, '');
+        const pathParts = subPath.split('/').filter(Boolean);
 
         switch (event.httpMethod) {
             // ── GET ──────────────────────────────────────────────────────────────

@@ -31,8 +31,12 @@ exports.handler = async (event, context) => {
   try {
     const db = await connectToDatabase();
     const collection = db.collection('projects');
-    const path = event.path?.replace('/.netlify/functions/projects', '') || '';
-    const pathParts = path.split('/').filter(p => p);
+    // Strip prefix for both direct and proxied access:
+    //   Direct:  /.netlify/functions/projects[/id]
+    //   Proxied: /api/projects[/id]  (via netlify.toml redirect)
+    const rawPath = event.path || '';
+    const subPath = rawPath.replace(/^.*\/projects/, '');
+    const pathParts = subPath.split('/').filter(p => p);
 
     switch (event.httpMethod) {
       case 'GET':
