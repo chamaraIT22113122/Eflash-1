@@ -1,0 +1,8 @@
+{
+    "name": "eflash-netlify-functions",
+    "version": "1.0.0",
+    "description": "Netlify Functions for Eflash MongoDB backend",
+    "dependencies": {
+        "mongodb": "^7.1.0"
+    }
+}
