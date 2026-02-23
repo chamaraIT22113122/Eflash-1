@@ -30,9 +30,9 @@
     "vite": "^6.0.3"
   },
   "scripts": {
-    "predev": "powershell -Command \"Copy-Item index.dev.html index.html -Force\"",
+    "predev": "node -e \"require('fs').copyFileSync('index.dev.html','index.html')\"",
     "dev": "vite",
-    "prebuild": "powershell -Command \"Copy-Item index.dev.html index.html -Force\"",
+    "prebuild": "node -e \"require('fs').copyFileSync('index.dev.html','index.html')\"",
     "build": "vite build",
     "preview": "vite preview",
     "pages:prepare": "node scripts/prepare-pages.mjs",
