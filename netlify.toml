@@ -6,16 +6,34 @@
 [build.environment]
   NODE_VERSION = "18"
 
-# nft bundler handles mongodb and complex packages reliably
+# nft bundler handles mongodb reliably
 [functions]
   node_bundler = "nft"
 
-# SPA catch-all — Netlify automatically serves /.netlify/functions/* BEFORE
-# any redirect rules, so this does NOT intercept function calls
+# ── API Proxy ─────────────────────────────────────────────────────────────────
+# Proxy /api/* → /.netlify/functions/* so CORS headers can be applied.
+# Netlify restricts headers/redirects on /.netlify paths, but /api/* is free.
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+  force = true
+
+# SPA catch-all (must come AFTER /api/*)
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
+
+# ── CORS headers for the API proxy ────────────────────────────────────────────
+# These apply at Netlify's CDN edge, resolving OPTIONS preflight before the
+# Lambda function is even invoked.
+[[headers]]
+  for = "/api/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
+    Access-Control-Allow-Headers = "Content-Type, Authorization"
+    Access-Control-Allow-Methods = "GET, POST, PUT, DELETE, OPTIONS"
 
 [dev]
   command = "npm run dev"

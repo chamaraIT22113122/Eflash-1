@@ -6,10 +6,12 @@ class ProjectService {
     // Use environment variable for API base URL or default to the Netlify deployment.
     // NOTE: GitHub Pages only serves static files; Netlify Functions must be called
     //       from the separate Netlify deployment URL below.
-    this.API_BASE = import.meta.env.VITE_API_BASE || 
-                    (import.meta.env.DEV 
-                      ? 'http://localhost:8888/.netlify/functions' 
-                      : 'https://adorable-dodol-77eb48.netlify.app/.netlify/functions');
+    // We use /api/* proxy (not /.netlify/functions directly) so CORS headers
+    // can be configured at the Netlify CDN level.
+    this.API_BASE = import.meta.env.VITE_API_BASE ||
+      (import.meta.env.DEV
+        ? 'http://localhost:8888/.netlify/functions'
+        : 'https://adorable-dodol-77eb48.netlify.app/api');
   }
 
   // Get all projects from MongoDB
@@ -58,10 +60,10 @@ class ProjectService {
       }
 
       const newProject = await response.json();
-      
+
       // Trigger refresh event for other components
       window.dispatchEvent(new CustomEvent('projectsUpdate'));
-      
+
       return newProject;
     } catch (error) {
       console.error('Error adding project:', error);
@@ -91,10 +93,10 @@ class ProjectService {
       }
 
       const updatedProject = await response.json();
-      
+
       // Trigger refresh event for other components
       window.dispatchEvent(new CustomEvent('projectsUpdate'));
-      
+
       return updatedProject;
     } catch (error) {
       console.error('Error updating project:', error);
@@ -118,10 +120,10 @@ class ProjectService {
       }
 
       const result = await response.json();
-      
+
       // Trigger refresh event for other components
       window.dispatchEvent(new CustomEvent('projectsUpdate'));
-      
+
       return result;
     } catch (error) {
       console.error('Error deleting project:', error);
@@ -174,14 +176,14 @@ class ProjectService {
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString()
       };
-      
+
       projects.unshift(newProject);
       localStorage.setItem('eflash_admin_projects', JSON.stringify(projects));
-      
+
       // Trigger refresh event
       window.dispatchEvent(new CustomEvent('projectsUpdate'));
       window.dispatchEvent(new CustomEvent('adminProjectsUpdate'));
-      
+
       return newProject;
     } catch (error) {
       console.error('Error adding project to localStorage:', error);
@@ -193,23 +195,23 @@ class ProjectService {
     try {
       const projects = this.getFallbackProjects();
       const projectIndex = projects.findIndex(p => p.id === projectId || p._id === projectId);
-      
+
       if (projectIndex === -1) {
         throw new Error('Project not found');
       }
-      
+
       projects[projectIndex] = {
         ...projects[projectIndex],
         ...updates,
         updatedAt: new Date().toISOString()
       };
-      
+
       localStorage.setItem('eflash_admin_projects', JSON.stringify(projects));
-      
+
       // Trigger refresh event
       window.dispatchEvent(new CustomEvent('projectsUpdate'));
       window.dispatchEvent(new CustomEvent('adminProjectsUpdate'));
-      
+
       return projects[projectIndex];
     } catch (error) {
       console.error('Error updating project in localStorage:', error);
@@ -221,13 +223,13 @@ class ProjectService {
     try {
       const projects = this.getFallbackProjects();
       const filteredProjects = projects.filter(p => p.id !== projectId && p._id !== projectId);
-      
+
       localStorage.setItem('eflash_admin_projects', JSON.stringify(filteredProjects));
-      
+
       // Trigger refresh event
       window.dispatchEvent(new CustomEvent('projectsUpdate'));
       window.dispatchEvent(new CustomEvent('adminProjectsUpdate'));
-      
+
       return { message: 'Project deleted successfully' };
     } catch (error) {
       console.error('Error deleting project from localStorage:', error);
@@ -239,14 +241,14 @@ class ProjectService {
   async migrateToDatabase() {
     try {
       const localProjects = this.getFallbackProjects();
-      
+
       if (localProjects.length === 0) {
         console.log('No projects to migrate');
         return { migrated: 0, message: 'No projects to migrate' };
       }
 
       let migratedCount = 0;
-      
+
       for (const project of localProjects) {
         try {
           // Remove local ID and let MongoDB generate _id
@@ -264,9 +266,9 @@ class ProjectService {
         console.log(`Migrated ${migratedCount} projects to MongoDB`);
       }
 
-      return { 
-        migrated: migratedCount, 
-        message: `Successfully migrated ${migratedCount} projects` 
+      return {
+        migrated: migratedCount,
+        message: `Successfully migrated ${migratedCount} projects`
       };
     } catch (error) {
       console.error('Error during migration:', error);
@@ -283,7 +285,7 @@ class ProjectService {
           'Content-Type': 'application/json',
         },
       });
-      
+
       return response.ok;
     } catch (error) {
       console.error('Database connection test failed:', error);

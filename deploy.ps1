@@ -1,9 +1,9 @@
 # Deploy script for GitHub Pages
 Write-Host "Building project..." -ForegroundColor Cyan
 
-# Explicitly set the Netlify Functions API URL so it is baked into the production
-# bundle. This is needed because .env is gitignored and not available in CI/CD.
-$env:VITE_API_BASE = "https://adorable-dodol-77eb48.netlify.app/.netlify/functions"
+# Use /api proxy path (not /.netlify/functions) so Netlify can apply CORS
+# headers at the CDN level — fixes cross-origin preflight failures.
+$env:VITE_API_BASE = "https://adorable-dodol-77eb48.netlify.app/api"
 
 npm run build
 
@@ -30,7 +30,8 @@ if ($LASTEXITCODE -eq 0) {
     Write-Host "Deployment complete!" -ForegroundColor Green
     Write-Host "Your site will be live at: https://chamarait22113122.github.io/Eflash-1/" -ForegroundColor Yellow
     Write-Host "Note: It may take 1-2 minutes for GitHub Pages to update." -ForegroundColor Gray
-} else {
+}
+else {
     Write-Host "Build failed! Please fix errors and try again." -ForegroundColor Red
     exit 1
 }

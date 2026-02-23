@@ -6,7 +6,7 @@ class ProductService {
         this.API_BASE = import.meta.env.VITE_API_BASE ||
             (import.meta.env.DEV
                 ? 'http://localhost:8888/.netlify/functions'
-                : 'https://adorable-dodol-77eb48.netlify.app/.netlify/functions')
+                : 'https://adorable-dodol-77eb48.netlify.app/api')
     }
 
     // ── GET all products ──
