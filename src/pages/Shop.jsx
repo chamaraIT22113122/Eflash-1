@@ -1,16 +1,30 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { FaShoppingCart, FaEye, FaWhatsapp } from 'react-icons/fa'
 import SEO from '../components/SEO'
 import { useToast } from '../context/ToastContext'
 import { useCart } from '../context/CartContext'
 import { trackProductView, trackEvent } from '../utils/analytics'
+import productService from '../utils/productService'
 import './Shop.css'
 
 const Shop = () => {
   const toast = useToast()
   const { addToCart } = useCart()
   const [selectedCategory, setSelectedCategory] = useState('all')
+  const [adminProducts, setAdminProducts] = useState([])
+
+  useEffect(() => {
+    const loadAdminProducts = async () => {
+      const fetched = await productService.getAllProducts()
+      setAdminProducts(fetched)
+    }
+    loadAdminProducts()
+
+    // Re-fetch whenever admin saves/deletes a product
+    window.addEventListener('productsUpdate', loadAdminProducts)
+    return () => window.removeEventListener('productsUpdate', loadAdminProducts)
+  }, [])
 
   const products = [
     {
@@ -126,9 +140,27 @@ const Shop = () => {
     { id: 'watch', label: 'Watch' }
   ]
 
-  const filteredProducts = selectedCategory === 'all' 
-    ? products 
-    : products.filter(product => product.category === selectedCategory)
+  // Merge admin-added products (shown first) with hardcoded products
+  const allProducts = [
+    // Normalize admin products to match the hardcoded schema
+    ...adminProducts
+      .filter(p => p.inStock !== false)
+      .map(p => ({
+        id: p._id || p.id,
+        name: p.name,
+        description: p.description,
+        price: parseFloat(p.price) || 0,
+        image: p.image || p.images?.[0] || '',
+        category: p.category || 'other',
+        isAdminProduct: true
+      })),
+    // Hardcoded fallback products
+    ...products
+  ]
+
+  const filteredProducts = selectedCategory === 'all'
+    ? allProducts
+    : allProducts.filter(product => product.category === selectedCategory)
 
   const handleWhatsAppOrder = (product) => {
     const message = `Hello! I'm interested in ordering:\n${product.name}\nPrice: Rs ${product.price.toFixed(2)}`
@@ -147,7 +179,7 @@ const Shop = () => {
 
   return (
     <main className="shop">
-      <SEO 
+      <SEO
         title="Shop - E Flash Products"
         description="Browse our collection of premium t-shirts, smart watches, and vehicle accessories. Quality products at great prices."
         keywords="online shop, t-shirts, smart watches, vehicle accessories, Sri Lanka shopping"

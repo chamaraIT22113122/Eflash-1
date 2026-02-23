@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate, Link, Outlet, useLocation } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { 
+import {
   FaHome, FaChartLine, FaStar, FaShoppingCart, FaBlog, FaCog,
-  FaSignOutAlt, FaUsers, FaEnvelope, FaBars, FaTimes
+  FaSignOutAlt, FaUsers, FaEnvelope, FaBars, FaTimes, FaStore
 } from 'react-icons/fa'
 import { authService } from '../../utils/authService'
 import './AdminLayout.css'
@@ -37,6 +37,7 @@ const AdminLayout = () => {
     { path: '/admin/reviews', icon: <FaStar />, label: 'Reviews' },
     { path: '/admin/orders', icon: <FaShoppingCart />, label: 'Orders' },
     { path: '/admin/projects', icon: <FaCog />, label: 'Manage Projects' },
+    { path: '/admin/products', icon: <FaStore />, label: 'Manage Products' },
     { path: '/admin/blog', icon: <FaBlog />, label: 'Blog Posts' },
     { path: '/admin/content', icon: <FaCog />, label: 'Site Content' },
     { path: '/admin/users', icon: <FaUsers />, label: 'Users' },
@@ -97,7 +98,7 @@ const AdminLayout = () => {
       <div className="admin-main">
         {/* Top Bar */}
         <header className="admin-topbar">
-          <button 
+          <button
             className="mobile-menu-toggle"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
@@ -119,7 +120,7 @@ const AdminLayout = () => {
 
       {/* Mobile Overlay */}
       {mobileMenuOpen && (
-        <div 
+        <div
           className="mobile-overlay"
           onClick={() => setMobileMenuOpen(false)}
         />

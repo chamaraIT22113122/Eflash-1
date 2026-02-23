@@ -39,6 +39,7 @@ const AdminNewsletter = lazy(() => import('./pages/admin/AdminNewsletter'))
 const AdminUsers = lazy(() => import('./pages/admin/AdminUsers'))
 const AdminContent = lazy(() => import('./pages/admin/AdminContent'))
 const ManageProjects = lazy(() => import('./pages/admin/ManageProjects'))
+const ManageProducts = lazy(() => import('./pages/admin/ManageProducts'))
 
 // Analytics wrapper component
 function AnalyticsWrapper({ children }) {
@@ -66,7 +67,7 @@ function AnalyticsWrapper({ children }) {
 function App() {
   // Use basename for GitHub Pages deployment
   const basename = import.meta.env.PROD ? '/Eflash-1' : '/'
-  
+
   return (
     <ErrorBoundary>
       <HelmetProvider>
@@ -179,6 +180,7 @@ function App() {
                           <Route path="reviews" element={<AdminReviews />} />
                           <Route path="orders" element={<AdminOrders />} />
                           <Route path="projects" element={<ManageProjects />} />
+                          <Route path="products" element={<ManageProducts />} />
                           <Route path="blog" element={<AdminBlog />} />
                           <Route path="content" element={<AdminContent />} />
                           <Route path="users" element={<AdminUsers />} />
