@@ -3,11 +3,13 @@
 
 class ProjectService {
   constructor() {
-    // Use environment variable for API base URL or default to localhost for development
+    // Use environment variable for API base URL or default to the Netlify deployment.
+    // NOTE: GitHub Pages only serves static files; Netlify Functions must be called
+    //       from the separate Netlify deployment URL below.
     this.API_BASE = import.meta.env.VITE_API_BASE || 
                     (import.meta.env.DEV 
                       ? 'http://localhost:8888/.netlify/functions' 
-                      : 'https://chamarait22113122.github.io/.netlify/functions');
+                      : 'https://adorable-dodol-77eb48.netlify.app/.netlify/functions');
   }
 
   // Get all projects from MongoDB

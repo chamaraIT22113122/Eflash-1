@@ -1,5 +1,10 @@
 # Deploy script for GitHub Pages
 Write-Host "Building project..." -ForegroundColor Cyan
+
+# Explicitly set the Netlify Functions API URL so it is baked into the production
+# bundle. This is needed because .env is gitignored and not available in CI/CD.
+$env:VITE_API_BASE = "https://adorable-dodol-77eb48.netlify.app/.netlify/functions"
+
 npm run build
 
 if ($LASTEXITCODE -eq 0) {
