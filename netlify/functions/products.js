@@ -33,7 +33,12 @@ exports.handler = async (event) => {
             // ── GET ──────────────────────────────────────────────────────────────
             case 'GET':
                 if (pathParts.length === 0) {
-                    const products = await collection.find({}).sort({ createdAt: -1 }).toArray();
+                    // Get all products — exclude base64 images array to stay under 6MB limit.
+                    // The `image` thumbnail URL field is kept for card display.
+                    const products = await collection
+                        .find({}, { projection: { images: 0 } })
+                        .sort({ createdAt: -1 })
+                        .toArray();
                     return { statusCode: 200, headers, body: JSON.stringify(products) };
                 } else {
                     const product = await collection.findOne({ _id: new ObjectId(pathParts[0]) });
