@@ -2,7 +2,11 @@
     "name": "eflash-netlify-functions",
     "version": "1.0.0",
     "description": "Netlify Functions for Eflash MongoDB backend",
+    "private": true,
+    "engines": {
+        "node": ">=18"
+    },
     "dependencies": {
-        "mongodb": "^7.1.0"
+        "mongodb": "^6.3.0"
     }
 }
