@@ -1,4 +1,4 @@
-const CACHE_NAME = 'eflash-v2';
+const CACHE_NAME = 'eflash-v3';
 const urlsToCache = [
   '/Eflash-1/',
   '/Eflash-1/index.html',
