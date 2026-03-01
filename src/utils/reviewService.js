@@ -7,7 +7,7 @@ class ReviewService {
     this.API_BASE = import.meta.env.VITE_API_BASE || 
                     (import.meta.env.DEV 
                       ? 'http://localhost:8888/.netlify/functions' 
-                      : 'https://chamarait22113122.github.io/.netlify/functions');
+                      : 'https://adorable-dodol-77eb48.netlify.app/api');
   }
 
   // Get all reviews from MongoDB
