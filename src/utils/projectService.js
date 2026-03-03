@@ -168,27 +168,27 @@ class ProjectService {
   }
 
   addFallbackProject(project) {
+    const newProject = {
+      ...project,
+      id: project.id || Date.now().toString(),
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    };
     try {
       const projects = this.getFallbackProjects();
-      const newProject = {
-        ...project,
-        id: project.id || Date.now().toString(),
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
-      };
-
       projects.unshift(newProject);
-      localStorage.setItem('eflash_admin_projects', JSON.stringify(projects));
-
-      // Trigger refresh event
+      try {
+        localStorage.setItem('eflash_admin_projects', JSON.stringify(projects));
+      } catch (quotaErr) {
+        // localStorage quota exceeded — skip persistence, still return the object
+        console.warn('localStorage quota exceeded for projects, skipping local save');
+      }
       window.dispatchEvent(new CustomEvent('projectsUpdate'));
       window.dispatchEvent(new CustomEvent('adminProjectsUpdate'));
-
-      return newProject;
     } catch (error) {
-      console.error('Error adding project to localStorage:', error);
-      return null;
+      console.error('Error in addFallbackProject:', error);
     }
+    return newProject;
   }
 
   updateFallbackProject(projectId, updates) {
@@ -206,9 +206,12 @@ class ProjectService {
         updatedAt: new Date().toISOString()
       };
 
-      localStorage.setItem('eflash_admin_projects', JSON.stringify(projects));
+      try {
+        localStorage.setItem('eflash_admin_projects', JSON.stringify(projects));
+      } catch (quotaErr) {
+        console.warn('localStorage quota exceeded for projects, skipping local save');
+      }
 
-      // Trigger refresh event
       window.dispatchEvent(new CustomEvent('projectsUpdate'));
       window.dispatchEvent(new CustomEvent('adminProjectsUpdate'));
 

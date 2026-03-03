@@ -92,19 +92,25 @@ class ProductService {
     }
 
     addFallbackProduct(product) {
+        const newProduct = {
+            ...product,
+            id: Date.now().toString(),
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString()
+        }
         try {
             const products = this.getFallbackProducts()
-            const newProduct = {
-                ...product,
-                id: Date.now().toString(),
-                createdAt: new Date().toISOString(),
-                updatedAt: new Date().toISOString()
-            }
             products.unshift(newProduct)
-            localStorage.setItem('eflash_admin_products', JSON.stringify(products))
+            try {
+                localStorage.setItem('eflash_admin_products', JSON.stringify(products))
+            } catch (quotaErr) {
+                console.warn('localStorage quota exceeded for products, skipping local save')
+            }
             window.dispatchEvent(new CustomEvent('productsUpdate'))
-            return newProduct
-        } catch { return null }
+        } catch (error) {
+            console.error('Error in addFallbackProduct:', error)
+        }
+        return newProduct
     }
 
     updateFallbackProduct(productId, updates) {
@@ -113,10 +119,17 @@ class ProductService {
             const idx = products.findIndex(p => p.id === productId || p._id === productId)
             if (idx === -1) throw new Error('Not found')
             products[idx] = { ...products[idx], ...updates, updatedAt: new Date().toISOString() }
-            localStorage.setItem('eflash_admin_products', JSON.stringify(products))
+            try {
+                localStorage.setItem('eflash_admin_products', JSON.stringify(products))
+            } catch (quotaErr) {
+                console.warn('localStorage quota exceeded for products, skipping local save')
+            }
             window.dispatchEvent(new CustomEvent('productsUpdate'))
             return products[idx]
-        } catch { return null }
+        } catch (error) {
+            console.error('Error in updateFallbackProduct:', error)
+            return null
+        }
     }
 
     deleteFallbackProduct(productId) {

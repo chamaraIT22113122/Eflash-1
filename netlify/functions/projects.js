@@ -31,9 +31,19 @@ exports.handler = async (event, context) => {
   // Prevent Lambda from waiting for idle MongoDB connections
   context.callbackWaitsForEmptyEventLoop = false;
 
-  // Handle preflight requests immediately — before touching the DB
+  // Always respond to preflight with CORS headers — before any DB work
   if (event.httpMethod === 'OPTIONS') {
     return { statusCode: 200, headers, body: '' };
+  }
+
+  // Guard: MONGODB_URI must be configured in Netlify environment variables
+  if (!process.env.MONGODB_URI) {
+    console.error('MONGODB_URI environment variable is not set');
+    return {
+      statusCode: 503,
+      headers,
+      body: JSON.stringify({ error: 'Database not configured', message: 'MONGODB_URI environment variable is missing. Set it in the Netlify dashboard under Site settings > Environment variables.' })
+    };
   }
 
   try {
