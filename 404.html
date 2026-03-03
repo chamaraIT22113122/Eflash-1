@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>E Flash - Loading...</title>
+  <script>
+    // Handle SPA routing on GitHub Pages
+    (function() {
+      var location = window.location;
+      var repoName = 'Eflash-1';
+      
+      // Get the path after /Eflash-1/
+      var fullPath = location.pathname;
+      var basePath = '/' + repoName + '/';
+      
+      if (fullPath.indexOf(basePath) === 0) {
+        var route = fullPath.substring(basePath.length);
+        
+        if (route) {
+          // Redirect to base with encoded path
+          var redirect = location.protocol + '//' + location.hostname + 
+                        (location.port ? ':' + location.port : '') +
+                        basePath + '?p=/' + route.replace(/&/g, '~and~') +
+                        (location.search ? '&q=' + location.search.slice(1).replace(/&/g, '~and~') : '') +
+                        location.hash;
+          window.location.replace(redirect);
+        } else {
+          // Already at base path
+          window.location.replace(location.protocol + '//' + location.hostname + 
+                                 (location.port ? ':' + location.port : '') + basePath);
+        }
+      }
+    })();
+  </script>
+</head>
+<body>
+  <div style="text-align: center; padding: 50px; font-family: Arial, sans-serif;">
+    <h2>Loading...</h2>
+    <p>Redirecting to E Flash website...</p>
+  </div>
+</body>
+</html>
