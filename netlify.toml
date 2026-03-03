@@ -25,15 +25,25 @@
   to = "/index.html"
   status = 200
 
-# ── CORS headers for the API proxy ────────────────────────────────────────────
-# These apply at Netlify's CDN edge, resolving OPTIONS preflight before the
-# Lambda function is even invoked.
+# ── CORS headers ──────────────────────────────────────────────────────────────
+# Apply at Netlify's CDN edge for ALL responses (including platform-level 500s)
+# so CORS headers are present even if the Lambda function crashes.
 [[headers]]
   for = "/api/*"
   [headers.values]
     Access-Control-Allow-Origin = "*"
     Access-Control-Allow-Headers = "Content-Type, Authorization"
     Access-Control-Allow-Methods = "GET, POST, PUT, DELETE, OPTIONS"
+    Access-Control-Max-Age = "86400"
+
+# Also apply on the underlying function path (covers direct invocations)
+[[headers]]
+  for = "/.netlify/functions/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
+    Access-Control-Allow-Headers = "Content-Type, Authorization"
+    Access-Control-Allow-Methods = "GET, POST, PUT, DELETE, OPTIONS"
+    Access-Control-Max-Age = "86400"
 
 [dev]
   command = "npm run dev"

@@ -4,21 +4,32 @@ let client = null;
 
 async function connectToDatabase() {
     if (!client) {
-        client = new MongoClient(process.env.MONGODB_URI);
-        await client.connect();
+        client = new MongoClient(process.env.MONGODB_URI, {
+            connectTimeoutMS: 5000,
+            serverSelectionTimeoutMS: 5000,
+        });
+        try {
+            await client.connect();
+        } catch (connErr) {
+            client = null;   // allow retry on next invocation
+            throw connErr;
+        }
     }
     return client.db('eflash');
 }
 
-// CORS headers — allow cross-origin calls from GitHub Pages
+// CORS headers — always include these in every response
 const headers = {
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Headers': 'Content-Type, Authorization',
     'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS'
 };
 
-exports.handler = async (event) => {
-    // Handle CORS preflight
+exports.handler = async (event, context) => {
+    // Prevent Lambda from waiting for idle MongoDB connections
+    context.callbackWaitsForEmptyEventLoop = false;
+
+    // Handle CORS preflight immediately — before touching the DB
     if (event.httpMethod === 'OPTIONS') {
         return { statusCode: 200, headers, body: '' };
     }

@@ -2,16 +2,25 @@ const { MongoClient, ObjectId } = require('mongodb');
 
 let client = null;
 
-// Database connection helper
+// Database connection helper — 5 s timeout so the function never hangs
+// long enough for Netlify to kill it with a platform-level 500 (no CORS headers).
 async function connectToDatabase() {
   if (!client) {
-    client = new MongoClient(process.env.MONGODB_URI);
-    await client.connect();
+    client = new MongoClient(process.env.MONGODB_URI, {
+      connectTimeoutMS: 5000,
+      serverSelectionTimeoutMS: 5000,
+    });
+    try {
+      await client.connect();
+    } catch (connErr) {
+      client = null;   // allow retry on next invocation
+      throw connErr;
+    }
   }
   return client.db('eflash');
 }
 
-// CORS headers
+// CORS headers — always include these in every response
 const headers = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'Content-Type, Authorization',
@@ -19,13 +28,12 @@ const headers = {
 };
 
 exports.handler = async (event, context) => {
-  // Handle preflight requests
+  // Prevent Lambda from waiting for idle MongoDB connections
+  context.callbackWaitsForEmptyEventLoop = false;
+
+  // Handle preflight requests immediately — before touching the DB
   if (event.httpMethod === 'OPTIONS') {
-    return {
-      statusCode: 200,
-      headers,
-      body: ''
-    };
+    return { statusCode: 200, headers, body: '' };
   }
 
   try {
