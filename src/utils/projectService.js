@@ -37,15 +37,27 @@ class ProjectService {
     }
   }
 
+  // Helper: remove base64 Data URLs before sending to the API.
+  // Netlify serverless functions reject payloads over 6 MB, and a single
+  // base64-encoded image can easily exceed that limit.
+  _stripBase64Images(data) {
+    const isBase64 = (s) => typeof s === 'string' && s.startsWith('data:');
+    return {
+      ...data,
+      images: (data.images || []).filter(img => !isBase64(img)),
+      thumbnail: isBase64(data.thumbnail) ? '' : (data.thumbnail || ''),
+    };
+  }
+
   // Add a new project to MongoDB
   async addProject(project) {
     try {
-      const projectData = {
+      const projectData = this._stripBase64Images({
         ...project,
         id: project.id || Date.now().toString(),
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString()
-      };
+      });
 
       const response = await fetch(`${this.API_BASE}/projects`, {
         method: 'POST',
@@ -75,10 +87,10 @@ class ProjectService {
   // Update an existing project in MongoDB
   async updateProject(projectId, updates) {
     try {
-      const updateData = {
+      const updateData = this._stripBase64Images({
         ...updates,
         updatedAt: new Date().toISOString()
-      };
+      });
 
       const response = await fetch(`${this.API_BASE}/projects/${projectId}`, {
         method: 'PUT',

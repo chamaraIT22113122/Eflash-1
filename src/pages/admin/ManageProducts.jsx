@@ -290,20 +290,23 @@ const ManageProducts = () => {
 
                 {/* Images */}
                 <div className="form-group full-width">
-                    <label>Product Images</label>
+                    <label>Product Image URL</label>
+                    <input
+                        type="url"
+                        value={data.image || ''}
+                        onChange={e => setter(prev => ({ ...prev, image: e.target.value }))}
+                        placeholder="Paste a hosted image URL (e.g. https://…/image.jpg)"
+                    />
+                    <p className="image-upload-note">
+                        ⚠️ File uploads are for local preview only and will <strong>not</strong> be saved to the database.
+                        Paste a hosted image URL above to save the image permanently.
+                    </p>
+                    <label style={{marginTop:'0.75rem'}}>Upload for preview (optional)</label>
                     <input
                         type="file"
                         multiple
                         accept="image/*"
                         onChange={e => handleImageUpload(e, isEdit)}
-                    />
-                    {/* Image URL fallback */}
-                    <input
-                        type="url"
-                        value={data.image || ''}
-                        onChange={e => setter(prev => ({ ...prev, image: e.target.value }))}
-                        placeholder="Or paste an image URL…"
-                        style={{ marginTop: '0.5rem' }}
                     />
                     {(data.images || []).length > 0 && (
                         <div className="image-preview-grid">

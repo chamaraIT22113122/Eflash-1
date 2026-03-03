@@ -24,14 +24,26 @@ class ProductService {
         }
     }
 
+    // Helper: remove base64 Data URLs before sending to the API.
+    // Netlify serverless functions reject payloads over 6 MB, and a single
+    // base64-encoded image can easily exceed that limit.
+    _stripBase64Images(data) {
+        const isBase64 = (s) => typeof s === 'string' && s.startsWith('data:');
+        return {
+            ...data,
+            images: (data.images || []).filter(img => !isBase64(img)),
+            image: isBase64(data.image) ? '' : (data.image || ''),
+        };
+    }
+
     // ── ADD a product ──
     async addProduct(product) {
         try {
-            const productData = {
+            const productData = this._stripBase64Images({
                 ...product,
                 createdAt: new Date().toISOString(),
                 updatedAt: new Date().toISOString()
-            }
+            })
             const response = await fetch(`${this.API_BASE}/products`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -50,7 +62,7 @@ class ProductService {
     // ── UPDATE a product ──
     async updateProduct(productId, updates) {
         try {
-            const updateData = { ...updates, updatedAt: new Date().toISOString() }
+            const updateData = this._stripBase64Images({ ...updates, updatedAt: new Date().toISOString() })
             const response = await fetch(`${this.API_BASE}/products/${productId}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },

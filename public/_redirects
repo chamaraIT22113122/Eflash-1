@@ -1,0 +1,6 @@
+# API proxy — forward /api/* to Netlify functions
+# This file is processed by Netlify before netlify.toml redirects.
+/api/*  /.netlify/functions/:splat  200
+
+# SPA catch-all (must come AFTER /api/*)
+/*  /index.html  200

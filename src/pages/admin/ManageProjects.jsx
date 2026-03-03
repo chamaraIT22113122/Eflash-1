@@ -371,7 +371,18 @@ const ManageProjects = () => {
 
         {/* Images */}
         <div className="form-group full-width">
-          <label>Project Images</label>
+          <label>Thumbnail / Main Image URL</label>
+          <input
+            type="url"
+            value={data.thumbnail || ''}
+            onChange={e => setter(prev => ({ ...prev, thumbnail: e.target.value }))}
+            placeholder="Paste an image URL (e.g. https://…/image.jpg)"
+          />
+          <p className="image-upload-note">
+            ⚠️ File uploads are for local preview only and will <strong>not</strong> be saved to the database.
+            Paste a hosted image URL above to save the image permanently.
+          </p>
+          <label style={{marginTop:'0.75rem'}}>Upload for preview (optional)</label>
           <input
             type="file"
             multiple
