@@ -115,8 +115,8 @@ const ManageProducts = () => {
             await productService.updateProduct(id, data)
             await loadProducts()
             setEditingProduct(null)
-        } catch {
-            setError('Failed to update product. Please try again.')
+        } catch (err) {
+            setError(`❌ Failed to update product: ${err.message}`)
         } finally {
             setLoading(false)
         }
@@ -129,8 +129,8 @@ const ManageProducts = () => {
             setError('')
             await productService.deleteProduct(id)
             await loadProducts()
-        } catch {
-            setError('Failed to delete product. Please try again.')
+        } catch (err) {
+            setError(`❌ Failed to delete product: ${err.message}`)
         } finally {
             setLoading(false)
         }
@@ -301,7 +301,7 @@ const ManageProducts = () => {
                         ⚠️ File uploads are for local preview only and will <strong>not</strong> be saved to the database.
                         Paste a hosted image URL above to save the image permanently.
                     </p>
-                    <label style={{marginTop:'0.75rem'}}>Upload for preview (optional)</label>
+                    <label style={{ marginTop: '0.75rem' }}>Upload for preview (optional)</label>
                     <input
                         type="file"
                         multiple
@@ -457,7 +457,7 @@ const ManageProducts = () => {
                                 )}
                             </div>
                             <div className="product-card-actions">
-                                <button onClick={() => setEditingProduct({ ...product })} className="btn-edit" title="Edit">
+                                <button onClick={() => setEditingProduct({ ...product, images: product.images || [], tags: product.tags || [] })} className="btn-edit" title="Edit">
                                     <FaEdit />
                                 </button>
                                 <button onClick={() => handleDelete(product._id || product.id)} className="btn-delete" title="Delete">

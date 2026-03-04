@@ -86,62 +86,60 @@ class ProjectService {
 
   // Update an existing project in MongoDB
   async updateProject(projectId, updates) {
-    try {
-      const updateData = this._stripBase64Images({
-        ...updates,
-        updatedAt: new Date().toISOString()
-      });
+    const updateData = this._stripBase64Images({
+      ...updates,
+      updatedAt: new Date().toISOString()
+    });
 
-      const response = await fetch(`${this.API_BASE}/projects/${projectId}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(updateData),
-      });
+    const response = await fetch(`${this.API_BASE}/projects/${projectId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(updateData),
+    });
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const updatedProject = await response.json();
-
-      // Trigger refresh event for other components
-      window.dispatchEvent(new CustomEvent('projectsUpdate'));
-
-      return updatedProject;
-    } catch (error) {
-      console.error('Error updating project:', error);
-      // Fallback to localStorage
-      return this.updateFallbackProject(projectId, updates);
+    if (!response.ok) {
+      let errMsg = `HTTP error! status: ${response.status}`;
+      try {
+        const errBody = await response.json();
+        if (errBody.error) errMsg = errBody.error;
+      } catch (_) { }
+      throw new Error(errMsg);
     }
+
+    const updatedProject = await response.json();
+
+    // Trigger refresh event for other components
+    window.dispatchEvent(new CustomEvent('projectsUpdate'));
+
+    return updatedProject;
   }
 
   // Delete a project from MongoDB
   async deleteProject(projectId) {
-    try {
-      const response = await fetch(`${this.API_BASE}/projects/${projectId}`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+    const response = await fetch(`${this.API_BASE}/projects/${projectId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const result = await response.json();
-
-      // Trigger refresh event for other components
-      window.dispatchEvent(new CustomEvent('projectsUpdate'));
-
-      return result;
-    } catch (error) {
-      console.error('Error deleting project:', error);
-      // Fallback to localStorage
-      return this.deleteFallbackProject(projectId);
+    if (!response.ok) {
+      let errMsg = `HTTP error! status: ${response.status}`;
+      try {
+        const errBody = await response.json();
+        if (errBody.error) errMsg = errBody.error;
+      } catch (_) { }
+      throw new Error(errMsg);
     }
+
+    const result = await response.json();
+
+    // Trigger refresh event for other components
+    window.dispatchEvent(new CustomEvent('projectsUpdate'));
+
+    return result;
   }
 
   // Get a single project by ID from MongoDB

@@ -61,38 +61,36 @@ class ProductService {
 
     // ── UPDATE a product ──
     async updateProduct(productId, updates) {
-        try {
-            const updateData = this._stripBase64Images({ ...updates, updatedAt: new Date().toISOString() })
-            const response = await fetch(`${this.API_BASE}/products/${productId}`, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(updateData)
-            })
-            if (!response.ok) throw new Error(`HTTP ${response.status}`)
-            const updated = await response.json()
-            window.dispatchEvent(new CustomEvent('productsUpdate'))
-            return updated
-        } catch (error) {
-            console.error('Error updating product:', error)
-            return this.updateFallbackProduct(productId, updates)
+        const updateData = this._stripBase64Images({ ...updates, updatedAt: new Date().toISOString() })
+        const response = await fetch(`${this.API_BASE}/products/${productId}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(updateData)
+        })
+        if (!response.ok) {
+            let errMsg = `HTTP ${response.status}`
+            try { const b = await response.json(); if (b.error) errMsg = b.error } catch (_) { }
+            throw new Error(errMsg)
         }
+        const updated = await response.json()
+        window.dispatchEvent(new CustomEvent('productsUpdate'))
+        return updated
     }
 
     // ── DELETE a product ──
     async deleteProduct(productId) {
-        try {
-            const response = await fetch(`${this.API_BASE}/products/${productId}`, {
-                method: 'DELETE',
-                headers: { 'Content-Type': 'application/json' }
-            })
-            if (!response.ok) throw new Error(`HTTP ${response.status}`)
-            const result = await response.json()
-            window.dispatchEvent(new CustomEvent('productsUpdate'))
-            return result
-        } catch (error) {
-            console.error('Error deleting product:', error)
-            return this.deleteFallbackProduct(productId)
+        const response = await fetch(`${this.API_BASE}/products/${productId}`, {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' }
+        })
+        if (!response.ok) {
+            let errMsg = `HTTP ${response.status}`
+            try { const b = await response.json(); if (b.error) errMsg = b.error } catch (_) { }
+            throw new Error(errMsg)
         }
+        const result = await response.json()
+        window.dispatchEvent(new CustomEvent('productsUpdate'))
+        return result
     }
 
     // ── localStorage fallbacks ──

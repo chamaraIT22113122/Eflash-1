@@ -1,5 +1,10 @@
 const { MongoClient, ObjectId } = require('mongodb');
 
+// Validate that a string is a proper MongoDB ObjectId (24-char hex)
+function isValidObjectId(id) {
+  return typeof id === 'string' && /^[a-fA-F0-9]{24}$/.test(id);
+}
+
 let client = null;
 
 // Database connection helper — 5 s timeout so the function never hangs
@@ -52,7 +57,7 @@ exports.handler = async (event, context) => {
     // Strip prefix for both direct and proxied access:
     //   Direct:  /.netlify/functions/projects[/id]
     //   Proxied: /api/projects[/id]  (via netlify.toml redirect)
-    const rawPath = event.path || '';
+    const rawPath = event.rawPath || event.path || '';
     const subPath = rawPath.replace(/^.*\/projects/, '');
     const pathParts = subPath.split('/').filter(p => p);
 
@@ -73,6 +78,9 @@ exports.handler = async (event, context) => {
         } else {
           // Get single project by ID
           const projectId = pathParts[0];
+          if (!isValidObjectId(projectId)) {
+            return { statusCode: 400, headers, body: JSON.stringify({ error: 'Invalid project ID format' }) };
+          }
           const project = await collection.findOne({ _id: new ObjectId(projectId) });
 
           if (!project) {
@@ -118,6 +126,9 @@ exports.handler = async (event, context) => {
         }
 
         const updateProjectId = pathParts[0];
+        if (!isValidObjectId(updateProjectId)) {
+          return { statusCode: 400, headers, body: JSON.stringify({ error: 'Invalid project ID format. This project may have been created in offline mode and cannot be updated via the database.' }) };
+        }
         const updateData = {
           ...JSON.parse(event.body),
           updatedAt: new Date()
@@ -141,6 +152,7 @@ exports.handler = async (event, context) => {
 
         const updatedProject = await collection.findOne({ _id: new ObjectId(updateProjectId) });
 
+
         return {
           statusCode: 200,
           headers,
@@ -158,6 +170,9 @@ exports.handler = async (event, context) => {
         }
 
         const deleteProjectId = pathParts[0];
+        if (!isValidObjectId(deleteProjectId)) {
+          return { statusCode: 400, headers, body: JSON.stringify({ error: 'Invalid project ID format. This project may have been created in offline mode and cannot be deleted from the database.' }) };
+        }
         const deleteResult = await collection.deleteOne({ _id: new ObjectId(deleteProjectId) });
 
         if (deleteResult.deletedCount === 0) {

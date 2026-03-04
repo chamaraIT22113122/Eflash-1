@@ -90,12 +90,19 @@ const ManageProjects = () => {
   const techOptions = ['React', 'Vue', 'Angular', 'WordPress', 'Shopify', 'HTML', 'CSS', 'JavaScript', 'Node.js', 'Python', 'Tailwind', 'Bootstrap', 'MongoDB', 'MySQL', 'Firebase']
 
   const handleAddProject = async () => {
-    if (!newProject.title || !newProject.description) return
+    if (!newProject.title.trim()) {
+      setError('⚠️ Please enter a Project Title.')
+      return
+    }
+    if (!newProject.description.trim()) {
+      setError('⚠️ Please enter a short Description.')
+      return
+    }
 
     try {
       setLoading(true)
       setError('')
-      
+
       const projectData = {
         ...newProject,
         tags: newProject.tags.filter(tag => tag.trim()),
@@ -106,7 +113,7 @@ const ManageProjects = () => {
 
       const savedProject = await projectService.addProject(projectData)
       await loadProjects() // Reload all projects from database
-      
+
       setNewProject(emptyProject)
       setIsAddingNew(false)
     } catch (error) {
@@ -117,17 +124,23 @@ const ManageProjects = () => {
     }
   }
 
-  const handleEditProject = (project) => {
-    setEditingProject({ ...project })
+  const handleEditProject = async (project) => {
+    // Initialize images to empty array in case the list API omitted it (projection: { images: 0 })
+    setEditingProject({ ...project, images: project.images || [], tags: project.tags || [], technologies: project.technologies || [], features: project.features || [] })
+    // Optionally try to fetch the full project (with images) in the background
+    try {
+      const full = await projectService.getProjectById(project._id || project.id)
+      if (full) setEditingProject({ ...full, images: full.images || [], tags: full.tags || [], technologies: full.technologies || [], features: full.features || [] })
+    } catch (_) { /* keep the partial data already set */ }
   }
 
   const handleSaveEdit = async () => {
     if (!editingProject) return
-    
+
     try {
       setLoading(true)
       setError('')
-      
+
       const projectId = editingProject._id || editingProject.id
       const updateData = {
         ...editingProject,
@@ -135,11 +148,11 @@ const ManageProjects = () => {
       }
       await projectService.updateProject(projectId, updateData)
       await loadProjects() // Reload all projects from database
-      
+
       setEditingProject(null)
     } catch (error) {
       console.error('Error updating project:', error)
-      setError('Failed to update project. Please try again.')
+      setError(`❌ Failed to update project: ${error.message}`)
     } finally {
       setLoading(false)
     }
@@ -150,12 +163,12 @@ const ManageProjects = () => {
       try {
         setLoading(true)
         setError('')
-        
+
         await projectService.deleteProject(id)
         await loadProjects() // Reload all projects from database
       } catch (error) {
         console.error('Error deleting project:', error)
-        setError('Failed to delete project. Please try again.')
+        setError(`❌ Failed to delete project: ${error.message}`)
       } finally {
         setLoading(false)
       }
@@ -170,12 +183,12 @@ const ManageProjects = () => {
         if (isEdit) {
           setEditingProject(prev => ({
             ...prev,
-            images: [...prev.images, reader.result]
+            images: [...(prev.images || []), reader.result]
           }))
         } else {
           setNewProject(prev => ({
             ...prev,
-            images: [...prev.images, reader.result]
+            images: [...(prev.images || []), reader.result]
           }))
         }
       }
@@ -257,7 +270,7 @@ const ManageProjects = () => {
           <input
             type="text"
             value={data.title}
-            onChange={(e) => setter({ ...data, title: e.target.value })}
+            onChange={(e) => setter(prev => ({ ...prev, title: e.target.value }))}
             placeholder="Enter project title"
           />
         </div>
@@ -267,7 +280,7 @@ const ManageProjects = () => {
           <input
             type="text"
             value={data.category || ''}
-            onChange={(e) => setter({ ...data, category: e.target.value })}
+            onChange={(e) => setter(prev => ({ ...prev, category: e.target.value }))}
             placeholder="Type or pick a category below…"
           />
           {categories.length > 0 && (
@@ -277,7 +290,7 @@ const ManageProjects = () => {
                   key={cat}
                   type="button"
                   className={`category-chip${data.category === cat ? ' active' : ''}`}
-                  onClick={() => setter({ ...data, category: cat })}
+                  onClick={() => setter(prev => ({ ...prev, category: cat }))}
                 >
                   {cat}
                 </button>
@@ -382,7 +395,7 @@ const ManageProjects = () => {
             ⚠️ File uploads are for local preview only and will <strong>not</strong> be saved to the database.
             Paste a hosted image URL above to save the image permanently.
           </p>
-          <label style={{marginTop:'0.75rem'}}>Upload for preview (optional)</label>
+          <label style={{ marginTop: '0.75rem' }}>Upload for preview (optional)</label>
           <input
             type="file"
             multiple
@@ -418,12 +431,14 @@ const ManageProjects = () => {
                 type="button"
                 className={`tech-option ${(data.technologies || []).includes(tech) ? 'selected' : ''}`}
                 onClick={() => {
-                  const current = data.technologies || []
-                  setter({
-                    ...data,
-                    technologies: current.includes(tech)
-                      ? current.filter(t => t !== tech)
-                      : [...current, tech]
+                  setter(prev => {
+                    const current = prev.technologies || []
+                    return {
+                      ...prev,
+                      technologies: current.includes(tech)
+                        ? current.filter(t => t !== tech)
+                        : [...current, tech]
+                    }
                   })
                 }}
               >
@@ -538,7 +553,7 @@ const ManageProjects = () => {
             Manage Categories
           </button>
           {!isAddingNew && (
-            <button 
+            <button
               className="add-project-btn"
               onClick={() => setIsAddingNew(true)}
             >
@@ -587,7 +602,7 @@ const ManageProjects = () => {
 
       {/* Add New Project Form */}
       {isAddingNew && (
-        <motion.div 
+        <motion.div
           className="project-form-card"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -637,8 +652,8 @@ const ManageProjects = () => {
               layout
             >
               <div className="project-thumbnail">
-                {(project.images?.[0] || project.thumbnail) ? (
-                  <img src={project.images?.[0] || project.thumbnail} alt={project.title} />
+                {(project.thumbnail || project.images?.[0]) ? (
+                  <img src={project.thumbnail || project.images?.[0]} alt={project.title} />
                 ) : (
                   <div className="no-image">
                     <FaImage />
@@ -651,7 +666,7 @@ const ManageProjects = () => {
                 <p className="project-category">{project.category}</p>
                 {project.clientName && <p className="project-client">Client: {project.clientName}</p>}
                 <p className="project-description">{project.description}</p>
-                
+
                 {project.technologies && project.technologies.length > 0 && (
                   <div className="tech-tags">
                     {project.technologies.slice(0, 3).map(tech => (

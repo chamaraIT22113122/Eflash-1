@@ -1,5 +1,10 @@
 const { MongoClient, ObjectId } = require('mongodb');
 
+// Validate that a string is a proper MongoDB ObjectId (24-char hex)
+function isValidObjectId(id) {
+    return typeof id === 'string' && /^[a-fA-F0-9]{24}$/.test(id);
+}
+
 let client = null;
 
 async function connectToDatabase() {
@@ -50,7 +55,7 @@ exports.handler = async (event, context) => {
         // Strip prefix for both direct and proxied access:
         //   Direct:  /.netlify/functions/products[/id]
         //   Proxied: /api/products[/id]  (via netlify.toml redirect)
-        const rawPath = event.path || '';
+        const rawPath = event.rawPath || event.path || '';
         const subPath = rawPath.replace(/^.*\/products/, '');
         const pathParts = subPath.split('/').filter(Boolean);
 
@@ -66,6 +71,7 @@ exports.handler = async (event, context) => {
                         .toArray();
                     return { statusCode: 200, headers, body: JSON.stringify(products) };
                 } else {
+                    if (!isValidObjectId(pathParts[0])) return { statusCode: 400, headers, body: JSON.stringify({ error: 'Invalid product ID format' }) };
                     const product = await collection.findOne({ _id: new ObjectId(pathParts[0]) });
                     if (!product) return { statusCode: 404, headers, body: JSON.stringify({ error: 'Product not found' }) };
                     return { statusCode: 200, headers, body: JSON.stringify(product) };
@@ -86,6 +92,7 @@ exports.handler = async (event, context) => {
             // ── PUT ──────────────────────────────────────────────────────────────
             case 'PUT': {
                 if (pathParts.length === 0) return { statusCode: 400, headers, body: JSON.stringify({ error: 'Product ID required' }) };
+                if (!isValidObjectId(pathParts[0])) return { statusCode: 400, headers, body: JSON.stringify({ error: 'Invalid product ID format. This product may have been created in offline mode and cannot be updated via the database.' }) };
                 const updateData = { ...JSON.parse(event.body), updatedAt: new Date() };
                 delete updateData._id;
                 const updateResult = await collection.updateOne(
@@ -100,6 +107,7 @@ exports.handler = async (event, context) => {
             // ── DELETE ───────────────────────────────────────────────────────────
             case 'DELETE': {
                 if (pathParts.length === 0) return { statusCode: 400, headers, body: JSON.stringify({ error: 'Product ID required' }) };
+                if (!isValidObjectId(pathParts[0])) return { statusCode: 400, headers, body: JSON.stringify({ error: 'Invalid product ID format. This product may have been created in offline mode and cannot be deleted from the database.' }) };
                 const deleteResult = await collection.deleteOne({ _id: new ObjectId(pathParts[0]) });
                 if (deleteResult.deletedCount === 0) return { statusCode: 404, headers, body: JSON.stringify({ error: 'Product not found' }) };
                 return { statusCode: 200, headers, body: JSON.stringify({ message: 'Product deleted successfully' }) };
