@@ -1,31 +1,26 @@
-// GET /api/products   — list all products
-// POST /api/products  — create a product
-const { connectToDatabase, handlePreflightAndGuard } = require('./_db');
+// GET /api/reviews
+// POST /api/reviews
+const { connectToDatabase, handlePreflightAndGuard } = require('../_db');
 
 module.exports = async (req, res) => {
     if (handlePreflightAndGuard(req, res)) return;
 
     try {
         const db = await connectToDatabase();
-        const collection = db.collection('products');
+        const collection = db.collection('reviews');
 
         if (req.method === 'GET') {
-            // Exclude base64 images array to stay under response size limits.
-            // The `image` thumbnail URL field is kept for card display.
-            const products = await collection
-                .find({}, { projection: { images: 0 } })
-                .sort({ createdAt: -1 })
-                .toArray();
-            return res.status(200).json(products);
+            const reviews = await collection.find({}).sort({ createdAt: -1 }).toArray();
+            return res.status(200).json(reviews);
         }
 
         if (req.method === 'POST') {
-            const newProduct = {
+            const newReview = {
                 ...req.body,
                 createdAt: new Date(),
                 updatedAt: new Date(),
             };
-            const insertResult = await collection.insertOne(newProduct);
+            const insertResult = await collection.insertOne(newReview);
             const created = await collection.findOne({ _id: insertResult.insertedId });
             return res.status(201).json(created);
         }

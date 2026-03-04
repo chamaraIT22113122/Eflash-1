@@ -1,31 +1,29 @@
-// GET /api/projects   — list all projects
-// POST /api/projects  — create a project
-const { connectToDatabase, handlePreflightAndGuard } = require('./_db');
+// GET /api/products   — list all products
+// POST /api/products  — create a product
+const { connectToDatabase, handlePreflightAndGuard } = require('../_db');
 
 module.exports = async (req, res) => {
     if (handlePreflightAndGuard(req, res)) return;
 
     try {
         const db = await connectToDatabase();
-        const collection = db.collection('projects');
+        const collection = db.collection('products');
 
         if (req.method === 'GET') {
-            // Exclude base64 images array to stay under response size limits.
-            // The `thumbnail` URL field is kept for card display.
-            const projects = await collection
-                .find({}, { projection: { images: 0 } })
+            const products = await collection
+                .find({})
                 .sort({ createdAt: -1 })
                 .toArray();
-            return res.status(200).json(projects);
+            return res.status(200).json(products);
         }
 
         if (req.method === 'POST') {
-            const newProject = {
+            const newProduct = {
                 ...req.body,
                 createdAt: new Date(),
                 updatedAt: new Date(),
             };
-            const insertResult = await collection.insertOne(newProject);
+            const insertResult = await collection.insertOne(newProduct);
             const created = await collection.findOne({ _id: insertResult.insertedId });
             return res.status(201).json(created);
         }

@@ -138,13 +138,21 @@ const ManageProducts = () => {
 
     // ── Image upload ──
     const handleImageUpload = (e, isEdit = false) => {
-        Array.from(e.target.files).forEach(file => {
+        const files = Array.from(e.target.files)
+        files.forEach(file => {
             const reader = new FileReader()
             reader.onloadend = () => {
+                const result = reader.result
                 if (isEdit) {
-                    setEditingProduct(prev => ({ ...prev, images: [...(prev.images || []), reader.result] }))
+                    setEditingProduct(prev => ({
+                        ...prev,
+                        images: Array.isArray(prev.images) ? [...prev.images, result] : [result]
+                    }))
                 } else {
-                    setNewProduct(prev => ({ ...prev, images: [...(prev.images || []), reader.result] }))
+                    setNewProduct(prev => ({
+                        ...prev,
+                        images: Array.isArray(prev.images) ? [...prev.images, result] : [result]
+                    }))
                 }
             }
             reader.readAsDataURL(file)
@@ -297,9 +305,14 @@ const ManageProducts = () => {
                         onChange={e => setter(prev => ({ ...prev, image: e.target.value }))}
                         placeholder="Paste a hosted image URL (e.g. https://…/image.jpg)"
                     />
-                    <p className="image-upload-note">
-                        ⚠️ File uploads are for local preview only and will <strong>not</strong> be saved to the database.
-                        Paste a hosted image URL above to save the image permanently.
+                    {data.image && (
+                        <div className="url-preview" style={{ marginTop: '0.5rem' }}>
+                            <p style={{ fontSize: '0.8rem', color: '#666', marginBottom: '0.25rem' }}>URL Preview:</p>
+                            <img src={data.image} alt="URL Preview" style={{ maxHeight: '120px', borderRadius: '4px', border: '1px solid #ddd' }} />
+                        </div>
+                    )}
+                    <p className="image-upload-note" style={{ color: '#4CAF50', backgroundColor: '#e8f5e9', padding: '0.5rem', borderRadius: '4px', marginTop: '0.75rem' }}>
+                        ✨ <strong>Uploads supported!</strong> Both file uploads and image URLs are now saved directly to the database.
                     </p>
                     <label style={{ marginTop: '0.75rem' }}>Upload for preview (optional)</label>
                     <input

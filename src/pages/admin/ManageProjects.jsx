@@ -180,15 +180,16 @@ const ManageProjects = () => {
     files.forEach(file => {
       const reader = new FileReader()
       reader.onloadend = () => {
+        const result = reader.result
         if (isEdit) {
           setEditingProject(prev => ({
             ...prev,
-            images: [...(prev.images || []), reader.result]
+            images: Array.isArray(prev.images) ? [...prev.images, result] : [result]
           }))
         } else {
           setNewProject(prev => ({
             ...prev,
-            images: [...(prev.images || []), reader.result]
+            images: Array.isArray(prev.images) ? [...prev.images, result] : [result]
           }))
         }
       }
@@ -391,9 +392,14 @@ const ManageProjects = () => {
             onChange={e => setter(prev => ({ ...prev, thumbnail: e.target.value }))}
             placeholder="Paste an image URL (e.g. https://…/image.jpg)"
           />
-          <p className="image-upload-note">
-            ⚠️ File uploads are for local preview only and will <strong>not</strong> be saved to the database.
-            Paste a hosted image URL above to save the image permanently.
+          {data.thumbnail && (
+            <div className="url-preview" style={{ marginTop: '0.5rem' }}>
+              <p style={{ fontSize: '0.8rem', color: '#666', marginBottom: '0.25rem' }}>URL Preview:</p>
+              <img src={data.thumbnail} alt="URL Preview" style={{ maxHeight: '120px', borderRadius: '4px', border: '1px solid #ddd' }} />
+            </div>
+          )}
+          <p className="image-upload-note" style={{ color: '#4CAF50', backgroundColor: '#e8f5e9', padding: '0.5rem', borderRadius: '4px', marginTop: '0.75rem' }}>
+            ✨ <strong>Uploads supported!</strong> Both file uploads and image URLs are now saved directly to the database.
           </p>
           <label style={{ marginTop: '0.75rem' }}>Upload for preview (optional)</label>
           <input

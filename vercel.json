@@ -1,14 +1,52 @@
 {
     "version": 2,
-    "routes": [
+    "headers": [
         {
-            "src": "/api/(.*)",
-            "headers": {
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Methods": "GET,OPTIONS,PATCH,DELETE,POST,PUT",
-                "Access-Control-Allow-Headers": "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, Authorization"
-            },
-            "continue": true
+            "source": "/api/(.*)",
+            "headers": [
+                {
+                    "key": "Access-Control-Allow-Origin",
+                    "value": "*"
+                },
+                {
+                    "key": "Access-Control-Allow-Methods",
+                    "value": "GET,OPTIONS,PATCH,DELETE,POST,PUT"
+                },
+                {
+                    "key": "Access-Control-Allow-Headers",
+                    "value": "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, Authorization"
+                },
+                {
+                    "key": "Access-Control-Max-Age",
+                    "value": "86400"
+                }
+            ]
+        }
+    ],
+    "rewrites": [
+        {
+            "source": "/api/products",
+            "destination": "/api/products/index.js"
+        },
+        {
+            "source": "/api/products/:id",
+            "destination": "/api/products/[id].js"
+        },
+        {
+            "source": "/api/projects",
+            "destination": "/api/projects/index.js"
+        },
+        {
+            "source": "/api/projects/:id",
+            "destination": "/api/projects/[id].js"
+        },
+        {
+            "source": "/api/reviews",
+            "destination": "/api/reviews/index.js"
+        },
+        {
+            "source": "/api/reviews/:id",
+            "destination": "/api/reviews/[id].js"
         }
     ]
 }
