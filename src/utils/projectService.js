@@ -29,6 +29,8 @@ class ProjectService {
       }
 
       const projects = await response.json();
+      // API reachable — wipe any stale localStorage cache so it never leaks back
+      localStorage.removeItem('eflash_admin_projects');
       return projects || [];
     } catch (error) {
       console.error('Error fetching projects:', error);

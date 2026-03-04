@@ -17,7 +17,10 @@ class ProductService {
                 headers: { 'Content-Type': 'application/json' }
             })
             if (!response.ok) throw new Error(`HTTP ${response.status}`)
-            return (await response.json()) || []
+            const data = (await response.json()) || []
+            // API reachable — wipe any stale localStorage cache so it never leaks back
+            localStorage.removeItem('eflash_admin_products')
+            return data
         } catch (error) {
             console.error('Error fetching products:', error)
             return this.getFallbackProducts()
