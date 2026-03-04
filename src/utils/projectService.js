@@ -11,7 +11,7 @@ class ProjectService {
     this.API_BASE = import.meta.env.VITE_API_BASE ||
       (import.meta.env.DEV
         ? 'http://localhost:8888/.netlify/functions'
-        : 'https://adorable-dodol-77eb48.netlify.app/api');
+        : 'https://eflash-1.vercel.app/api');
   }
 
   // Get all projects from MongoDB

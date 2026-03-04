@@ -7,7 +7,7 @@ This project uses a **dual-deployment** setup:
 | What | Where | URL |
 |------|-------|-----|
 | **Frontend** (React/static files) | GitHub Pages | `https://chamarait22113122.github.io/Eflash-1/` |
-| **Backend** (Netlify Functions + MongoDB) | Netlify | `https://adorable-dodol-77eb48.netlify.app/.netlify/functions` |
+| **Backend** (Netlify Functions + MongoDB) | Netlify | `https://eflash-1.vercel.app/api` |
 
 The GitHub Pages site calls the Netlify Functions API for all project/review CRUD.
 Projects are stored in **MongoDB Atlas** and persist forever — surviving all page refreshes.
@@ -16,7 +16,7 @@ Projects are stored in **MongoDB Atlas** and persist forever — surviving all p
 
 ## ✅ Current Status (Already Configured)
 
-- ✅ `projectService.js` → calls `https://adorable-dodol-77eb48.netlify.app/.netlify/functions`
+- ✅ `projectService.js` → calls `https://eflash-1.vercel.app/api`
 - ✅ `deploy.ps1` → bakes the correct Netlify API URL into every GitHub Pages build
 - ✅ CORS headers → `Access-Control-Allow-Origin: *` on all Netlify Functions
 - ✅ Fallback → if Netlify is unreachable, data saves to browser `localStorage`
@@ -59,8 +59,8 @@ Go to **Site Settings → Environment Variables** and add:
 
 Click **"Deploy site"** in Netlify. After 1-2 minutes your Functions will be live at:
 ```
-https://adorable-dodol-77eb48.netlify.app/.netlify/functions/projects
-https://adorable-dodol-77eb48.netlify.app/.netlify/functions/reviews
+https://eflash-1.vercel.app/api/projects
+https://eflash-1.vercel.app/api/reviews
 ```
 
 ---
@@ -74,7 +74,7 @@ npm run deploy
 ```
 
 This runs `deploy.ps1` which:
-1. Sets `VITE_API_BASE=https://adorable-dodol-77eb48.netlify.app/.netlify/functions`
+1. Sets `VITE_API_BASE=https://eflash-1.vercel.app/api`
 2. Builds the React app (with the Netlify URL baked in)
 3. Copies built files to the repo root
 4. Commits and pushes to GitHub → GitHub Pages auto-serves them
@@ -83,7 +83,7 @@ This runs `deploy.ps1` which:
 
 ## 📡 API Endpoints
 
-Base URL: `https://adorable-dodol-77eb48.netlify.app/.netlify/functions`
+Base URL: `https://eflash-1.vercel.app/api`
 
 ### Projects
 | Method | Endpoint | Action |
@@ -158,7 +158,7 @@ Admin adds a project
        ↓
 projectService.addProject()
        ↓
-  POST → https://adorable-dodol-77eb48.netlify.app/.netlify/functions/projects
+  POST → https://eflash-1.vercel.app/api/projects
        ↓
   Netlify Function → MongoDB Atlas (saved forever)
        ↓
@@ -217,4 +217,4 @@ The Netlify Functions cannot be reached. Ensure:
 
 **Live URLs:**
 - 🌐 **Frontend**: https://chamarait22113122.github.io/Eflash-1/
-- ⚡ **API**: https://adorable-dodol-77eb48.netlify.app/.netlify/functions/
+- ⚡ **API**: https://eflash-1.vercel.app/api/

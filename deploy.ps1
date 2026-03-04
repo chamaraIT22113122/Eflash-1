@@ -3,7 +3,7 @@ Write-Host "Building project..." -ForegroundColor Cyan
 
 # Use /api proxy path (not /.netlify/functions) so Netlify can apply CORS
 # headers at the CDN level — fixes cross-origin preflight failures.
-$env:VITE_API_BASE = "https://adorable-dodol-77eb48.netlify.app/api"
+$env:VITE_API_BASE = "https://eflash-1.vercel.app/api"
 
 npm run build
 
