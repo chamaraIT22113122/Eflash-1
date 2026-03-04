@@ -348,3 +348,88 @@
     justify-content: center;
   }
 }
+
+/* ── Loading State ─────────────────────────────────────────────────────────── */
+.shop-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 0;
+  gap: 1.25rem;
+  color: #888;
+  font-size: 1.1rem;
+}
+
+.shop-spinner {
+  width: 48px;
+  height: 48px;
+  border: 4px solid rgba(124, 58, 237, 0.15);
+  border-top-color: var(--primary-color);
+  border-radius: 50%;
+  animation: shopSpin 0.75s linear infinite;
+}
+
+@keyframes shopSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ── Empty State ───────────────────────────────────────────────────────────── */
+.shop-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 20px;
+  gap: 1rem;
+  color: #aaa;
+  text-align: center;
+}
+
+.shop-empty svg {
+  color: var(--primary-color);
+  opacity: 0.4;
+}
+
+.shop-empty h2 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text-color);
+  margin: 0;
+}
+
+.shop-empty p {
+  font-size: 1rem;
+  max-width: 380px;
+}
+
+/* ── Product Badge ─────────────────────────────────────────────────────────── */
+.product-badge-tag {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: var(--primary-color);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 50px;
+  z-index: 2;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ── No Image Placeholder ──────────────────────────────────────────────────── */
+.product-no-image {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(124, 58, 237, 0.06);
+  color: var(--primary-color);
+  opacity: 0.5;
+  font-size: 3rem;
+}

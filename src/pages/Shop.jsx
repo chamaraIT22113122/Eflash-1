@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { FaShoppingCart, FaEye, FaWhatsapp } from 'react-icons/fa'
+import { FaShoppingCart, FaEye, FaWhatsapp, FaBoxOpen } from 'react-icons/fa'
 import SEO from '../components/SEO'
 import { useToast } from '../context/ToastContext'
 import { useCart } from '../context/CartContext'
@@ -12,155 +12,50 @@ const Shop = () => {
   const toast = useToast()
   const { addToCart } = useCart()
   const [selectedCategory, setSelectedCategory] = useState('all')
-  const [adminProducts, setAdminProducts] = useState([])
+  const [products, setProducts] = useState([])
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const loadAdminProducts = async () => {
-      const fetched = await productService.getAllProducts()
-      setAdminProducts(fetched)
+    const loadProducts = async () => {
+      setLoading(true)
+      try {
+        const fetched = await productService.getAllProducts()
+        // Only show in-stock products on the public shop page
+        setProducts(fetched.filter(p => p.inStock !== false))
+      } catch {
+        setProducts([])
+      } finally {
+        setLoading(false)
+      }
     }
-    loadAdminProducts()
+    loadProducts()
 
     // Re-fetch whenever admin saves/deletes a product
-    window.addEventListener('productsUpdate', loadAdminProducts)
-    return () => window.removeEventListener('productsUpdate', loadAdminProducts)
+    window.addEventListener('productsUpdate', loadProducts)
+    return () => window.removeEventListener('productsUpdate', loadProducts)
   }, [])
 
-  const products = [
-    {
-      id: 1,
-      name: 'Oversize T-shirt (The same but different)',
-      description: 'Where premium quality meets unparalleled style. Elevate your wardrobe with our latest collection, crafted from the finest Heavy GSM material for a truly luxurious feel.',
-      price: 2650.00,
-      image: `${import.meta.env.BASE_URL}assets/images/Shop/Evoke/123.png`,
-      category: 'clothes'
-    },
-    {
-      id: 2,
-      name: 'Oversize T-shirt (Aesthetic)',
-      description: 'Where premium quality meets unparalleled style. Elevate your wardrobe with our latest collection, crafted from the finest Heavy GSM material for a truly luxurious feel.',
-      price: 2750.00,
-      image: `${import.meta.env.BASE_URL}assets/images/Shop/Evoke/astronaut.jpg`,
-      category: 'clothes'
-    },
-    {
-      id: 3,
-      name: 'Oversize T-shirt (Anime)',
-      description: 'Where premium quality meets unparalleled style. Elevate your wardrobe with our latest collection, crafted from the finest Heavy GSM material for a truly luxurious feel.',
-      price: 2790.00,
-      image: `${import.meta.env.BASE_URL}assets/images/Shop/Evoke/15.png`,
-      category: 'clothes'
-    },
-    {
-      id: 4,
-      name: 'Oversize T-shirt (Modern)',
-      description: 'Where premium quality meets unparalleled style. Elevate your wardrobe with our latest collection, crafted from the finest Heavy GSM material for a truly luxurious feel.',
-      price: 2650.00,
-      image: `${import.meta.env.BASE_URL}assets/images/Shop/Evoke/9752418 (1).jpg`,
-      category: 'clothes'
-    },
-    {
-      id: 5,
-      name: 'Oversize T-shirt (Beast)',
-      description: 'Where premium quality meets unparalleled style. Elevate your wardrobe with our latest collection, crafted from the finest Heavy GSM material for a truly luxurious feel.',
-      price: 2750.00,
-      image: `${import.meta.env.BASE_URL}assets/images/Shop/Evoke/Beast.jpg`,
-      category: 'clothes'
-    },
-    {
-      id: 6,
-      name: 'Oversize T-shirt (Enjoy The Wind)',
-      description: 'Where premium quality meets unparalleled style. Elevate your wardrobe with our latest collection, crafted from the finest Heavy GSM material for a truly luxurious feel.',
-      price: 2690.00,
-      image: `${import.meta.env.BASE_URL}assets/images/Shop/Evoke/ENJOY_THE_WIND 02.jpg`,
-      category: 'clothes'
-    },
-    {
-      id: 7,
-      name: 'Tissue Box',
-      description: '✨High quality & premium look. Brand sleeves — BMW, Benz, Honda, Toyota, Nissan, Land Rover, Audi & more',
-      price: 350.00,
-      image: `${import.meta.env.BASE_URL}assets/images/Shop/T3.png`,
-      category: 'accessories'
-    },
-    {
-      id: 8,
-      name: 'LUXGEAR BOTTLE',
-      description: 'Premium glass bottles wrapped in your brand sleeves. BMW, Benz, Honda, Toyota, Nissan, Land Rover, Audi & more',
-      price: 1849.99,
-      image: `${import.meta.env.BASE_URL}assets/images/Shop/435.png`,
-      category: 'accessories'
-    },
-    {
-      id: 9,
-      name: 'Premium Brand Bottle',
-      description: 'High-quality branded bottles for your vehicle. Available for all major car brands.',
-      price: 1499.00,
-      image: `${import.meta.env.BASE_URL}assets/images/Shop/b1.png`,
-      category: 'accessories'
-    },
-    {
-      id: 10,
-      name: 'Luxury Brand Bottle',
-      description: 'Elegant branded bottles for your car. Premium quality materials.',
-      price: 1599.00,
-      image: `${import.meta.env.BASE_URL}assets/images/Shop/b2.png`,
-      category: 'accessories'
-    },
-    {
-      id: 11,
-      name: 'Smart Watch',
-      description: 'Stay connected and track your fitness with our sleek and stylish smart watch.',
-      price: 13999.00,
-      image: `${import.meta.env.BASE_URL}assets/images/Shop/watch/1.jpeg`,
-      category: 'watch'
-    },
-    {
-      id: 12,
-      name: 'Sport Smart Watch',
-      description: 'Advanced fitness tracking with heart rate monitor and GPS.',
-      price: 14999.00,
-      image: `${import.meta.env.BASE_URL}assets/images/Shop/watch/2.jpeg`,
-      category: 'watch'
-    },
-    {
-      id: 13,
-      name: 'Premium Smart Watch',
-      description: 'Luxury smartwatch with premium features and elegant design.',
-      price: 15999.00,
-      image: `${import.meta.env.BASE_URL}assets/images/Shop/watch/3.jpeg`,
-      category: 'watch'
-    }
-  ]
-
+  // Build category list dynamically from DB products
   const categories = [
     { id: 'all', label: 'All' },
-    { id: 'clothes', label: 'Clothes' },
-    { id: 'accessories', label: 'Vehicles Accessories' },
-    { id: 'watch', label: 'Watch' }
+    ...Array.from(new Set(products.map(p => p.category).filter(Boolean)))
+      .map(cat => ({ id: cat, label: cat.charAt(0).toUpperCase() + cat.slice(1) }))
   ]
 
-  // Merge admin-added products (shown first) with hardcoded products
-  const allProducts = [
-    // Normalize admin products to match the hardcoded schema
-    ...adminProducts
-      .filter(p => p.inStock !== false)
-      .map(p => ({
-        id: p._id || p.id,
-        name: p.name,
-        description: p.description,
-        price: parseFloat(p.price) || 0,
-        image: p.image || p.images?.[0] || '',
-        category: p.category || 'other',
-        isAdminProduct: true
-      })),
-    // Hardcoded fallback products
-    ...products
-  ]
+  // Normalise DB products to a consistent shape
+  const allProducts = products.map(p => ({
+    id: p._id || p.id,
+    name: p.name,
+    description: p.description,
+    price: parseFloat(p.price) || 0,
+    image: p.image || p.images?.[0] || '',
+    category: p.category || 'other',
+    badge: p.badge || ''
+  }))
 
   const filteredProducts = selectedCategory === 'all'
     ? allProducts
-    : allProducts.filter(product => product.category === selectedCategory)
+    : allProducts.filter(p => p.category === selectedCategory)
 
   const handleWhatsAppOrder = (product) => {
     const message = `Hello! I'm interested in ordering:\n${product.name}\nPrice: Rs ${product.price.toFixed(2)}`
@@ -200,81 +95,113 @@ const Shop = () => {
         </div>
       </section>
 
-      {/* Categories Filter */}
-      <section className="shop-filters">
-        <div className="container">
-          <div className="category-filters">
-            {categories.map((category) => (
-              <motion.button
-                key={category.id}
-                onClick={() => setSelectedCategory(category.id)}
-                className={`category-btn ${selectedCategory === category.id ? 'active' : ''}`}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                {category.label}
-              </motion.button>
-            ))}
+      {/* Categories Filter — only shown when products exist */}
+      {!loading && allProducts.length > 0 && (
+        <section className="shop-filters">
+          <div className="container">
+            <div className="category-filters">
+              {categories.map((category) => (
+                <motion.button
+                  key={category.id}
+                  onClick={() => setSelectedCategory(category.id)}
+                  className={`category-btn ${selectedCategory === category.id ? 'active' : ''}`}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  {category.label}
+                </motion.button>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* Products Grid */}
       <section className="shop-products">
         <div className="container">
-          <div className="products-grid">
-            {filteredProducts.map((product, index) => (
-              <motion.div
-                key={product.id}
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                whileHover={{ y: -10 }}
-                className="product-card"
-              >
-                <div className="product-image">
-                  <img src={product.image} alt={product.name} />
-                  <div className="product-overlay">
-                    <motion.button
-                      className="overlay-btn"
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.9 }}
-                      onClick={() => handleWhatsAppOrder(product)}
-                    >
-                      <FaEye />
-                    </motion.button>
-                  </div>
-                </div>
-                <div className="product-info">
-                  <h3>{product.name}</h3>
-                  <p className="product-description">{product.description}</p>
-                  <div className="product-footer">
-                    <span className="product-price">Rs {product.price.toFixed(2)}</span>
-                    <div className="product-buttons">
+
+          {/* Loading state */}
+          {loading && (
+            <div className="shop-loading">
+              <div className="shop-spinner" />
+              <p>Loading products…</p>
+            </div>
+          )}
+
+          {/* Empty state */}
+          {!loading && filteredProducts.length === 0 && (
+            <motion.div
+              className="shop-empty"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+            >
+              <FaBoxOpen size={64} />
+              <h2>No Products Yet</h2>
+              <p>We're stocking up! Check back soon for amazing products.</p>
+            </motion.div>
+          )}
+
+          {/* Products */}
+          {!loading && filteredProducts.length > 0 && (
+            <div className="products-grid">
+              {filteredProducts.map((product, index) => (
+                <motion.div
+                  key={product.id}
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.08 }}
+                  whileHover={{ y: -10 }}
+                  className="product-card"
+                >
+                  <div className="product-image">
+                    {product.image
+                      ? <img src={product.image} alt={product.name} />
+                      : <div className="product-no-image"><FaBoxOpen /></div>
+                    }
+                    {product.badge && <span className="product-badge-tag">{product.badge}</span>}
+                    <div className="product-overlay">
                       <motion.button
-                        className="add-to-cart-btn"
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        onClick={() => handleAddToCart(product)}
-                        title="Add to cart for checkout later"
-                      >
-                        <FaShoppingCart /> Add to Cart
-                      </motion.button>
-                      <motion.button
-                        className="order-now-btn"
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
+                        className="overlay-btn"
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
                         onClick={() => handleWhatsAppOrder(product)}
-                        title="Order now via WhatsApp"
                       >
-                        <FaWhatsapp /> Order
+                        <FaEye />
                       </motion.button>
                     </div>
                   </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
+                  <div className="product-info">
+                    <h3>{product.name}</h3>
+                    <p className="product-description">{product.description}</p>
+                    <div className="product-footer">
+                      <span className="product-price">Rs {product.price.toFixed(2)}</span>
+                      <div className="product-buttons">
+                        <motion.button
+                          className="add-to-cart-btn"
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                          onClick={() => handleAddToCart(product)}
+                          title="Add to cart for checkout later"
+                        >
+                          <FaShoppingCart /> Add to Cart
+                        </motion.button>
+                        <motion.button
+                          className="order-now-btn"
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                          onClick={() => handleWhatsAppOrder(product)}
+                          title="Order now via WhatsApp"
+                        >
+                          <FaWhatsapp /> Order
+                        </motion.button>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          )}
+
         </div>
       </section>
 
@@ -286,14 +213,8 @@ const Shop = () => {
         className="whatsapp-float"
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
-        animate={{
-          y: [0, -10, 0],
-        }}
-        transition={{
-          duration: 2,
-          repeat: Infinity,
-          ease: "easeInOut"
-        }}
+        animate={{ y: [0, -10, 0] }}
+        transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
       >
         <FaWhatsapp />
       </motion.a>
