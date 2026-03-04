@@ -54,12 +54,12 @@ class ProjectService {
   // Add a new project to MongoDB
   async addProject(project) {
     try {
-      const projectData = this._stripBase64Images({
+      const projectData = {
         ...project,
         id: project.id || Date.now().toString(),
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString()
-      });
+      };
 
       const response = await fetch(`${this.API_BASE}/projects`, {
         method: 'POST',
@@ -88,10 +88,10 @@ class ProjectService {
 
   // Update an existing project in MongoDB
   async updateProject(projectId, updates) {
-    const updateData = this._stripBase64Images({
+    const updateData = {
       ...updates,
       updatedAt: new Date().toISOString()
-    });
+    };
 
     const response = await fetch(`${this.API_BASE}/projects/${projectId}`, {
       method: 'PUT',

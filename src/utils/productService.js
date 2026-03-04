@@ -42,11 +42,11 @@ class ProductService {
     // ── ADD a product ──
     async addProduct(product) {
         try {
-            const productData = this._stripBase64Images({
+            const productData = {
                 ...product,
                 createdAt: new Date().toISOString(),
                 updatedAt: new Date().toISOString()
-            })
+            }
             const response = await fetch(`${this.API_BASE}/products`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -64,7 +64,7 @@ class ProductService {
 
     // ── UPDATE a product ──
     async updateProduct(productId, updates) {
-        const updateData = this._stripBase64Images({ ...updates, updatedAt: new Date().toISOString() })
+        const updateData = { ...updates, updatedAt: new Date().toISOString() }
         const response = await fetch(`${this.API_BASE}/products/${productId}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },

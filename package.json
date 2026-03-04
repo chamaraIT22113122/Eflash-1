@@ -40,6 +40,7 @@
     "predeploy": "npm run build",
     "deploy": "powershell -ExecutionPolicy Bypass -File ./deploy.ps1",
     "deploy:gh-pages": "gh-pages -d dist",
-    "optimize-images": "node optimize-images.js"
+    "optimize-images": "node optimize-images.js",
+    "set-api": "node scripts/set-api-url.js"
   }
 }
