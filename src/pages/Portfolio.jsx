@@ -4,6 +4,7 @@ import { useLocation } from 'react-router-dom'
 import { FaExternalLinkAlt, FaWhatsapp, FaPaintBrush, FaCode, FaDesktop, FaTimes, FaSearch, FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 import { useSiteContent } from '../context/SiteContentContext'
 import SEO from '../components/SEO'
+import TiltCard from '../components/TiltCard'
 import './Portfolio.css'
 
 const CATEGORIES = [
@@ -166,7 +167,7 @@ const Portfolio = () => {
                 {filtered.map((project, index) => {
                   const img = project.thumbnail || project.images?.[0] || project.image
                   return (
-                    <motion.article
+                    <TiltCard
                       key={project._id || project.id || index}
                       className="port-card"
                       layout
@@ -174,7 +175,6 @@ const Portfolio = () => {
                       animate={{ opacity: 1, scale: 1 }}
                       exit={{ opacity: 0, scale: 0.9 }}
                       transition={{ duration: 0.4, delay: index * 0.04 }}
-                      whileHover={{ y: -8 }}
                     >
                       {/* Image */}
                       <div className="port-card-img" onClick={() => openLightbox(project)}>
@@ -227,7 +227,7 @@ const Portfolio = () => {
                           )}
                         </div>
                       </div>
-                    </motion.article>
+                    </TiltCard>
                   )
                 })}
               </AnimatePresence>

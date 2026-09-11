@@ -3,6 +3,7 @@ import { motion } from 'framer-motion'
 import { FaCheckCircle, FaWhatsapp, FaPaintBrush, FaCode, FaMobile, FaChartLine, FaBullhorn, FaCamera, FaPenNib, FaShoppingCart } from 'react-icons/fa'
 import { useSiteContent } from '../context/SiteContentContext'
 import SEO from '../components/SEO'
+import TiltCard from '../components/TiltCard'
 import './Services.css'
 
 const Services = () => {
@@ -60,7 +61,7 @@ const Services = () => {
         <div className="container">
           <div className="services-grid-detailed">
             {items.map((service, index) => (
-              <motion.div
+              <TiltCard
                 key={index}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -83,7 +84,7 @@ const Services = () => {
                     ))}
                   </ul>
                 )}
-              </motion.div>
+              </TiltCard>
             ))}
           </div>
         </div>
@@ -99,7 +100,7 @@ const Services = () => {
 
           <div className="process-grid">
             {process.map((item, index) => (
-              <motion.div
+              <TiltCard
                 key={index}
                 initial={{ opacity: 0, x: index % 2 === 0 ? -30 : 30 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -110,7 +111,7 @@ const Services = () => {
                 <div className="process-step">{item.step}</div>
                 <h3>{item.title}</h3>
                 <p>{item.description}</p>
-              </motion.div>
+              </TiltCard>
             ))}
           </div>
         </div>

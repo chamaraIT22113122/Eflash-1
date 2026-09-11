@@ -9,6 +9,7 @@ import {
 } from 'react-icons/fa'
 import { useSiteContent } from '../context/SiteContentContext'
 import SEO from '../components/SEO'
+import TiltCard from '../components/TiltCard'
 import './Home.css'
 
 const Home = () => {
@@ -224,14 +225,13 @@ const Home = () => {
 
           <div className="categories-grid">
             {categories.map((cat, i) => (
-              <motion.div
+              <TiltCard
                 key={i}
                 className="cat-card glass-card"
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.55, delay: i * 0.12 }}
-                whileHover={{ y: -10 }}
               >
                 <div className="cat-icon" style={{ background: cat.gradient }}>
                   {cat.icon}
@@ -243,7 +243,7 @@ const Home = () => {
                   View Projects <FaArrowRight />
                 </Link>
                 <div className="cat-glow" style={{ background: cat.gradient }} />
-              </motion.div>
+              </TiltCard>
             ))}
           </div>
         </div>
@@ -323,14 +323,13 @@ const Home = () => {
 
             <div className="projects-grid">
               {projects.map((p, i) => (
-                <motion.div
+                <TiltCard
                   key={p._id || p.id || i}
                   className="project-thumb"
                   initial={{ opacity: 0, scale: 0.9 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.07 }}
-                  whileHover={{ y: -8 }}
                 >
                   <div className="project-img">
                     {(p.thumbnail || p.images?.[0] || p.image) ? (
@@ -345,7 +344,7 @@ const Home = () => {
                       <h4>{p.title}</h4>
                     </div>
                   </div>
-                </motion.div>
+                </TiltCard>
               ))}
             </div>
 
