@@ -1,10 +1,16 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin, FaWhatsapp, FaEnvelope, FaPhone, FaMapMarkerAlt } from 'react-icons/fa'
+import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin, FaYoutube, FaWhatsapp, FaEnvelope, FaPhone, FaMapMarkerAlt } from 'react-icons/fa'
+import { useSiteContent } from '../context/SiteContentContext'
 import './Footer.css'
 
 const Footer = () => {
   const currentYear = new Date().getFullYear()
+  const { content } = useSiteContent()
+  
+  const general = content.general || {}
+  const footerData = content.footer || {}
+  const social = general.socialMedia || {}
 
   return (
     <footer className="footer">
@@ -12,27 +18,24 @@ const Footer = () => {
         <div className="footer-content">
           <div className="footer-section">
             <div className="footer-logo">
-              <img 
-                src="assets/images/logo1.png" 
-                alt="E Flash Logo" 
-              />
+              <Link to="/">
+                <img 
+                  src="/assets/images/logo1.png" 
+                  alt={general.siteName || 'E Flash'} 
+                  className="footer-logo-img" 
+                  style={{ maxHeight: '60px', objectFit: 'contain' }}
+                />
+              </Link>
             </div>
             <p className="footer-desc">
-              Your trusted partner for creative design solutions, web development, and digital innovation.
+              {general.tagline || 'Your trusted partner for creative design solutions, web development, and digital innovation.'}
             </p>
             <div className="social-links">
-              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-                <FaFacebook />
-              </a>
-              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
-                <FaTwitter />
-              </a>
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-                <FaInstagram />
-              </a>
-              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-                <FaLinkedin />
-              </a>
+              {social.facebook && <a href={social.facebook} target="_blank" rel="noopener noreferrer"><FaFacebook /></a>}
+              {social.twitter && <a href={social.twitter} target="_blank" rel="noopener noreferrer"><FaTwitter /></a>}
+              {social.instagram && <a href={social.instagram} target="_blank" rel="noopener noreferrer"><FaInstagram /></a>}
+              {social.linkedin && <a href={social.linkedin} target="_blank" rel="noopener noreferrer"><FaLinkedin /></a>}
+              {social.youtube && <a href={social.youtube} target="_blank" rel="noopener noreferrer"><FaYoutube /></a>}
             </div>
           </div>
 
@@ -44,46 +47,42 @@ const Footer = () => {
               <li><Link to="/portfolio">Portfolio</Link></li>
               <li><Link to="/about">About Us</Link></li>
               <li><Link to="/contact">Contact</Link></li>
+              <li><Link to="/shop">Shop</Link></li>
             </ul>
           </div>
 
           <div className="footer-section">
-            <h4>Services</h4>
+            <h4>Our Focus</h4>
             <ul>
-              <li><Link to="/services">Graphic Design</Link></li>
-              <li><Link to="/services">Web Design</Link></li>
-              <li><Link to="/services">Web Development</Link></li>
-              <li><Link to="/services">UI/UX Design</Link></li>
-              <li><Link to="/services">Digital Marketing</Link></li>
+              <li><Link to="/portfolio?cat=Graphic Design">Graphic Design</Link></li>
+              <li><Link to="/portfolio?cat=Web Development">Web Development</Link></li>
+              <li><Link to="/portfolio?cat=Web Designing">Web Designing</Link></li>
+              <li><Link to="/packages">Our Packages</Link></li>
             </ul>
           </div>
 
           <div className="footer-section">
-            <h4>Contact Us</h4>
+            <h4>Contact Info</h4>
             <ul className="contact-info">
-              <li>
-                <FaPhone />
-                <span>077 560 8073</span>
-              </li>
-              <li>
-                <FaWhatsapp />
-                <span>077 560 8073</span>
-              </li>
-              <li>
-                <FaEnvelope />
-                <span>info@eflash24.tech</span>
-              </li>
-              <li>
-                <FaMapMarkerAlt />
-                <span>Sri Lanka</span>
-              </li>
+              {general.phone && (
+                <li><FaPhone /><span>{general.phone}</span></li>
+              )}
+              {general.whatsapp && (
+                <li><FaWhatsapp /><span>+{general.whatsapp}</span></li>
+              )}
+              {general.email && (
+                <li><FaEnvelope /><span>{general.email}</span></li>
+              )}
+              {general.address && (
+                <li><FaMapMarkerAlt /><span>{general.address}</span></li>
+              )}
             </ul>
           </div>
         </div>
 
         <div className="footer-bottom">
-          <p>&copy; {currentYear} E Flash. All rights reserved.</p>
-          <p>Designed & Developed by E Flash</p>
+          <p>&copy; {currentYear} {footerData.copyrightText || `${general.siteName || 'E Flash'}. All rights reserved.`}</p>
+          <p>Powered by Next-Gen Digital Solutions</p>
         </div>
       </div>
     </footer>

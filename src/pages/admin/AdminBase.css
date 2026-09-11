@@ -1,45 +1,44 @@
-/* Admin Base Styles - Override for Better Contrast */
+/* Admin Base Styles - Premium Dark Theme */
 
 /* CSS Variables Override for Admin Pages */
 :root {
-  /* Colors with proper contrast */
-  --primary-color: #667eea;
-  --primary-dark: #5a67d8;
-  --primary-light: #e0e7ff;
-  --secondary-color: #764ba2;
-  --text-color: #1e293b;
-  --text-primary: #1e293b;
-  --text-secondary: #64748b;
-  --background-color: #f8fafc;
-  --card-bg: #ffffff;
-  --card-background: #ffffff;
-  --border-color: #e2e8f0;
-  --input-bg: #ffffff;
-  --input-background: #ffffff;
+  /* Colors for dark admin theme */
+  --admin-bg-primary: #07070f;
+  --admin-bg-secondary: #0d0d1a;
+  --admin-card-bg: rgba(255, 255, 255, 0.04);
+  --admin-border: rgba(255, 255, 255, 0.1);
+  --admin-text-primary: #f1f5f9;
+  --admin-text-secondary: #94a3b8;
+  
+  --primary-color: #4f8ef7;
+  --primary-dark: #3b82f6;
+  --primary-light: rgba(79, 142, 247, 0.2);
+  --secondary-color: #8b5cf6;
+  
   --success-color: #10b981;
-  --success-light: #dcfce7;
   --warning-color: #f59e0b;
-  --warning-light: #fef3c7;
   --error-color: #ef4444;
-  --error-light: #fee2e2;
-  --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  --card-shadow-hover: 0 4px 16px rgba(0, 0, 0, 0.12);
-  --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  --primary-color-rgb: 102, 126, 234;
+  
+  --primary-gradient: linear-gradient(135deg, #4f8ef7 0%, #8b5cf6 100%);
 }
 
 /* Admin Layout Base */
 .admin-page {
-  background: #f8fafc !important;
+  background: var(--admin-bg-primary) !important;
   min-height: 100vh !important;
   padding: 2rem !important;
+  color: var(--admin-text-primary) !important;
 }
 
 .admin-page h1,
 .admin-page h2,
 .admin-page h3 {
-  color: #1e293b !important;
+  color: var(--admin-text-primary) !important;
   font-weight: 700 !important;
+}
+
+.admin-page p, .admin-page span {
+  color: var(--admin-text-secondary);
 }
 
 /* Card Components */
@@ -48,30 +47,61 @@
 .project-card,
 .review-card,
 .order-card {
-  background: white !important;
-  border: 1px solid #e2e8f0 !important;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
-  color: #1e293b !important;
+  background: var(--admin-card-bg) !important;
+  border: 1px solid var(--admin-border) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2) !important;
+  color: var(--admin-text-primary) !important;
+  border-radius: 12px !important;
+  backdrop-filter: blur(10px);
+}
+
+.card-header h3 {
+  color: var(--admin-text-primary) !important;
 }
 
 /* Statistics Cards */
 .stat-card,
 .stat-item {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  background: var(--primary-gradient) !important;
   color: white !important;
   border: none !important;
+  border-radius: 12px !important;
 }
 
 .stat-card h3,
 .stat-item h3 {
   color: white !important;
-  font-weight: 700 !important;
+  font-weight: 800 !important;
 }
 
 .stat-card p,
-.stat-item p {
+.stat-item p,
+.stat-card div,
+.stat-item div {
   color: rgba(255, 255, 255, 0.9) !important;
-  font-weight: 500 !important;
+}
+
+/* Quick Stats */
+.quick-stat-item {
+  background: var(--admin-card-bg) !important;
+  border: 1px solid var(--admin-border) !important;
+  border-radius: 12px !important;
+}
+
+.quick-stat-label { color: var(--admin-text-secondary) !important; }
+.quick-stat-value { color: var(--admin-text-primary) !important; font-weight: 800 !important; }
+
+/* Dashboard specific elements */
+.traffic-page, .traffic-meta, .traffic-source {
+  color: var(--admin-text-secondary) !important;
+}
+
+.website-stat .stat-label {
+  color: var(--admin-text-secondary) !important;
+}
+
+.website-stat .stat-number {
+  color: var(--admin-text-primary) !important;
 }
 
 /* Form Elements */
@@ -80,9 +110,10 @@
 input,
 textarea,
 select {
-  background: white !important;
-  border: 2px solid #e2e8f0 !important;
-  color: #1e293b !important;
+  background: rgba(255, 255, 255, 0.04) !important;
+  border: 1px solid var(--admin-border) !important;
+  color: var(--admin-text-primary) !important;
+  border-radius: 8px !important;
 }
 
 .form-control:focus,
@@ -90,13 +121,14 @@ select {
 input:focus,
 textarea:focus,
 select:focus {
-  border-color: #667eea !important;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1) !important;
+  border-color: var(--primary-color) !important;
+  outline: none !important;
+  box-shadow: 0 0 0 2px rgba(79, 142, 247, 0.2) !important;
 }
 
 /* Labels */
 label {
-  color: #374151 !important;
+  color: var(--admin-text-secondary) !important;
   font-weight: 600 !important;
 }
 
@@ -104,100 +136,81 @@ label {
 .btn-primary,
 .add-project-btn,
 .filter-btn.active {
-  background: linear-gradient(135deg, #667eea, #764ba2) !important;
+  background: var(--primary-gradient) !important;
   color: white !important;
   border: none !important;
+  border-radius: 8px !important;
 }
 
 .btn-secondary,
 .filter-btn {
-  background: white !important;
-  color: #64748b !important;
-  border: 2px solid #e2e8f0 !important;
+  background: transparent !important;
+  color: var(--admin-text-primary) !important;
+  border: 1px solid var(--admin-border) !important;
+  border-radius: 8px !important;
 }
 
 .btn-secondary:hover,
 .filter-btn:hover {
-  border-color: #667eea !important;
-  color: #667eea !important;
+  border-color: var(--primary-color) !important;
+  color: var(--primary-color) !important;
 }
 
 /* Action Buttons */
-.edit-btn {
-  background: #fbbf24 !important;
-  color: white !important;
-}
-
-.delete-btn {
-  background: #ef4444 !important;
-  color: white !important;
-}
-
-.save-btn {
-  background: #10b981 !important;
-  color: white !important;
-}
-
-.cancel-btn {
-  background: #6b7280 !important;
-  color: white !important;
-}
+.edit-btn { background: var(--warning-color) !important; color: white !important; border: none !important; }
+.delete-btn { background: var(--error-color) !important; color: white !important; border: none !important; }
+.save-btn { background: var(--success-color) !important; color: white !important; border: none !important; }
+.cancel-btn { background: rgba(255,255,255,0.1) !important; color: var(--admin-text-primary) !important; border: 1px solid var(--admin-border) !important; }
 
 /* Text Elements */
 .project-title,
 .review-title {
-  color: #1e293b !important;
+  color: var(--admin-text-primary) !important;
   font-weight: 700 !important;
 }
 
 .project-description,
 .review-content {
-  color: #374151 !important;
+  color: var(--admin-text-secondary) !important;
   line-height: 1.6 !important;
 }
 
 .project-category {
-  background: #e0f2fe !important;
-  color: #0277bd !important;
+  background: rgba(79, 142, 247, 0.15) !important;
+  color: var(--primary-color) !important;
   font-weight: 600 !important;
 }
 
 /* Status Badges */
-.status-approved {
-  background: #dcfce7 !important;
-  color: #166534 !important;
+.status-approved, .status-delivered, .status-published {
+  background: rgba(16, 185, 129, 0.15) !important;
+  color: var(--success-color) !important;
+  border: 1px solid rgba(16, 185, 129, 0.3) !important;
 }
 
-.status-pending {
-  background: #fef3c7 !important;
-  color: #92400e !important;
-}
-
-.status-delivered {
-  background: #dcfce7 !important;
-  color: #166534 !important;
+.status-pending, .status-draft {
+  background: rgba(245, 158, 11, 0.15) !important;
+  color: var(--warning-color) !important;
+  border: 1px solid rgba(245, 158, 11, 0.3) !important;
 }
 
 /* Headers and Navigation */
 .admin-header,
 .projects-header,
 .reviews-header {
-  background: white !important;
-  border: 1px solid #e2e8f0 !important;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+  background: transparent !important;
+  border-bottom: 1px solid var(--admin-border) !important;
+  box-shadow: none !important;
 }
 
 /* Make sure all text is visible */
-* {
-  color: inherit !important;
-}
+.admin-content h1, .admin-content h2, .admin-content h3, .admin-content h4 { color: var(--admin-text-primary) !important; }
+.admin-content p { color: var(--admin-text-secondary) !important; }
 
-/* Force contrast for problematic elements */
-.admin-content * {
-  color: #1e293b;
+/* Global overrides for common text elements in admin panel */
+.admin-content table, .admin-content th, .admin-content td {
+  color: var(--admin-text-secondary) !important;
+  border-color: var(--admin-border) !important;
 }
+.admin-content th { color: var(--admin-text-primary) !important; }
 
-.admin-content .stat-card *,
-.admin-content .stat-item * {
-  color: white !important;
-}

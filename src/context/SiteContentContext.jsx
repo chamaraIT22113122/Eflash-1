@@ -357,24 +357,46 @@ const SiteContentProvider = ({ children }) => {
     }
   }, [])
 
-  // Load content from localStorage on mount
+  // Load content from API on mount, with fallback to localStorage
   useEffect(() => {
-    const savedContent = localStorage.getItem('siteContent')
-    if (savedContent) {
+    const fetchContent = async () => {
       try {
-        const parsed = JSON.parse(savedContent)
-        // Always transform paths when loading from storage
-        setContent(transformImagePaths(parsed))
+        const API_URL = import.meta.env.DEV 
+          ? 'http://localhost:3000/api/content' // Typical vercel dev port
+          : '/api/content';
+
+        const response = await fetch(API_URL);
+        if (!response.ok) throw new Error('API not reachable');
+        
+        const dbContent = await response.json();
+        
+        if (dbContent && Object.keys(dbContent).length > 0) {
+          setContent(transformImagePaths(dbContent));
+          // Mirror to localStorage for instant local backup
+          localStorage.setItem('siteContent', JSON.stringify(dbContent));
+          setIsLoading(false);
+          return;
+        }
       } catch (error) {
-        console.error('Error loading site content:', error)
-        // Fall back to default with transformed paths
+        console.warn('Vercel KV API not reachable, falling back to localStorage.', error.message);
+      }
+
+      // Fallback: localStorage or defaultContent
+      const savedContent = localStorage.getItem('siteContent')
+      if (savedContent) {
+        try {
+          const parsed = JSON.parse(savedContent)
+          setContent(transformImagePaths(parsed))
+        } catch (error) {
+          setContent(transformImagePaths(defaultContent))
+        }
+      } else {
         setContent(transformImagePaths(defaultContent))
       }
-    } else {
-      // No saved content, use default with transformed paths
-      setContent(transformImagePaths(defaultContent))
-    }
-    setIsLoading(false)
+      setIsLoading(false)
+    };
+
+    fetchContent();
   }, [])
 
   // Only show admin-added projects (no default/hardcoded projects)
@@ -388,7 +410,24 @@ const SiteContentProvider = ({ children }) => {
     }
   }
 
-  // Save content to localStorage whenever it changes
+  // Helper to sync to API
+  const syncToAPI = async (newContent) => {
+    try {
+      const API_URL = import.meta.env.DEV 
+        ? 'http://localhost:3000/api/content' 
+        : '/api/content';
+        
+      await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newContent)
+      });
+    } catch (error) {
+      console.warn('Failed to sync to Vercel KV API. Data saved locally only.', error.message);
+    }
+  };
+
+  // Save content to API & localStorage whenever it changes
   const updateContent = (section, data) => {
     setContent(prev => {
       const newContent = {
@@ -399,6 +438,7 @@ const SiteContentProvider = ({ children }) => {
         }
       }
       localStorage.setItem('siteContent', JSON.stringify(newContent))
+      syncToAPI(newContent)
       return newContent
     })
   }
@@ -411,6 +451,7 @@ const SiteContentProvider = ({ children }) => {
         [section]: data
       }
       localStorage.setItem('siteContent', JSON.stringify(newContent))
+      syncToAPI(newContent)
       return newContent
     })
   }

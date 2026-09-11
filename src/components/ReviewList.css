@@ -281,7 +281,7 @@
 }
 
 .photo-modal-close:hover {
-  background: white;
+  background: var(--bg-card);
   color: #000;
   transform: rotate(90deg);
 }
@@ -362,3 +362,5 @@
     margin-bottom: 0.5rem;
   }
 }
+
+

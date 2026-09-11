@@ -45,7 +45,7 @@
   width: 380px;
   max-height: calc(100vh - 260px);
   height: 500px;
-  background: white;
+  background: var(--bg-card);
   border-radius: 20px;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
   z-index: 10000;
@@ -148,7 +148,7 @@
 }
 
 .chat-message.bot .message-bubble {
-  background: white;
+  background: var(--bg-card);
   color: var(--text-dark);
   border-bottom-left-radius: 4px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
@@ -188,7 +188,7 @@
 
 .quick-reply-btn {
   padding: 8px 16px;
-  background: white;
+  background: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: 20px;
   font-size: 0.85rem;
@@ -211,7 +211,7 @@
 
 .chat-input-container {
   padding: 15px 20px;
-  background: white;
+  background: var(--bg-card);
   border-top: 1px solid rgba(0, 0, 0, 0.1);
   display: flex;
   gap: 10px;
@@ -279,3 +279,5 @@
     bottom: 90px;
   }
 }
+
+

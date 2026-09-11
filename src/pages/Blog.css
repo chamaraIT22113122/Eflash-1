@@ -82,7 +82,7 @@
 .filter-btn {
   padding: 10px 25px;
   border: 2px solid var(--border-color);
-  background: white;
+  background: var(--bg-card);
   border-radius: 50px;
   font-size: 0.95rem;
   font-weight: 500;
@@ -127,7 +127,7 @@
 }
 
 .blog-card {
-  background: white;
+  background: var(--bg-card);
   border-radius: 20px;
   overflow: hidden;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
@@ -301,3 +301,5 @@
     white-space: nowrap;
   }
 }
+
+

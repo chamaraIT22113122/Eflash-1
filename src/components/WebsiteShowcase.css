@@ -81,7 +81,7 @@
 
 .device-screen {
   position: relative;
-  background: white;
+  background: var(--bg-card);
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
@@ -128,7 +128,7 @@
 .device-screen iframe {
   border: none;
   display: block;
-  background: white;
+  background: var(--bg-card);
 }
 
 /* Iframe Loader */
@@ -142,7 +142,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: white;
+  background: var(--bg-card);
   z-index: 5;
 }
 
@@ -370,3 +370,5 @@
     grid-template-columns: 1fr;
   }
 }
+
+

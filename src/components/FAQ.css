@@ -1,5 +1,5 @@
 .faq-section {
-  background: white;
+  background: var(--bg-card);
 }
 
 .dark-mode .faq-section {
@@ -12,7 +12,7 @@
 }
 
 .faq-item {
-  background: white;
+  background: var(--bg-card);
   border: 2px solid #e2e8f0;
   border-radius: 12px;
   margin-bottom: 15px;
@@ -88,3 +88,5 @@
     padding: 0 20px 20px 20px;
   }
 }
+
+

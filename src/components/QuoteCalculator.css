@@ -1,5 +1,5 @@
 .quote-calculator {
-  background: white;
+  background: var(--bg-card);
   border-radius: 20px;
   padding: 40px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
@@ -64,7 +64,7 @@
 .option-btn {
   padding: 15px 20px;
   border: 2px solid var(--border-color);
-  background: white;
+  background: var(--bg-card);
   border-radius: 12px;
   font-size: 1rem;
   font-weight: 600;
@@ -103,7 +103,7 @@
   height: 50px;
   border-radius: 50%;
   border: 2px solid var(--primary-color);
-  background: white;
+  background: var(--bg-card);
   color: var(--primary-color);
   font-size: 1.2rem;
   cursor: pointer;
@@ -136,7 +136,7 @@
 .feature-btn {
   padding: 15px 20px;
   border: 2px solid var(--border-color);
-  background: white;
+  background: var(--bg-card);
   border-radius: 12px;
   font-size: 1rem;
   cursor: pointer;
@@ -252,3 +252,5 @@
     justify-content: center;
   }
 }
+
+

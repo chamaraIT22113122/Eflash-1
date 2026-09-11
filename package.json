@@ -2,9 +2,9 @@
   "name": "eflash-website",
   "version": "2.0.0",
   "private": true,
-  "homepage": "https://chamaraIT22113122.github.io/Eflash-1",
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
+    "@vercel/kv": "^3.0.0",
     "bcryptjs": "^2.4.3",
     "framer-motion": "^11.11.11",
     "mongodb": "^7.1.0",
@@ -25,22 +25,13 @@
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.3.4",
-    "gh-pages": "^6.2.0",
     "sharp": "^0.34.5",
     "vite": "^6.0.3"
   },
   "scripts": {
-    "predev": "node -e \"require('fs').copyFileSync('index.dev.html','index.html')\"",
     "dev": "vite",
-    "prebuild": "node -e \"require('fs').copyFileSync('index.dev.html','index.html')\"",
     "build": "vite build",
     "preview": "vite preview",
-    "pages:prepare": "node scripts/prepare-pages.mjs",
-    "pages:deploy-branch": "npm run pages:prepare",
-    "predeploy": "npm run build",
-    "deploy": "powershell -ExecutionPolicy Bypass -File ./deploy.ps1",
-    "deploy:gh-pages": "gh-pages -d dist",
-    "optimize-images": "node optimize-images.js",
-    "set-api": "node scripts/set-api-url.js"
+    "optimize-images": "node optimize-images.js"
   }
 }

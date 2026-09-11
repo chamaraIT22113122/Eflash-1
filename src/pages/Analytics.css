@@ -20,7 +20,7 @@
 .header-content h1 {
   font-size: 2.5rem;
   font-weight: 800;
-  color: #1a202c;
+  color: var(--text-primary);
   margin-bottom: 10px;
 }
 
@@ -30,7 +30,7 @@
 
 .header-content p {
   font-size: 1.1rem;
-  color: #718096;
+  color: var(--text-muted);
 }
 
 .dark-mode .header-content p {
@@ -47,8 +47,8 @@
   padding: 10px 20px;
   border: 2px solid #e2e8f0;
   border-radius: 10px;
-  background: white;
-  color: #1a202c;
+  background: var(--bg-card);
+  color: var(--text-primary);
   font-size: 0.95rem;
   font-weight: 600;
   cursor: pointer;
@@ -57,7 +57,7 @@
 
 .dark-mode .time-range-select {
   background: #2d3748;
-  border-color: #4a5568;
+  border-color: var(--text-secondary);
   color: #fff;
 }
 
@@ -117,7 +117,7 @@
 }
 
 .kpi-card {
-  background: white;
+  background: var(--bg-card);
   border-radius: 15px;
   padding: 25px;
   display: flex;
@@ -150,7 +150,7 @@
 .kpi-content h3 {
   font-size: 2rem;
   font-weight: 800;
-  color: #1a202c;
+  color: var(--text-primary);
   margin-bottom: 5px;
 }
 
@@ -160,7 +160,7 @@
 
 .kpi-content p {
   font-size: 0.95rem;
-  color: #718096;
+  color: var(--text-muted);
   font-weight: 500;
 }
 
@@ -177,7 +177,7 @@
 }
 
 .chart-card {
-  background: white;
+  background: var(--bg-card);
   border-radius: 15px;
   padding: 25px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
@@ -194,7 +194,7 @@
 .chart-card h3 {
   font-size: 1.3rem;
   font-weight: 700;
-  color: #1a202c;
+  color: var(--text-primary);
   margin-bottom: 20px;
   display: flex;
   align-items: center;
@@ -211,7 +211,7 @@
 
 /* Summary Card */
 .summary-card {
-  background: white;
+  background: var(--bg-card);
   border-radius: 15px;
   padding: 30px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
@@ -224,7 +224,7 @@
 .summary-card h3 {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #1a202c;
+  color: var(--text-primary);
   margin-bottom: 25px;
 }
 
@@ -243,7 +243,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 15px;
-  background: #f7fafc;
+  background: var(--bg-secondary);
   border-radius: 10px;
 }
 
@@ -253,7 +253,7 @@
 
 .summary-item .label {
   font-size: 0.95rem;
-  color: #718096;
+  color: var(--text-muted);
   font-weight: 500;
 }
 
@@ -279,13 +279,13 @@
 }
 
 .dark-mode .analytics-empty svg {
-  color: #4a5568;
+  color: var(--text-secondary);
 }
 
 .analytics-empty h2 {
   font-size: 2rem;
   font-weight: 700;
-  color: #1a202c;
+  color: var(--text-primary);
   margin-bottom: 10px;
 }
 
@@ -295,7 +295,7 @@
 
 .analytics-empty p {
   font-size: 1.1rem;
-  color: #718096;
+  color: var(--text-muted);
 }
 
 .dark-mode .analytics-empty p {
@@ -355,3 +355,5 @@
     padding: 15px;
   }
 }
+
+

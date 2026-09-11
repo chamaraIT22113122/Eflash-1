@@ -25,7 +25,7 @@
 /* Category Toggle Section */
 .category-toggle-section {
   padding: 40px 20px;
-  background: #f7fafc;
+  background: var(--bg-secondary);
   border-bottom: 1px solid #e2e8f0;
 }
 
@@ -36,7 +36,7 @@
   gap: 20px;
   max-width: 600px;
   margin: 0 auto;
-  background: white;
+  background: var(--bg-card);
   padding: 8px;
   border-radius: 50px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
@@ -78,7 +78,7 @@
 /* Packages Section */
 .packages-section {
   padding: 100px 20px;
-  background: #f7fafc;
+  background: var(--bg-secondary);
 }
 
 .packages-grid {
@@ -90,7 +90,7 @@
 }
 
 .package-card {
-  background: white;
+  background: var(--bg-card);
   border-radius: 20px;
   padding: 40px;
   position: relative;
@@ -141,12 +141,12 @@
 .package-header h3 {
   font-size: 2rem;
   font-weight: 700;
-  color: #1a202c;
+  color: var(--text-primary);
   margin-bottom: 10px;
 }
 
 .package-description {
-  color: #718096;
+  color: var(--text-muted);
   font-size: 1rem;
   margin-bottom: 25px;
 }
@@ -166,7 +166,7 @@
 
 .period {
   font-size: 0.9rem;
-  color: #718096;
+  color: var(--text-muted);
   margin-top: 5px;
 }
 
@@ -183,7 +183,7 @@
   gap: 12px;
   margin-bottom: 15px;
   font-size: 1rem;
-  color: #4a5568;
+  color: var(--text-secondary);
 }
 
 .check-icon {
@@ -207,7 +207,7 @@
 /* Add-ons Section */
 .addons-section {
   padding: 100px 20px;
-  background: white;
+  background: var(--bg-card);
 }
 
 .section-header {
@@ -218,13 +218,13 @@
 .section-header h2 {
   font-size: 3rem;
   font-weight: 800;
-  color: #1a202c;
+  color: var(--text-primary);
   margin-bottom: 15px;
 }
 
 .section-header p {
   font-size: 1.2rem;
-  color: #718096;
+  color: var(--text-muted);
 }
 
 .addons-grid {
@@ -236,7 +236,7 @@
 }
 
 .addon-card {
-  background: #f7fafc;
+  background: var(--bg-secondary);
   padding: 30px;
   border-radius: 15px;
   text-align: center;
@@ -246,7 +246,7 @@
 }
 
 .addon-card:hover {
-  background: white;
+  background: var(--bg-card);
   border-color: #667eea;
   box-shadow: 0 10px 30px rgba(102, 126, 234, 0.15);
 }
@@ -267,7 +267,7 @@
 /* Reviews Section */
 .reviews-section {
   padding: 100px 20px;
-  background: white;
+  background: var(--bg-card);
 }
 
 .reviews-grid {
@@ -280,7 +280,7 @@
 }
 
 .review-card {
-  background: #f7fafc;
+  background: var(--bg-secondary);
   padding: 40px;
   border-radius: 20px;
   position: relative;
@@ -315,7 +315,7 @@
 .review-text {
   font-size: 1rem;
   line-height: 1.7;
-  color: #4a5568;
+  color: var(--text-secondary);
   font-style: italic;
   flex: 1;
 }
@@ -353,7 +353,7 @@
 
 .reviewer-role {
   font-size: 0.9rem;
-  color: #718096;
+  color: var(--text-muted);
   margin-bottom: 5px;
 }
 
@@ -402,12 +402,12 @@
 }
 
 .btn-light {
-  background: white;
+  background: var(--bg-card);
   color: #667eea;
 }
 
 .btn-light:hover {
-  background: #f7fafc;
+  background: var(--bg-secondary);
   transform: translateY(-2px);
 }
 
@@ -424,7 +424,7 @@
 /* FAQ Section */
 .pricing-faq {
   padding: 100px 20px;
-  background: #f7fafc;
+  background: var(--bg-secondary);
 }
 
 .faq-grid {
@@ -436,7 +436,7 @@
 }
 
 .faq-item {
-  background: white;
+  background: var(--bg-card);
   padding: 30px;
   border-radius: 15px;
   border-left: 4px solid #667eea;
@@ -456,7 +456,7 @@
 }
 
 .faq-item p {
-  color: #718096;
+  color: var(--text-muted);
   line-height: 1.7;
   font-size: 1rem;
 }
@@ -684,7 +684,7 @@
 /* Trust Badges Section */
 .trust-badges-section {
   padding: 40px 20px;
-  background: #f7fafc;
+  background: var(--bg-secondary);
 }
 
 .trust-badges {
@@ -700,7 +700,7 @@
   align-items: center;
   gap: 15px;
   padding: 20px;
-  background: white;
+  background: var(--bg-card);
   border-radius: 15px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
   transition: all 0.3s;
@@ -725,14 +725,14 @@
 
 .trust-badge p {
   font-size: 0.9rem;
-  color: #718096;
+  color: var(--text-muted);
   margin: 0;
 }
 
 /* Filter and Sort Controls */
 .filter-sort-section {
   padding: 30px 20px;
-  background: white;
+  background: var(--bg-card);
   border-bottom: 2px solid #e2e8f0;
 }
 
@@ -765,7 +765,7 @@
   font-size: 0.95rem;
   font-weight: 500;
   color: #2d3748;
-  background: white;
+  background: var(--bg-card);
   cursor: pointer;
   transition: all 0.3s;
 }
@@ -780,7 +780,7 @@
 .show-comparison-btn {
   padding: 10px 20px;
   border: 2px solid #667eea;
-  background: white;
+  background: var(--bg-card);
   color: #667eea;
   border-radius: 8px;
   font-weight: 600;
@@ -823,7 +823,7 @@
 
 .favorite-btn,
 .compare-checkbox {
-  background: white;
+  background: var(--bg-card);
   border: 2px solid #e2e8f0;
   border-radius: 50%;
   width: 40px;
@@ -833,7 +833,7 @@
   justify-content: center;
   cursor: pointer;
   transition: all 0.3s;
-  color: #718096;
+  color: var(--text-muted);
 }
 
 .favorite-btn:hover {
@@ -863,7 +863,7 @@
 
 .package-best-for {
   font-size: 0.85rem;
-  color: #718096;
+  color: var(--text-muted);
   font-style: italic;
   margin: 10px 0;
 }
@@ -929,7 +929,7 @@
 
 .calculator-modal,
 .comparison-modal {
-  background: white;
+  background: var(--bg-card);
   border-radius: 20px;
   max-width: 800px;
   width: 100%;
@@ -960,7 +960,7 @@
   background: none;
   border: none;
   font-size: 1.5rem;
-  color: #718096;
+  color: var(--text-muted);
   cursor: pointer;
   transition: all 0.3s;
   width: 40px;
@@ -993,7 +993,7 @@
   align-items: center;
   gap: 15px;
   padding: 15px;
-  background: #f7fafc;
+  background: var(--bg-secondary);
   border-radius: 10px;
   cursor: pointer;
   transition: all 0.3s;
@@ -1001,7 +1001,7 @@
 }
 
 .calculator-addon-item:hover {
-  background: white;
+  background: var(--bg-card);
   border-color: #667eea;
 }
 
@@ -1054,7 +1054,7 @@
 
 .comparison-column {
   padding: 20px;
-  background: #f7fafc;
+  background: var(--bg-secondary);
   border-radius: 15px;
   border: 2px solid #e2e8f0;
 }
@@ -1074,7 +1074,7 @@
 
 .comparison-delivery {
   font-size: 0.9rem;
-  color: #718096;
+  color: var(--text-muted);
   margin-bottom: 15px;
 }
 
@@ -1090,7 +1090,7 @@
   gap: 10px;
   margin-bottom: 10px;
   font-size: 0.9rem;
-  color: #4a5568;
+  color: var(--text-secondary);
 }
 
 .comparison-features svg {
@@ -1109,7 +1109,7 @@
 /* Portfolio Examples Section */
 .portfolio-examples-section {
   padding: 100px 20px;
-  background: #f7fafc;
+  background: var(--bg-secondary);
 }
 
 .portfolio-grid {
@@ -1121,7 +1121,7 @@
 }
 
 .portfolio-item {
-  background: white;
+  background: var(--bg-card);
   border-radius: 15px;
   padding: 40px;
   text-align: center;
@@ -1342,3 +1342,4 @@
   box-shadow: 0 8px 30px rgba(37, 211, 102, 0.5);
   transform: scale(1.05);
 }
+

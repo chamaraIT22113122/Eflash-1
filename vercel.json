@@ -1,5 +1,8 @@
 {
     "version": 2,
+    "buildCommand": "npm run build",
+    "outputDirectory": "dist",
+    "framework": "vite",
     "headers": [
         {
             "source": "/api/(.*)",
@@ -25,28 +28,8 @@
     ],
     "rewrites": [
         {
-            "source": "/api/products",
-            "destination": "/api/products/index.js"
-        },
-        {
-            "source": "/api/products/:id",
-            "destination": "/api/products/[id].js"
-        },
-        {
-            "source": "/api/projects",
-            "destination": "/api/projects/index.js"
-        },
-        {
-            "source": "/api/projects/:id",
-            "destination": "/api/projects/[id].js"
-        },
-        {
-            "source": "/api/reviews",
-            "destination": "/api/reviews/index.js"
-        },
-        {
-            "source": "/api/reviews/:id",
-            "destination": "/api/reviews/[id].js"
+            "source": "/((?!api/).*)",
+            "destination": "/index.html"
         }
     ]
 }

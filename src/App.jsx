@@ -65,14 +65,11 @@ function AnalyticsWrapper({ children }) {
 }
 
 function App() {
-  // Use basename for GitHub Pages deployment
-  const basename = import.meta.env.PROD ? '/Eflash-1' : '/'
-
   return (
     <ErrorBoundary>
       <HelmetProvider>
         <ToastProvider>
-          <Router basename={basename} future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+          <Router basename="/" future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
             <ThemeProvider>
               <CartProvider>
                 <SiteContentProvider>

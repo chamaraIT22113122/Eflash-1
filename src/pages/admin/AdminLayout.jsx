@@ -56,7 +56,7 @@ const AdminLayout = () => {
       <aside className={`admin-sidebar ${sidebarOpen ? 'open' : 'collapsed'} ${mobileMenuOpen ? 'mobile-open' : ''}`}>
         <div className="sidebar-header">
           <div className="sidebar-logo">
-            <h2>E Flash</h2>
+            <img src="/assets/images/logo1.png" alt="E Flash Logo" style={{ maxHeight: '45px', objectFit: 'contain' }} />
             <span>Admin Panel</span>
           </div>
           <button className="sidebar-toggle desktop-only" onClick={() => setSidebarOpen(!sidebarOpen)}>

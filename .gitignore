@@ -1,17 +1,20 @@
+# Dependencies
 node_modules
-*.backup.*
+
+# Build output
 dist
 
 # Environment variables (contains sensitive data)
 .env
 .env.local
 .env.production
-
-# Allow built files in root for GitHub Pages
-!index.html
-!404.html
-!.nojekyll
-!assets/
-index.html
-.vercel
 .env*.local
+
+# Vercel
+.vercel
+
+# Editor
+.vscode
+
+# Backup files
+*.backup.*

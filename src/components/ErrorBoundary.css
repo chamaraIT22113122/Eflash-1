@@ -8,7 +8,7 @@
 }
 
 .error-container {
-  background: white;
+  background: var(--bg-card);
   border-radius: 20px;
   padding: 60px 40px;
   max-width: 600px;
@@ -48,13 +48,13 @@
 .error-container h1 {
   font-size: 2rem;
   font-weight: 800;
-  color: #1a202c;
+  color: var(--text-primary);
   margin-bottom: 15px;
 }
 
 .error-message {
   font-size: 1.1rem;
-  color: #718096;
+  color: var(--text-muted);
   margin-bottom: 30px;
   line-height: 1.6;
 }
@@ -63,7 +63,7 @@
   text-align: left;
   margin: 30px 0;
   padding: 20px;
-  background: #f7fafc;
+  background: var(--bg-secondary);
   border-radius: 10px;
   border-left: 4px solid #f5576c;
 }
@@ -71,7 +71,7 @@
 .error-details summary {
   cursor: pointer;
   font-weight: 600;
-  color: #1a202c;
+  color: var(--text-primary);
   margin-bottom: 10px;
   user-select: none;
 }
@@ -175,3 +175,5 @@
     justify-content: center;
   }
 }
+
+

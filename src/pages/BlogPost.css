@@ -24,7 +24,7 @@
 }
 
 .post-article {
-  background: white;
+  background: var(--bg-card);
   border-radius: 20px;
   padding: 50px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
@@ -216,7 +216,7 @@
 }
 
 .post-cta .btn {
-  background: white;
+  background: var(--bg-card);
   color: var(--primary-color);
   padding: 15px 40px;
   border-radius: 50px;
@@ -275,3 +275,5 @@
     justify-content: center;
   }
 }
+
+

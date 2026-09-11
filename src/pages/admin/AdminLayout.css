@@ -1,13 +1,15 @@
 .admin-layout {
   display: flex;
   min-height: 100vh;
-  background: #f7fafc;
+  background: #07070f;
+  color: #f1f5f9;
 }
 
 /* Sidebar */
 .admin-sidebar {
   width: 280px;
-  background: linear-gradient(180deg, #1a202c 0%, #2d3748 100%);
+  background: #0d0d1a;
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
   color: white;
   display: flex;
   flex-direction: column;
@@ -26,16 +28,17 @@
 
 .sidebar-header {
   padding: 30px 20px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
 .sidebar-logo h2 {
+  font-family: 'Space Grotesk', sans-serif;
   font-size: 1.5rem;
   font-weight: 800;
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: linear-gradient(135deg, #4f8ef7, #8b5cf6);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -44,7 +47,7 @@
 
 .sidebar-logo span {
   font-size: 0.75rem;
-  color: #a0aec0;
+  color: var(--admin-text-secondary);
   text-transform: uppercase;
   letter-spacing: 1px;
 }
@@ -56,8 +59,8 @@
 }
 
 .sidebar-toggle {
-  background: rgba(255, 255, 255, 0.1);
-  border: none;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   color: white;
   width: 35px;
   height: 35px;
@@ -70,7 +73,7 @@
 }
 
 .sidebar-toggle:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.1);
 }
 
 /* Navigation */
@@ -84,7 +87,7 @@
   align-items: center;
   gap: 15px;
   padding: 15px 25px;
-  color: #a0aec0;
+  color: var(--admin-text-secondary);
   text-decoration: none;
   transition: all 0.3s ease;
   position: relative;
@@ -96,9 +99,9 @@
 }
 
 .nav-item.active {
-  background: rgba(102, 126, 234, 0.2);
-  color: #667eea;
-  border-left: 4px solid #667eea;
+  background: rgba(79, 142, 247, 0.15);
+  color: #4f8ef7;
+  border-left: 4px solid #4f8ef7;
 }
 
 .nav-item.active::before {
@@ -109,7 +112,7 @@
   transform: translateY(-50%);
   width: 4px;
   height: 60%;
-  background: #667eea;
+  background: #4f8ef7;
   border-radius: 4px 0 0 4px;
 }
 
@@ -134,7 +137,7 @@
 /* Sidebar Footer */
 .sidebar-footer {
   padding: 20px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .user-info {
@@ -151,12 +154,13 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: linear-gradient(135deg, #4f8ef7, #8b5cf6);
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 700;
   font-size: 1.2rem;
+  color: white;
 }
 
 .user-name {
@@ -166,16 +170,16 @@
 
 .user-role {
   font-size: 0.75rem;
-  color: #a0aec0;
+  color: var(--admin-text-secondary);
   text-transform: uppercase;
 }
 
 .logout-btn {
   width: 100%;
   padding: 12px;
-  background: rgba(245, 87, 108, 0.1);
-  border: 1px solid rgba(245, 87, 108, 0.3);
-  color: #fc8181;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #ef4444;
   border-radius: 8px;
   cursor: pointer;
   display: flex;
@@ -187,7 +191,7 @@
 }
 
 .logout-btn:hover {
-  background: rgba(245, 87, 108, 0.2);
+  background: rgba(239, 68, 68, 0.2);
 }
 
 /* Main Content */
@@ -197,6 +201,7 @@
   display: flex;
   flex-direction: column;
   transition: margin-left 0.3s ease;
+  background: #07070f;
 }
 
 .collapsed ~ .admin-main {
@@ -205,9 +210,10 @@
 
 /* Top Bar */
 .admin-topbar {
-  background: white;
+  background: rgba(13, 13, 26, 0.85);
+  backdrop-filter: blur(12px);
   padding: 20px 30px;
-  border-bottom: 1px solid #e2e8f0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -221,18 +227,18 @@
   background: none;
   border: none;
   font-size: 1.5rem;
-  color: #1a202c;
+  color: #f1f5f9;
   cursor: pointer;
 }
 
 .topbar-title h1 {
   font-size: 1.75rem;
   font-weight: 700;
-  color: #1a202c;
+  color: #f1f5f9;
 }
 
 .welcome-text {
-  color: #718096;
+  color: var(--admin-text-secondary);
   font-size: 0.95rem;
 }
 
@@ -263,7 +269,7 @@
   .mobile-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.8);
     z-index: 999;
   }
 
@@ -301,3 +307,5 @@
     font-size: 1.25rem;
   }
 }
+
+

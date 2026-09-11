@@ -62,7 +62,7 @@
 }
 
 .stat-card {
-  background: var(--card-bg, #f8f9fa);
+  background: rgba(255, 255, 255, 0.05);
   padding: 1.5rem;
   border-radius: 8px;
   text-align: center;
@@ -208,8 +208,8 @@
 .newsletter-note {
   margin-top: 1rem;
   padding: 1rem;
-  background: #fff3cd;
-  color: #856404;
+  background: var(--admin-bg-secondary);3cd;
+  color: var(--admin-text-secondary);
   border-radius: 8px;
   border-left: 4px solid #ffc107;
 }
@@ -352,3 +352,5 @@
     padding: 0.75rem 0.5rem;
   }
 }
+
+

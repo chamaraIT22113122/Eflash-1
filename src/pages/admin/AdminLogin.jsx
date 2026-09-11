@@ -66,7 +66,7 @@ const AdminLogin = () => {
         >
           <div className="admin-login-header">
             <div className="admin-logo">
-              <FaLock />
+              <img src="/assets/images/logo1.png" alt="E Flash Logo" style={{ maxHeight: '60px', objectFit: 'contain' }} />
             </div>
             <h1>Admin Portal</h1>
             <p>E Flash Management System</p>

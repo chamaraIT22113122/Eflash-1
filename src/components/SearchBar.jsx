@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { FaSearch, FaRegFileAlt, FaPaintBrush, FaImage } from 'react-icons/fa';
 import './SearchBar.css';
 
 const SearchBar = () => {
@@ -86,13 +87,13 @@ const SearchBar = () => {
   const getTypeIcon = (type) => {
     switch (type) {
       case 'page':
-        return '📄';
+        return <FaRegFileAlt />;
       case 'service':
-        return '🎨';
+        return <FaPaintBrush />;
       case 'portfolio':
-        return '🖼️';
+        return <FaImage />;
       default:
-        return '🔍';
+        return <FaSearch />;
     }
   };
 
@@ -102,13 +103,13 @@ const SearchBar = () => {
         <input
           type="text"
           className="search-input"
-          placeholder="Search services, portfolio..."
+          placeholder="Search..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onKeyDown={handleKeyDown}
           onFocus={() => query && results.length > 0 && setIsOpen(true)}
         />
-        <span className="search-icon">🔍</span>
+        <span className="search-icon"><FaSearch /></span>
       </div>
 
       {isOpen && (
